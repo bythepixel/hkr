@@ -246,3 +246,27 @@ input {
         }
     }
 }
+
+// Landing
+
+#landing { 
+    h1 {
+        font-size: 2rem;
+        line-height: 2.8rem;
+    }
+    
+    .hackathons-list {
+        h2 {
+            font-size: 4.1rem;
+            line-height: 5.7rem;
+        }
+        
+        li {
+            margin-bottom: 2rem;
+
+            @include respond-above(md) {
+                margin-bottom: 5.1rem;
+            }
+        }
+    }
+}
