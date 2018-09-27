@@ -43,15 +43,12 @@ RUN a2enmod \
   proxy_http
 
 # Prep directories
-RUN mkdir /srv/logs
+RUN mkdir -p /srv/logs
 RUN chown www-data:www-data /srv -R
 
 COPY . /srv/www
 RUN mkdir -p /srv/www/temp
 RUN mv /srv/www/provision /opt/provision
-
-RUN mkdir -p /srv/logs
-#RUN chown www-data:www-data /srv -R
 
 # Move config files into place
 RUN cp /opt/provision/apache/apache2.conf /etc/apache2/apache2.conf
