@@ -1,7 +1,130 @@
 // Variables
 @import 'variables';
+@import 'media-queries';
+@import 'reset';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+
+// Global
+
+html {
+    font-size: 40%;
+
+    @include respond-above(md) {
+        font-size: $font-size-default;
+    }
+}
+
+body {
+    background-color: $body-bg;
+    font-family: $font-family-primary;
+    padding: 3.4rem 3.8rem;
+}
+
+a {
+    text-decoration: underline;
+    color: inherit;
+}
+
+li {
+    margin-bottom: 5.1rem;
+}
+
+button {
+    border-radius: 99px;
+    background-color: $color-primary;
+    color: $color-secondary;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    padding: 2rem 3rem;
+    font-family: $font-family-primary;
+    cursor: pointer;
+    -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+    -o-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+
+    &:hover {
+        margin-top: -3px;
+        margin-bottom: 3px;
+        -webkit-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35);
+        -moz-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35);
+        -o-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35);
+        -webkit-transition: all 0.1s;
+        -moz-transition: all 0.1s;
+        -o-transition: all 0.1s;
+        transition: all 0.1s;
+    }
+
+    &:focus {
+        margin-top: 0;
+        margin-bottom: 0;
+        -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+        -moz-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+        -o-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+    }
+}
+
+input {
+    border-radius: 99px;
+    border: 2px solid $color-primary;
+    font-size: 2rem;
+    padding: 1.5rem 3rem;
+    font-family: $font-family-primary;
+}
+
+.input-wrapper {
+    position: relative;
+
+    label  {
+        position: absolute;
+        pointer-events: none;
+        left: 3rem;
+        top: 1.5rem;
+        line-height: 2.8rem;
+        font-size: 2rem;
+        transition: 0.2s ease all;
+    }
+
+    input {
+        padding: 2rem 3rem 1.1rem;
+        min-width: 250px;
+        margin-bottom: 1.4rem;
+
+        &:focus ~ label,
+        &:valid ~ label {
+            top: 0.7rem;
+            font-size: 1rem;
+            line-height: 1.4rem;
+        }
+    }
+}
+
+// Landing
+
+#landing { 
+    h1 {
+        font-size: 2rem;
+        line-height: 2.8rem;
+    }
+    
+    .hackathons-list {
+        h2 {
+            font-size: 4.1rem;
+            line-height: 5.7rem;
+        }
+
+        li {
+            margin-bottom: 2rem;
+
+            @include respond-above(md) {
+                margin-bottom: 5.1rem;
+            }
+        }
+    }
 }
