@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Models\Hackathon;
 use App\Models\Idea;
+use App\Models\IdeaVote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,5 +23,12 @@ class IdeaController extends Controller
         $idea->save();
 
         return response()->json($idea);
+    }
+
+    public function getVotes($ideaId)
+    {
+        $ideas = IdeaVote::with(['user'])->where(['idea_id' => $ideaId])->get();
+
+        return response()->json($ideas);
     }
 }

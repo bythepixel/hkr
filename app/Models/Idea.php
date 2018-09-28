@@ -11,6 +11,11 @@ class Idea extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function hackathon()
+    {
+        return $this->belongsTo(Hackathon::class);
+    }
+
     public function messages()
     {
         return $this->hasMany(IdeaMessage::class);
