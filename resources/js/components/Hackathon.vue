@@ -36,8 +36,12 @@
             }
         },
         created() {
+            store.showIdeaButton = true;
             HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId)).then(response => store.hackathon = response.data);
         },
+        destroyed() {
+            store.showIdeaButton = false;
+        }
     }
 </script>
 

@@ -1,7 +1,6 @@
 <template>
     <div id="hackathons">
         <div class="container">
-            <router-link :to="{ name: newHackathonRouteName }" class="button">Create a Hackathon</router-link>
             <ul class="hackathons-list">
                 <li v-for="hackathon in hackathons" :key="hackathon.id">
                     <h2>
@@ -38,7 +37,11 @@ export default {
         }
     },
     created() {
+        store.showCreateHackathonButton = true;
         this.getHackathons();
+    },
+    destroyed() {
+        store.showCreateHackathonButton = false;
     },
     methods: {
         /**

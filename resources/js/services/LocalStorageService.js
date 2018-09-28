@@ -21,7 +21,7 @@ const localStorageService = new class {
 
     setAuth(value) {
         this.set({key: AUTH_KEY, value});
-        HttpService.defaults.headers.common = {'Authorization': `bearer ${value}`};
+        HttpService.defaults.headers.common = {'Authorization': `Bearer ${value}`};
     }
 
     removeAuth() {

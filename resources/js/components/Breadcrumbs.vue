@@ -17,6 +17,12 @@
                     <span>{{ feature.title }}</span>
                 </li>
             </ol>
+            <div v-if="showCreateHackathon">
+                <router-link :to="{ name: newHackathonRouteName }" class="button">Create a Hackathon</router-link>
+            </div>
+            <div v-if="showAddAnIdea">
+                <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -26,7 +32,11 @@
         HACKATHONS_VIEW_NAME,
         HACKATHON_VIEW_NAME,
         IDEAS_VIEW_NAME,
+        NEW_IDEA_VIEW_NAME,
+        NEW_HACKATHON_VIEW_NAME,
     } from '../config/routes';
+
+    import store from '../data/store.js';
 
     export default {
         props: ['hackathon', 'idea', 'feature'],
@@ -36,6 +46,16 @@
                 hackathonsRouteName: HACKATHONS_VIEW_NAME,
                 hackathonRouteName: HACKATHON_VIEW_NAME,
                 ideaRouteName: IDEAS_VIEW_NAME,
+                newIdeaRouteName: NEW_IDEA_VIEW_NAME,
+                newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
+            }
+        },
+        computed: {
+            showCreateHackathon() {
+                return store.showCreateHackathonButton;
+            },
+            showAddAnIdea() {
+                return this.hackathon && store.showIdeaButton;
             }
         }
     }

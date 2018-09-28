@@ -1,5 +1,5 @@
-export const getHackathonsEndpoint = () => `/api/hackathon/`,
-    newHackathonEndpoint = () => `/api/hackathon/`,
+export const getHackathonsEndpoint = () => `/api/hackathon`,
+    newHackathonEndpoint = () => `/api/hackathon`,
     getHackathonEndpoint = (id) => `/api/hackathon/${id}`,
 
     newIdeaEndpoint = () => `/api/idea`,

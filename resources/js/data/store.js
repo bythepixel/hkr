@@ -10,4 +10,6 @@ export default {
         name: "Joe Boo",
     },
     loginErrorMessage: null,
+    showIdeaButton: false,
+    showCreateHackathonButton: false,
 }
