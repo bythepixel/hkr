@@ -5,11 +5,12 @@ export default {
     idea: null,
     features: null,
     feature: null,
-    user: {
-        id: 1,
-        name: "Joe Boo",
-    },
+    user: null,
     loginErrorMessage: null,
     showIdeaButton: false,
     showCreateHackathonButton: false,
+    breadcrumbs: {
+        linkToIndex: true,
+        text: 'Hackathonizer',
+    }
 }

@@ -54,8 +54,7 @@ button, .button {
     text-decoration: none;
 
     &:hover {
-        margin: -3px 0 3px;
-        margin-bottom: 3px;
+        transform: translateY(-6px);
         box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35);
         transition: all 0.1s;
     }

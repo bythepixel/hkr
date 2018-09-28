@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p v-if="errorMessage">{{ errorMessage }}</p>
         <div id="login">
             <form v-on:submit.prevent="onSubmit" class="container">
                 <h1>Login</h1>
@@ -28,7 +27,6 @@
 
     export default {
         name: "Login",
-        props: ['errorMessage'],
         data() {
             return {
                 email: null,
@@ -40,7 +38,6 @@
              * @param event {Event}
              */
             onSubmit(event) {
-                this.errorMessage = null;
 
                 if (!this.email || !this.password) {
                     // show error
@@ -59,12 +56,11 @@
                             name: data.name,
                         };
 
+                        LocalStorageService.setUser(store.user);
                         LocalStorageService.setAuth(data.api_token);
                         this.$router.push('/');
                         return;
                     }
-
-                    this.errorMessage = response.data.message;
                 })
             },
         }

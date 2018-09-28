@@ -3,7 +3,8 @@
         <div id="top-section">
             <ol class="breadcrumbs">
                 <li class="breadcrumb-item">
-                    <router-link :to="{ name: hackathonsRouteName }">Hackathonizer</router-link>
+                    <router-link v-if="breadcrumbs.linkToIndex" :to="{ name: hackathonsRouteName }">{{ breadcrumbs.text }}</router-link>
+                    <span v-if="!breadcrumbs.linkToIndex">{{ breadcrumbs.text }}</span>
                 </li>
                 <li v-if="hackathon" class="breadcrumb-item">
                     <router-link v-if="feature" to="{ name: hackathonRouteName }">{{ hackathon.title }}</router-link>
@@ -39,7 +40,7 @@
     import store from '../data/store.js';
 
     export default {
-        props: ['hackathon', 'idea', 'feature'],
+        props: ['hackathon', 'idea', 'feature', 'breadcrumbs'],
         name: 'Breadcrumbs',
         data() {
             return {
@@ -72,5 +73,13 @@
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: flex-start;
+    }
+
+    .container {
+        padding-bottom: 0;
+    }
+
+    #top-section {
+        margin-bottom: 0;
     }
 </style>

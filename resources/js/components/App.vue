@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Breadcrumbs :hackathon="hackathon" :idea="idea" :feature="feature" />
+        <Breadcrumbs :hackathon="hackathon" :idea="idea" :feature="feature" :breadcrumbs="breadcrumbs" />
         <router-view
             :hackathons="hackathons"
             :hackathon="hackathon"
@@ -28,6 +28,7 @@
             'features',
             'user',
             'loginErrorMessage',
+            'breadcrumbs'
         ],
         components: {
             Breadcrumbs,

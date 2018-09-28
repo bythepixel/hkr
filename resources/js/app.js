@@ -26,11 +26,13 @@ const router = new VueRouter({
     routes,
 });
 
+store.user = LocalStorageService.getUser();
+
 const app = new Vue({
     router,
     data: store,
     components: {
         App,
     },
-    template: `<App :hackathons="hackathons" :hackathon="hackathon" :idea="idea" :ideas="ideas" :features="features" :feature="feature" :user="user" :loginErrorMessage="loginErrorMessage" />`,
+    template: `<App :hackathons="hackathons" :hackathon="hackathon" :idea="idea" :ideas="ideas" :features="features" :feature="feature" :user="user" :loginErrorMessage="loginErrorMessage" :breadcrumbs="breadcrumbs" />`,
 }).$mount('#app');

@@ -37,6 +37,8 @@ export default {
         }
     },
     created() {
+        store.hackathon = null;
+        store.idea = null;
         store.showCreateHackathonButton = true;
         this.getHackathons();
     },

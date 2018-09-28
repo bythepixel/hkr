@@ -1,4 +1,5 @@
-const AUTH_KEY = 'hkr-session';
+const AUTH_KEY = 'hkr-session',
+    USER_KEY = 'hkr-user';
 
 import HttpService from 'axios';
 
@@ -13,6 +14,19 @@ const localStorageService = new class {
 
     remove(key) {
         localStorage.removeItem(key);
+    }
+
+    getUser() {
+        const userJson = this.get(USER_KEY);
+        if (!userJson) {
+            return null;
+        }
+
+        return JSON.parse(userJson);
+    }
+
+    setUser(value) {
+        this.set({key: USER_KEY, value: JSON.stringify(value)});
     }
 
     getAuth() {
