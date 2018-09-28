@@ -1,13 +1,13 @@
 // Variables
+
+@import 'reset';
 @import 'variables';
 @import 'media-queries';
-@import 'reset';
-
 
 // Global
 
 html {
-    font-size: 40%;
+    font-size: $font-size-mobile;
 
     @include respond-above(md) {
         font-size: $font-size-default;
@@ -17,16 +17,27 @@ html {
 body {
     background-color: $body-bg;
     font-family: $font-family-primary;
-    padding: 3.4rem 3.8rem;
+}
+
+h1 {
+    font-size: 2rem;
+    line-height: 2.8rem;
+    margin-bottom: 2.7rem;
+}
+
+h2 {
+    font-size: 4.1rem;
+    line-height: 3.8rem;
+    margin-bottom: 0.1rem;
+
+    @include respond-above(md) {
+        line-height: 5.7rem;
+    }
 }
 
 a {
     text-decoration: underline;
     color: inherit;
-}
-
-li {
-    margin-bottom: 5.1rem;
 }
 
 button {
@@ -38,47 +49,40 @@ button {
     padding: 2rem 3rem;
     font-family: $font-family-primary;
     cursor: pointer;
-    -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
-    -moz-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
-    -o-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
-    -webkit-transition: all 0.1s;
-    -moz-transition: all 0.1s;
-    -o-transition: all 0.1s;
     transition: all 0.1s;
 
     &:hover {
-        margin-top: -3px;
+        margin: -3px 0 3px;
         margin-bottom: 3px;
-        -webkit-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35);
-        -moz-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35);
-        -o-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35);
         box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35);
-        -webkit-transition: all 0.1s;
-        -moz-transition: all 0.1s;
-        -o-transition: all 0.1s;
         transition: all 0.1s;
     }
 
-    &:focus {
-        margin-top: 0;
-        margin-bottom: 0;
-        -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
-        -moz-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
-        -o-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+    &:active {
+        margin: 0;
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
     }
 }
 
-input {
+input,
+textarea {
     border-radius: 99px;
     border: 2px solid $color-primary;
     font-size: 2rem;
     padding: 1.5rem 3rem;
     font-family: $font-family-primary;
+    box-sizing: border-box;
 }
 
-.input-wrapper {
+textarea {
+    border-radius: 30px;
+    resize: none;
+    width: 100%;
+    max-width: 660px;
+}
+
+.field-wrapper {
     position: relative;
 
     label  {
@@ -91,8 +95,9 @@ input {
         transition: 0.2s ease all;
     }
 
-    input {
-        padding: 2rem 3rem 1.1rem;
+    input,
+    textarea {
+        padding: 2rem 3rem 1rem;
         min-width: 250px;
         margin-bottom: 1.4rem;
 
@@ -105,26 +110,283 @@ input {
     }
 }
 
-// Landing
+.container {
+    padding: 3.4rem 3rem;
 
-#landing { 
+    @include respond-above(md) {
+        padding: 3.4rem 3.8rem;
+    }
+}
+
+// Breadcrumbs
+
+#top-section {
+    margin-bottom: 4.7rem;
+
+    @include respond-above(md) {
+        display: flex;
+        align-items: center;
+    }
+
+    .breadcrumbs {
+
+        li {
+            display: block;
+            margin: 0 5px 0 0;
+            font-size: 2rem;
+            line-height: 2.8rem;
+
+            @include respond-above(md) {
+                display: inline-block;
+            }
+
+            &:after {
+                content: " >";
+            }
+
+            &:last-of-type:after {
+                content: "";
+            }
+
+            &:last-of-type {
+                margin-right: 1.6rem;
+            }
+        }
+    }
+
+    button {
+        margin-top: 1.6rem;
+
+        @include respond-above(md) {
+            margin-top: 0;
+        }        
+    }
+}
+
+// Voting
+
+.vote-wrapper {
+    position: relative;
+
+    .icon {
+        width: 40px;
+        height: auto;
+
+        @include respond-above(md) {        
+            width: 51px;
+        }
+
+        .a,
+        .b {
+            fill: none;
+        }
+
+        .b {
+            stroke: #000;
+            stroke-width: 2px;
+        }
+
+        &.voted {
+            .b {
+                fill: $color-primary;
+            }
+        }
+    }
+
+    .vote-count {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 1.3rem;
+    }
+
+    &.voted {
+
+        .icon {
+
+            .b {
+                fill: $color-primary;
+            }
+        }
+
+        .vote-count {
+            color: $color-secondary;
+        }
+    }
+}
+
+// Hackathons List
+
+#hackathons { 
     h1 {
         font-size: 2rem;
         line-height: 2.8rem;
     }
     
-    .hackathons-list {
+    ul {
         h2 {
             font-size: 4.1rem;
             line-height: 5.7rem;
         }
 
         li {
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
 
             @include respond-above(md) {
                 margin-bottom: 5.1rem;
             }
         }
+    }
+}
+
+// Hackathon Details
+
+#hackathon-details {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 6rem;
+
+    .content-wrapper {
+        width: 100%;
+        max-width: 658px;
+        margin-left: 15px;
+
+        @include respond-above(md) {
+            margin-left: 20px;
+        }
+
+        h2 {
+            font-weight: $font-weight-bold;
+        }
+
+        .created-by {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            line-height: 1.6rem;
+        }
+
+        .description {
+            font-size: 1.6rem;
+            line-height: 1.8rem;
+
+            @include respond-above(md) {
+                line-height: 2.4rem;
+            }
+        }
+    }
+}
+
+// Features
+
+.features {
+    margin-top: 2rem;
+
+    h3 {
+        font-size: 1.3rem;
+        line-height: 1.6rem;
+        margin-bottom: 1.3rem;
+    }
+
+    h4 {
+        font-size: 2rem;
+        line-height: 2.8rem;
+        font-weight: $font-weight-bold;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.8rem;
+
+        @include respond-above(md) {
+            margin-bottom: 1.9rem;
+        }
+    }
+
+    .icon {
+        width: 25px;
+    }
+
+    .vote-count {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin: 0 0.6rem 0 0.5rem;
+        font-size: 1.3rem;
+        line-height: 1.8rem;
+    }
+}
+
+// Discussion
+
+#discussion {
+    background-color: $color-primary;
+    color: $color-secondary;
+
+    .container {
+        padding: 5.2rem 3rem 7.6rem 3rem; 
+        width: 100%;
+        max-width: 670px;
+        box-sizing: border-box;
+
+        @include respond-above(md) {
+            padding: 7.2rem 3.8rem 9.6rem 11.1rem;
+            box-sizing: content-box;
+        }
+    }
+
+    input {
+        width: 100%;
+    }
+
+    label {
+        color: $color-primary;
+    }
+
+    li {
+        margin-bottom: 3.3rem;
+    }
+
+    li ul {
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
+        margin: 3.3rem 0 0 1.5rem;
+        padding-left: 2rem;
+
+        @include respond-above(md) {
+            margin: 3.3rem 0 0 2.5rem;
+            padding-left: 3rem;
+        }
+    }
+
+    .small-text {
+        opacity: 0.5;
+        font-size: 1.2rem;
+        line-height: 1.8rem;
+        font-weight: $font-weight-default;
+    }
+
+    .submit-comment {
+        margin-bottom: 5.3rem;
+
+        .small-text {
+            padding-left: 3rem;
+        }
+    }
+
+    .name {
+        font-size: 1.6rem;
+        line-height: 2.3rem;
+        font-weight: $font-weight-bold;
+    }
+
+    .comment {
+        font-size: 1.6rem;
+        line-height: 2.4rem;
+        margin: 0.4rem 0 0.3rem;
+    }
+
+    .reply {
+        font-size: 1.3rem;
+        line-height: 2.4rem;
     }
 }
