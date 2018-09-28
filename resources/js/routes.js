@@ -125,6 +125,10 @@ export default [
                 next('/login');
             }
 
+            if (!store.hackathonideas) {
+                getHackathons();
+            }
+
             attachInterceptor(next);
             next();
         }
