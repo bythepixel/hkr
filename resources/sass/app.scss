@@ -40,7 +40,7 @@ a {
     color: inherit;
 }
 
-button {
+button, .button {
     border-radius: 99px;
     background-color: $color-primary;
     color: $color-secondary;
@@ -51,6 +51,7 @@ button {
     cursor: pointer;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
     transition: all 0.1s;
+    text-decoration: none;
 
     &:hover {
         margin: -3px 0 3px;
@@ -159,7 +160,7 @@ textarea {
 
         @include respond-above(md) {
             margin-top: 0;
-        }        
+        }
     }
 }
 
@@ -172,7 +173,7 @@ textarea {
         width: 40px;
         height: auto;
 
-        @include respond-above(md) {        
+        @include respond-above(md) {
             width: 51px;
         }
 
@@ -217,12 +218,12 @@ textarea {
 
 // Hackathons List
 
-#hackathons { 
+#hackathons {
     h1 {
         font-size: 2rem;
         line-height: 2.8rem;
     }
-    
+
     ul {
         h2 {
             font-size: 4.1rem;
@@ -324,7 +325,7 @@ textarea {
     color: $color-secondary;
 
     .container {
-        padding: 5.2rem 3rem 7.6rem 3rem; 
+        padding: 5.2rem 3rem 7.6rem 3rem;
         width: 100%;
         max-width: 670px;
         box-sizing: border-box;

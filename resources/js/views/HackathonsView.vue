@@ -1,0 +1,54 @@
+<template>
+    <div id="hackathons">
+        <div class="container">
+            <router-link :to="{ name: newHackathonRouteName }" class="button">Create a Hackathon</router-link>
+            <ul class="hackathons-list">
+                <li v-for="hackathon in hackathons" :key="hackathon.id">
+                    <h2>
+                        <router-link :to="{ name: hackathonRouteName, params: { hackathonId: hackathon.id } }">{{ hackathon.title }}</router-link>
+                    </h2>
+                </li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<script>
+import HttpService from 'axios';
+
+import store from '../data/store.js';
+
+import {
+    NEW_HACKATHON_VIEW_NAME,
+    HACKATHON_VIEW_NAME
+} from '../config/routes.js';
+
+import {
+    getHackathonsEndpoint,
+    getHackathonEndpoint,
+} from '../config/endpoints.js';
+
+export default {
+    name: "HackathonsView",
+    props: ['hackathons'],
+    data() {
+        return {
+            newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
+            hackathonRouteName: HACKATHON_VIEW_NAME,
+        }
+    },
+    created() {
+        this.getHackathons();
+    },
+    methods: {
+        /**
+         * @returns {Promise<AxiosResponse<any>>}
+         */
+        getHackathons() {
+            HttpService.get(getHackathonsEndpoint()).then(response => store.hackathons = response.data);
+        },
+    }
+}
+</script>
+
+<style scoped></style>

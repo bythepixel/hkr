@@ -11,5 +11,4 @@
 |
 */
 
-
-Route::get('/', 'Front\IndexController@index');
+Route::get('/{segment?}', 'Front\IndexController@index')->where('segment', '^(?!/api).*');
