@@ -19,7 +19,8 @@ class FeatureVotesTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('feature_id')->references('id')->on('features');
             $table->unsignedInteger('feature_id');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 

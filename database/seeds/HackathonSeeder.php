@@ -52,6 +52,12 @@ class HackathonSeeder extends Seeder
             DB::table('idea_votes')->insert(['idea_id' => rand(1,5), 'user_id' => $user['id']]);
             DB::table('idea_votes')->insert(['idea_id' => rand(6,10), 'user_id' => $user['id']]);
         }
+
+        foreach($users as $user) {
+            DB::table('idea_messages')->insert(['idea_id' => rand(1,3), 'user_id' => $user['id'], 'content' => $faker->paragraph]);
+            DB::table('idea_messages')->insert(['idea_id' => rand(3,6), 'user_id' => $user['id'], 'content' => $faker->paragraph]);
+            DB::table('idea_messages')->insert(['idea_id' => rand(7,10), 'user_id' => $user['id'], 'content' => $faker->paragraph]);
+        }
     }
 
     private function makeBtpPerson(int $id, string $name)
@@ -60,7 +66,7 @@ class HackathonSeeder extends Seeder
             'id' => $id,
             'name' => ucwords($name),
             'email' => "$name@bythepixel.com",
-            'password' => 'bythepixel'
+            'password' => bcrypt('bythepixel')
         ];
     }
 }

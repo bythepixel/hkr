@@ -1,9 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -27,4 +26,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Roll API Key
+     */
+    public function rollApiKey()
+    {
+        do {
+            $this->api_token = str_random(60);
+        } while($this->where('api_token', $this->api_token)->exists());
+
+        $this->save();
+    }
 }
