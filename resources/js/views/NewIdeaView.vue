@@ -1,12 +1,18 @@
 <template>
     <div>
-        <p>New Idea</p>
+        <NewIdeaForm :user="user" :hackathon="hackathon" />
     </div>
 </template>
 
 <script>
+    import NewIdeaForm from '../components/NewIdeaForm.vue';
+
     export default {
-        name: "NewIdeaView"
+        name: "NewIdeaView",
+        props: ['user', 'hackathon'],
+        components: {
+            NewIdeaForm,
+        }
     }
 </script>
 
