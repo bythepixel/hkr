@@ -14,7 +14,7 @@ class HackathonController extends Controller
 
     public function show($id)
     {
-        $hackathon = Hackathon::with(['user', 'ideas', 'ideas.messages', 'ideas.votes'])->findOrFail($id);
+        $hackathon = Hackathon::with(['user', 'ideas', 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
 
         return response()->json($hackathon);
     }
