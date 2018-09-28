@@ -20,7 +20,8 @@ class FeaturesTable extends Migration
             $table->unsignedInteger('idea_id');
             $table->foreign('idea_id')->references('id')->on('ideas');
             $table->string('title');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 

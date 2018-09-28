@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('login', 'Api\LoginController@login');
+Route::get('logout', 'Api\LoginController@logout')->middleware('auth:api');
+
+Route::get('hackathon', 'Api\HackathonController@index')->middleware('auth:api');
+Route::get('hackathon/{id}', 'Api\HackathonController@show')->middleware('auth:api');
+
