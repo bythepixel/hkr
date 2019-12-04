@@ -5,7 +5,7 @@
 *Prerequisites*
 - Vagrant
 - Docker
-- Vagrant Docker Compose
+- Node 10 is the latest tested version
 
 ### Installing Vagrant
 Follow the Vagrant [Getting Started](https://www.vagrantup.com/intro/getting-started/) guide to install Vagrant and Virtualbox for your OS.
@@ -22,19 +22,27 @@ Follow the Vagrant [Getting Started](https://www.vagrantup.com/intro/getting-sta
 - [Mysql 5.7](https://dev.mysql.com/doc/refman/5.7/en/)
 
 ## Provisioning a Local Environment
-After installing any prerequisites, navigate to the project root from command line and run `vagrant up`.
+1. If you don't have this dependency installed, `vagrant plugin install vagrant-docker-compose`
+2. Copy .env.example to the root and rename it to .env: `cp .env.example .env`
+3. `vagrant up`
+4. `composer install`
+5. `php artisan key:generate`
+6. `npm install`
+7. `npm run dev`
+8. `vagrant ssh`
+9. `cd /vagrant`
+10. `docker-compose exec app php artisan migrate`
+11. `docker-compose exec app php artisan db:seed`
+
+## To Access the Database
+1. `vagrant ssh`
+2. `docker ps` to view the containers that were just created. For this particular project, you should see two containers, one named `vagrant_app` and one named `mysql:5.7`. Take note of the container ID hash for the container named `mysql:5.7`.
+3. Using the container ID from the previous step, replace `<CONTAINER-ID-HASH>` in the following command `docker exec -it <CONTAINER-ID-HASH> bash`.
+4. `mysql -u root -p`
 
 The static ip address for the application is defined in [Vagrantfile](Vagranfile) as `192.168.99.100`. This needs to be added to your system's hosts configuration. The encouraged domain to use is `hackathon.local`.
 
 Once the provisioning has finished, you should be able to navigate to [http://hackathon.local/](http://hackathon.local/) and see the application.
-
-## Running Database Migrations
-Migrations need to be run inside the vm to utilize Docker's networking.
-
-To run migrations
-- `vagrant ssh` from the root of the project
-- `cd /vagrant`
-- `docker-compose exec app php artisan migrate`
 
 ## Using artisan
 Depending upon php's availability outside of the vm, 
