@@ -5,6 +5,7 @@
 *Prerequisites*
 - Vagrant
 - Docker
+- Vagrant Docker Compose
 
 ### Installing Vagrant
 Follow the Vagrant [Getting Started](https://www.vagrantup.com/intro/getting-started/) guide to install Vagrant and Virtualbox for your OS.
@@ -12,6 +13,9 @@ Follow the Vagrant [Getting Started](https://www.vagrantup.com/intro/getting-sta
 ### Installing Docker
 - [Mac Installation](https://docs.docker.com/docker-for-mac/install/)
 - [Windows Installation](https://docs.docker.com/docker-for-windows/install/)
+
+### Installing Vagrant Docker Compose
+- `vagrant plugin install vagrant-docker-compose`
 
 ## Tech Stack
 - [Laravel 5.7](https://laravel.com/docs/5.7/)
