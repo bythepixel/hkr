@@ -14,7 +14,7 @@ RUN apt-get update -y \
   libvpx-dev \
   vim \
   curl \
-  mysql-client \
+  default-mysql-client \
   && rm -rf /var/lib/apt/lists/*
 
 RUN pecl install mcrypt-1.0.1 && \
