@@ -39,8 +39,6 @@ class HackathonSeeder extends Seeder
                 ['id' => $i, 'hackathon_id' => 1, 'user_id' => rand(1,8), 'title' => $faker->sentence(), 'description' => $faker->paragraph()]
             ]);
 
-
-
             for($x = 1; $x < 6; $x++) {
                 DB::table('features')->insert([
                     ['id' => (($i * 10) + $x), 'idea_id' => $i, 'user_id' => rand(1,8), 'title' => $faker->sentence()]
