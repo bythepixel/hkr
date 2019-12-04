@@ -18,11 +18,11 @@ class HackathonSeeder extends Seeder
             $this->makeBtpPerson(1, 'kyle'),
             $this->makeBtpPerson(2, 'wouter'),
             $this->makeBtpPerson(3, 'roeland'),
-            $this->makeBtpPerson(4, 'heath'),
-            $this->makeBtpPerson(5, 'turner'),
-            $this->makeBtpPerson(6, 'nathan'),
-            $this->makeBtpPerson(7, 'elliot'),
-            $this->makeBtpPerson(8, 'carla')
+            $this->makeBtpPerson(4, 'turner'),
+            $this->makeBtpPerson(5, 'nathan'),
+            $this->makeBtpPerson(6, 'elliot'),
+            $this->makeBtpPerson(7, 'carla'),
+            $this->makeBtpPerson(8, 'jennica')
         ];
 
         DB::table('users')->insert($users);
