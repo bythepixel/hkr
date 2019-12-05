@@ -60,10 +60,8 @@
                         LocalStorageService.setUser(store.user);
                         LocalStorageService.setAuth(data.api_token);
                         this.$router.push('/');
-                        return;
                     } else {
                       this.loginErrorMessage = data.loginErrorMessage;
-                      return;
                     }
                 })
             },
