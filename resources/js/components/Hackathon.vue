@@ -86,6 +86,10 @@
         methods: {
             subscribe(id) {
                 this.channel = SocketService.subscribe(`hackathon.${id}`);
+                this.bindEvents();
+            },
+            bindEvents() {
+                this.channel.unbind();
                 this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
                     HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
                 });
@@ -117,7 +121,7 @@
             order() {
                 HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
                     store.hackathon = response.data;
-                    this.subscribe(response.data.id);
+                    this.bindEvents();
                 });
             }
         }
