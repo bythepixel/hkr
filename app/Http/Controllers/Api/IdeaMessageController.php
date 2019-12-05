@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Events\IdeaMessageAdded;
 use App\Http\Controllers\Controller;
 use App\Models\Idea;
 use App\Models\IdeaMessage;
@@ -23,6 +24,8 @@ class IdeaMessageController extends Controller
         $ideaMessage->user_id = Auth::user()->id;
         $ideaMessage->content = $request->input('content');
         $ideaMessage->save();
+
+        broadcast(new IdeaMessageAdded($ideaMessage));
 
         return response()->json($ideaMessage);
     }
