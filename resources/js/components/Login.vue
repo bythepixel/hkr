@@ -3,7 +3,7 @@
         <div id="login">
             <form v-on:submit.prevent="onSubmit" class="container">
                 <h1>Login</h1>
-                <h1 class="error" style="color: red;">{{ loginErrorMessage }}</h1>
+                <h1 class="error">{{ loginErrorMessage }}</h1>
                 <div class="field-wrapper">
                     <input type="text" v-model.trim="email" id="email" >
                     <label for="email">Username</label>

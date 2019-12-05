@@ -13,7 +13,6 @@
             </div>
             <div class="flex">
                 <button role="button">Add</button>
-                <button role="button" class="button inverse-button" v-on:click="exit">Cancel</button>
             </div>
         </form>
         </div>
