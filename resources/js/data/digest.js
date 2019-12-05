@@ -5,11 +5,6 @@ export const digestNewVotes = (ideas, ideaId, newVotes) => {
         if (ideas[j].id !== ideaId) {
             continue;
         }
-
-        console.log(ideas[j], store.hackathon, ideaId);
-
         store.hackathon.ideas[j].votes = newVotes;
-        return;
     }
-
-}
+};

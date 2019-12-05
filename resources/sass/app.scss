@@ -171,6 +171,8 @@ textarea {
 
 .vote-wrapper {
     position: relative;
+    cursor: pointer;
+    border-radius: 10px;
 
     .icon {
         width: 40px;
@@ -188,12 +190,6 @@ textarea {
         .b {
             stroke: #000;
             stroke-width: 2px;
-        }
-
-        &.voted {
-            .b {
-                fill: $color-primary;
-            }
         }
     }
 
@@ -216,6 +212,10 @@ textarea {
         .vote-count {
             color: $color-secondary;
         }
+    }
+
+    &:hover  {
+        background-color: lighten($color-primary, 95%);
     }
 }
 

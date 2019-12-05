@@ -7,8 +7,8 @@
                     v-for="idea in hackathon.ideas"
                     :key="idea.id">
                     <div class="vote-wrapper"
-                         :class="{'voted': userIdeaVoteId(idea.votes)}"
-                         v-on:click="handleVote(userIdeaVoteId(idea.votes), idea.id)">
+                         :class="{'voted': hasUserVoted(idea.votes)}"
+                         v-on:click="handleVote(idea)">
                         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56.148 56.148">
                             <defs></defs>
                             <path class="a" d="M0,0H56.148V56.148H0Z"/>
@@ -70,25 +70,6 @@
         destroyed() {
             store.showIdeaButton = false;
         },
-        computed: {
-            ideaIsUserVoted() {
-                if (!this.hackathon || !this.hackathon.ideas) {
-                    return null;
-                }
-
-                for (let i = 0; i < this.hackathon.ideas.length; i++) {
-                    const idea = this.hackathon.ideas[i];
-
-                        for (let j = 0; j < idea.votes.length; i++) {
-                            if (idea.votes[i].user_id === store.user.id) {
-                                return idea.votes[i].id;
-                            }
-                        }
-                }
-
-                return null;
-            }
-        },
         methods: {
             subscribe(id) {
                 this.channel = SocketService.subscribe(`hackathon.${id}`);
@@ -99,25 +80,26 @@
                     HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
                 });
             },
-            handleVote(voteId, ideaId) {
-                if (!voteId) {
-
-                    HttpService.post(addIdeaVoteEndpoint(), {
-                        idea_id: ideaId,
-                    }).then(response => console.log(response.data));
-                    return;
-                }
-
-                HttpService.delete(deleteIdeaVoteEndpoint(voteId)).then(response => console.log(response.data));
+            handleVote(idea) {
+                let storeIdea = store.hackathon.ideas.find((innerIdea) => { return innerIdea.id === idea.id });
+                this.hasUserVoted(storeIdea.votes) ? this.deleteVote(storeIdea) : this.addVote(storeIdea);
             },
-            userIdeaVoteId(votes) {
-                for (let j = 0; j < votes.length; j++) {
-                    if (votes[j].user_id === store.user.id) {
-                        return votes[j].id;
-                    }
-                }
-
-                return null;
+            deleteVote(idea) {
+                idea.votes = idea.votes.filter((vote) => {
+                    return vote.user_id !== store.user.id;
+                });
+                HttpService.delete(deleteIdeaVoteEndpoint(idea.id));
+            },
+            addVote(idea) {
+                let vote = {
+                    idea_id: idea.id,
+                    user_id: store.user.id
+                };
+                idea.votes.push(vote);
+                HttpService.post(addIdeaVoteEndpoint(), { idea_id: idea.id });
+            },
+            hasUserVoted(votes) {
+                return !!votes.find(vote => { return vote.user_id === store.user.id });
             }
         }
     }

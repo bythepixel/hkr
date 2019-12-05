@@ -4,7 +4,7 @@ export const getHackathonsEndpoint = () => `/api/hackathon`,
 
     newIdeaEndpoint = () => `/api/idea`,
     addIdeaVoteEndpoint = () => `/api/ideaVote`,
-    deleteIdeaVoteEndpoint = (voteId) => `/api/ideaVote/${voteId}`,
+    deleteIdeaVoteEndpoint = (ideaId) => `/api/ideaVote/deleteByUserAndIdea/${ideaId}`,
     addIdeaMessageEndpoint = (id) => `/api/idea/${id}/message`,
     addIdeaChildMessageEndpoint = (id, messageId) => `/api/idea/${id}/message/${messageId}`,
 

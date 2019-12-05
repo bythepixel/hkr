@@ -47,4 +47,21 @@ class IdeaVoteController extends Controller
 
         broadcast(new IdeaVoteDeleted($ideaVote));
     }
+
+    /**
+     * @param int $ideaId
+     */
+    public function deleteByUserAndIdea(int $ideaId)
+    {
+        $idea = Idea::findOrFail($ideaId);
+        $user = Auth::user();
+
+        $ideaVote = $idea->votes->first(function($vote) use ($user) {
+            if($vote->user_id === $user->id) {
+                return true;
+            }
+        });
+
+        $this->delete($ideaVote->id);
+    }
 }

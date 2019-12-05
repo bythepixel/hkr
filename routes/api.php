@@ -25,5 +25,6 @@ Route::get('idea/{id}/votes', 'Api\IdeaController@getVotes')->middleware('auth:a
 
 Route::post('ideaVote', 'Api\IdeaVoteController@create')->middleware('auth:api');
 Route::delete('ideaVote/{id}', 'Api\IdeaVoteController@delete')->middleware('auth:api');
+Route::delete('ideaVote/deleteByUserAndIdea/{ideaId}', 'Api\IdeaVoteController@deleteByUserAndIdea')->middleware('auth:api');
 
 Route::post('ideaMessage', 'Api\IdeaMessageController@create')->middleware('auth:api');
