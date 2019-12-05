@@ -1,7 +1,8 @@
-// Enable pusher logging - don't include this in production
-Pusher.logToConsole = true;
+if(process.NODE_ENV === 'development') {
+    Pusher.logToConsole = true;
+}
 
-export default new Pusher('11c80cd23bdfb3cfc21f', {
-    cluster: 'us2',
+export default new Pusher(process.env.MIX_PUSHER_APP_KEY, {
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
