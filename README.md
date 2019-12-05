@@ -25,14 +25,14 @@ Follow the Vagrant [Getting Started](https://www.vagrantup.com/intro/getting-sta
 1. If you don't have this dependency installed, `vagrant plugin install vagrant-docker-compose`
 2. Copy .env.example to the root and rename it to .env: `cp .env.example .env`
 3. `vagrant up`
-4. `composer install`
-5. `php artisan key:generate`
-6. `npm install`
-7. `npm run dev`
-8. `vagrant ssh`
+4. `composer install` - install php dependencies
+5. `php artisan key:generate` - create unique laravel app key (inserts into .env)
+6. `npm install` - install javascript dependencies
+7. `npm run dev` or `npm run watch` - build vue app
+8. `vagrant ssh` - terminal access vm
 9. `cd /vagrant`
-10. `docker-compose exec app php artisan migrate`
-11. `docker-compose exec app php artisan db:seed`
+10. `docker-compose exec app php artisan migrate` - create/update database structure
+11. `docker-compose exec app php artisan db:seed` - seed default data
 
 ## To Access the Database
 1. `vagrant ssh`
@@ -44,6 +44,5 @@ The static ip address for the application is defined in [Vagrantfile](Vagranfile
 
 Once the provisioning has finished, you should be able to navigate to [http://hackathon.local/](http://hackathon.local/) and see the application.
 
-## Using artisan
-Depending upon php's availability outside of the vm, 
+
 
