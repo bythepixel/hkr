@@ -1,6 +1,17 @@
 <template>
     <div v-if="!!hackathon">
         <div class="container">
+            <div class="field-wrapper">
+                <select name="sortOrder" v-on:change="order()" v-model.trim="sortOrder">
+                    <option value="created_at">Created At</option>
+                    <option value="title">Title</option>
+                    <option value="votes">Votes</option>
+                </select>
+                <select name="sortDirection" v-on:change="order()" v-model.trim="sortDirection">
+                    <option value="DESC">DESC</option>
+                    <option value="ASC">ASC</option>
+                </select>
+            </div>
             <ul>
                 <li id="hackathon-details"
                     v-if="hackathon.ideas && hackathon.ideas.length"
@@ -57,6 +68,8 @@
                 channel: null,
                 ideaRouteName: IDEA_VIEW_NAME,
                 newIdeaRouteName: NEW_IDEA_VIEW_NAME,
+                sortOrder: "created_at",
+                sortDirection: "DESC",
             }
         },
         created() {
@@ -100,6 +113,12 @@
             },
             hasUserVoted(votes) {
                 return !!votes.find(vote => { return vote.user_id === store.user.id });
+            },
+            order() {
+                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
+                    store.hackathon = response.data;
+                    this.subscribe(response.data.id);
+                });
             }
         }
     }

@@ -35,7 +35,7 @@ class HackathonController extends Controller
                 $switchMade = false;
                 foreach($hackathon['ideas'] as $index => $idea) {
                     if(isset($hackathon['ideas'][$index + 1])) {
-                        if($direction = "DESC") {
+                        if($direction === "DESC") {
                             $comparison = $hackathon['ideas'][$index]->votes_count < $hackathon['ideas'][$index+1]->votes_count;
                         } else {
                             $comparison = $hackathon['ideas'][$index]->votes_count > $hackathon['ideas'][$index+1]->votes_count;
