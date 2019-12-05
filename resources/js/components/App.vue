@@ -1,13 +1,11 @@
 <template>
     <div>
-        <Breadcrumbs :hackathon="hackathon" :idea="idea" :feature="feature" :breadcrumbs="breadcrumbs" />
+        <Breadcrumbs :hackathon="hackathon" :idea="idea" :breadcrumbs="breadcrumbs" />
         <router-view
             :hackathons="hackathons"
             :hackathon="hackathon"
             :idea="idea"
             :ideas="ideas"
-            :feature="feature"
-            :features="features"
             :user="user"
             :loginErrorMessage="loginErrorMessage">
         </router-view>
@@ -24,8 +22,6 @@
             'hackathon',
             'idea',
             'ideas',
-            'feature',
-            'features',
             'user',
             'loginErrorMessage',
             'breadcrumbs'
@@ -35,7 +31,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-</style>

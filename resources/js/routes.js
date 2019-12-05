@@ -1,8 +1,6 @@
 import HackathonsView from './views/HackathonsView.vue';
 import IdeaView from './views/IdeaView.vue';
 import NewIdeaView from './views/NewIdeaView.vue';
-import NewFeatureView from './views/NewFeatureView.vue';
-import FeatureView from './views/FeatureView.vue';
 import NewHackathonForm from './components/NewHackathonForm.vue';
 import Hackathon from './components/Hackathon.vue';
 
@@ -21,8 +19,6 @@ import {
     NEW_HACKATHON_VIEW_NAME,
     IDEA_VIEW_NAME,
     NEW_IDEA_VIEW_NAME,
-    FEATURE_VIEW_NAME,
-    NEW_FEATURE_VIEW_NAME,
     LOGIN_VIEW_NAME,
     NOT_FOUND_VIEW_NAME
 } from './config/routes.js';
@@ -137,32 +133,6 @@ export default [
         path: '/hackathon/:hackathonId/ideas/:ideaId',
         name: IDEA_VIEW_NAME,
         component: IdeaView,
-        beforeEnter(to, from, next) {
-            if (!checkAuth()) {
-                next('/login');
-            }
-
-            attachInterceptor(next);
-            next();
-        }
-    },
-    {
-        path: '/hackathon/:hackathonId/ideas/:ideaId/features/new',
-        name: NEW_FEATURE_VIEW_NAME,
-        component: NewFeatureView,
-        beforeEnter(to, from, next) {
-            if (!checkAuth()) {
-                next('/login');
-            }
-
-            attachInterceptor(next);
-            next();
-        }
-    },
-    {
-        path: '/hackathon/:hackathonId/ideas/:ideaId/features/:featureId',
-        name: FEATURE_VIEW_NAME,
-        component: FeatureView,
         beforeEnter(to, from, next) {
             if (!checkAuth()) {
                 next('/login');

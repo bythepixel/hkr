@@ -9,11 +9,6 @@ export const getHackathonsEndpoint = () => `/api/hackathon`,
     addIdeaChildMessageEndpoint = (id, messageId) => `/api/idea/${id}/message/${messageId}`,
 
     getIdeaVotesEndpoint= (id) => `/api/idea/${id}/votes`,
-
-    newFeatureEndpoint = () => `/api/feature`,
-    addFeatureVoteEndpoint = (id) => `/api/feature/${id}/vote`,
-    deleteFeatureVoteEndpoint = (id, voteId) => `/api/feature/${id}/vote/${voteId}`,
-    addFeatureMessageEndpoint = (id) => `/api/feature/${id}/message`,
-    addFeatureChildMessageEndpoint = (id, messageId) => `/api/feature/${id}/message/${messageId}`,
+    getIdeaEndpoint = (id) => `/api/idea/${id}`,
 
     loginEndpoint = () => `/api/login`;

@@ -30,6 +30,17 @@ class IdeaController extends Controller
     }
 
     /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id)
+    {
+        $idea = Idea::with(['user', 'messages', 'messages.user'])->findOrFail($id);
+
+        return response()->json($idea);
+    }
+
+    /**
      * @param $ideaId
      * @return \Illuminate\Http\JsonResponse
      */

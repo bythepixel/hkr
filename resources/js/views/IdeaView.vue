@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Idea :idea="idea" />
+        <Idea :idea="this.$route.params.ideaId" />
     </div>
 </template>
 
@@ -8,13 +8,8 @@
     import Idea from '../components/Idea.vue';
     export default {
         name: "IdeaView",
-        props: ['idea'],
         components: {
             Idea,
-        }
+        },
     }
 </script>
-
-<style scoped>
-
-</style>

@@ -34,5 +34,5 @@ const app = new Vue({
     components: {
         App,
     },
-    template: `<App :hackathons="hackathons" :hackathon="hackathon" :idea="idea" :ideas="ideas" :features="features" :feature="feature" :user="user" :loginErrorMessage="loginErrorMessage" :breadcrumbs="breadcrumbs" />`,
+    template: `<App :hackathons="hackathons" :hackathon="hackathon" :idea="idea" :ideas="ideas" :user="user" :loginErrorMessage="loginErrorMessage" :breadcrumbs="breadcrumbs" />`,
 }).$mount('#app');

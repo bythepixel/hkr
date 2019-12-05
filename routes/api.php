@@ -22,6 +22,7 @@ Route::get('hackathon/{id}/{order}/{direction}', 'Api\HackathonController@show')
 
 Route::post('idea', 'Api\IdeaController@create')->middleware('auth:api');
 Route::get('idea/{id}/votes', 'Api\IdeaController@getVotes')->middleware('auth:api');
+Route::get('idea/{id}', 'Api\IdeaController@show')->middleware('auth:api');
 
 Route::post('ideaVote', 'Api\IdeaVoteController@create')->middleware('auth:api');
 Route::delete('ideaVote/{id}', 'Api\IdeaVoteController@delete')->middleware('auth:api');

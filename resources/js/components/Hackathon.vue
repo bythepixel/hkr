@@ -18,7 +18,7 @@
                         <IdeaVote :votes="idea.votes" />
                     </div>
                     <div class="content-wrapper">
-                        <h2><router-link :to="{ name: ideaRouteName }">{{ idea.title }}</router-link></h2>
+                        <h2><router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }">{{ idea.title }}</router-link></h2>
                         <p class="created-by">By {{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
                         <p class="description">{{ idea.description }}</p>
                     </div>
