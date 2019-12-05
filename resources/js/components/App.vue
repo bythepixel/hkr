@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="loaded">
         <Breadcrumbs :hackathon="hackathon" :idea="idea" :breadcrumbs="breadcrumbs" />
         <router-view
             :hackathons="hackathons"
@@ -26,8 +26,16 @@
             'loginErrorMessage',
             'breadcrumbs'
         ],
+	    data() {
+		    return {
+		    	loaded: false,
+		    }
+        },
         components: {
             Breadcrumbs,
         },
+        created() {
+            this.loaded = true;
+        }
     }
 </script>
