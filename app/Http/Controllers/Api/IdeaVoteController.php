@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class IdeaVoteController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws Exception
+     */
     public function create(Request $request)
     {
         $idea = Idea::findOrFail($request->input('idea_id'));
@@ -31,6 +36,9 @@ class IdeaVoteController extends Controller
         return response()->json($ideaVote);
     }
 
+    /**
+     * @param $ideaVoteId
+     */
     public function delete($ideaVoteId)
     {
         $ideaVote = IdeaVote::findOrFail($ideaVoteId);

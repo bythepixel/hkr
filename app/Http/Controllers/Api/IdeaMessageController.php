@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class IdeaMessageController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
         $request->validate(['content' => 'required|max:255']);

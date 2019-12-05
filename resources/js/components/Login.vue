@@ -3,12 +3,13 @@
         <div id="login">
             <form v-on:submit.prevent="onSubmit" class="container">
                 <h1>Login</h1>
+                <h1 class="error" style="color: red;">{{ loginErrorMessage }}</h1>
                 <div class="field-wrapper">
-                    <input type="text" v-model.trim="email" id="email" required="">
+                    <input type="text" v-model.trim="email" id="email" >
                     <label for="email">Username</label>
                 </div>
                 <div class="field-wrapper">
-                    <input type="password" v-model.trim="password" id="password" required="">
+                    <input type="password" v-model.trim="password" id="password" >
                     <label for="password">Password</label>
                 </div>
                 <button role="button">Login</button>
@@ -31,6 +32,7 @@
             return {
                 email: null,
                 password: null,
+                loginErrorMessage: null,
             }
         },
         methods: {
@@ -40,7 +42,7 @@
             onSubmit(event) {
 
                 if (!this.email || !this.password) {
-                    // show error
+                    this.loginErrorMessage = "Please fill out both fields";
                     return;
                 }
 
@@ -48,9 +50,8 @@
                     email: this.email,
                     password: this.password,
                 }).then(response => {
-                    if (response.status === 200) {
-                        const data = response.data;
-
+                    const data = response.data;
+                    if (response.status === 200 && data.loginErrorMessage === undefined) {
                         store.user = {
                             id: data.id,
                             name: data.name,
@@ -60,6 +61,9 @@
                         LocalStorageService.setAuth(data.api_token);
                         this.$router.push('/');
                         return;
+                    } else {
+                      this.loginErrorMessage = data.loginErrorMessage;
+                      return;
                     }
                 })
             },

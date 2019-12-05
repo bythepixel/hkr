@@ -10,12 +10,18 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
         if(!Auth::validate($credentials)) {
-            throw new AuthenticationException();
+            $error = [];
+            $error['loginErrorMessage'] = "Unable to Authenticate, Please Try Again.";
+            return response()->json($error);
         }
 
         $user = User::where('email', $request->get('email'))->firstOrFail();
@@ -24,6 +30,9 @@ class LoginController extends Controller
         return response()->json($user);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout()
     {
         $user = Auth::user();

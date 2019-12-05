@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class IdeaController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
         $request->validate(['title' => 'required|max:255', 'description' => 'required|max:999']);
@@ -25,6 +29,10 @@ class IdeaController extends Controller
         return response()->json($idea);
     }
 
+    /**
+     * @param $ideaId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getVotes($ideaId)
     {
         $ideas = IdeaVote::with(['user'])->where(['idea_id' => $ideaId])->get();
