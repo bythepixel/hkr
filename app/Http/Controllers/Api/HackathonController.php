@@ -17,11 +17,42 @@ class HackathonController extends Controller
 
     /**
      * @param $id
+     * @param $order
+     * @param $direction
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($id, $order, $direction)
     {
-        $hackathon = Hackathon::with(['user', 'ideas', 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
+        if($order != "votes") {
+            $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($order, $direction) {
+                $query->orderBy($order, $direction);
+            }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
+        } else {
+            $hackathon = Hackathon::with(['user', 'ideas', 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
+            $hackathon['ideas']->loadCount('votes');
+            $sorted = false;
+            while(!$sorted) {
+                $switchMade = false;
+                foreach($hackathon['ideas'] as $index => $idea) {
+                    if(isset($hackathon['ideas'][$index + 1])) {
+                        if($direction = "DESC") {
+                            $comparison = $hackathon['ideas'][$index]->votes_count < $hackathon['ideas'][$index+1]->votes_count;
+                        } else {
+                            $comparison = $hackathon['ideas'][$index]->votes_count > $hackathon['ideas'][$index+1]->votes_count;
+                        }
+                        if($comparison) {
+                            $temp = $hackathon['ideas'][$index];
+                            $hackathon['ideas'][$index] = $hackathon['ideas'][$index+1];
+                            $hackathon['ideas'][$index+1] = $temp;
+                            $switchMade = true;
+                        }
+                    }
+                }
+                if(!$switchMade) {
+                    $sorted = true;
+                }
+            }
+        }
 
         return response()->json($hackathon);
     }

@@ -61,7 +61,7 @@
         },
         created() {
             store.showIdeaButton = true;
-            HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+            HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, "votes", "DESC")).then(response => {
                 store.hackathon = response.data;
                 this.subscribe(response.data.id);
             });
