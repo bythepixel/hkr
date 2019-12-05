@@ -140,6 +140,6 @@ export default [
 
             attachInterceptor(next);
             next();
-        }
+        },
     },
 ];

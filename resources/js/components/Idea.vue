@@ -5,7 +5,6 @@
                 <div>
                     <div id="idea-details">
                         <h1>{{ idea.title }}</h1>
-
                     </div>
                 </div>
                 <div v-for="message in idea.messages" :key="message.id">
@@ -25,24 +24,30 @@
     import SocketService from '../services/SocketService.js'
 
     import { getIdeaEndpoint } from '../config/endpoints.js';
+    import {getHackathonEndpoint} from "../config/endpoints";
 
 
     export default {
 	    name: "Idea",
-	    props: ['idea'],
 	    components: {
 		    IdeaMessage,
 	    },
 	    data() {
 		    return {
 			    channel: null,
+                idea: null,
 		    }
 	    },
 	    created() {
 		    HttpService.get(getIdeaEndpoint(this.$route.params.ideaId)).then(response => {
-			    store.idea = response.data;
+			    this.idea = response.data;
 			    this.subscribe(response.data.id);
 		    });
+		    if(!store.hackathon) {
+                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+                    store.hackathon = response.data;
+                });
+            }
 	    },
 	    methods: {
             subscribe(id) {
