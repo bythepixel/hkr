@@ -1,8 +1,8 @@
 export const
     HACKATHONS_VIEW_NAME = 'hackathons',
     NEW_HACKATHON_VIEW_NAME = 'new-hackathon',
+    HACKATHON_VIEW_NAME = 'hackathon',
 
-    IDEAS_VIEW_NAME = 'ideas',
     IDEA_VIEW_NAME = 'idea',
     NEW_IDEA_VIEW_NAME = 'new-ideas',
 

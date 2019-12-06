@@ -1,5 +1,5 @@
 import Hackathons from './views/Hackathons.vue';
-import Ideas from './views/Ideas.vue';
+import Hackathon from './views/Hackathon.vue';
 import Idea from './views/Idea.vue';
 import NewIdea from './views/NewIdea.vue';
 import NewHackathon from './views/NewHackathon.vue';
@@ -13,7 +13,7 @@ import store from './data/store.js';
 import {
     HACKATHONS_VIEW_NAME,
     NEW_HACKATHON_VIEW_NAME,
-    IDEAS_VIEW_NAME,
+    HACKATHON_VIEW_NAME,
     IDEA_VIEW_NAME,
     NEW_IDEA_VIEW_NAME,
     LOGIN_VIEW_NAME
@@ -96,9 +96,9 @@ export default [
         }
     },
     {
-        path: '/hackathon/:hackathonId/ideas',
-        name: IDEAS_VIEW_NAME,
-        component: Ideas,
+        path: '/hackathon/:hackathonId',
+        name:   HACKATHON_VIEW_NAME,
+        component: Hackathon,
         beforeEnter(to, from, next) {
             if (!checkAuth()) {
                 next('/login');

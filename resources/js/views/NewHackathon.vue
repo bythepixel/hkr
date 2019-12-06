@@ -16,7 +16,7 @@
 
 	import { newHackathonEndpoint } from '../config/endpoints';
 
-	import { IDEAS_VIEW_NAME, HACKATHONS_VIEW_NAME } from '../config/routes.js';
+	import { HACKATHON_VIEW_NAME, HACKATHONS_VIEW_NAME } from '../config/routes.js';
 
 	import store from '../data/store.js';
 
@@ -62,7 +62,7 @@
 
 					this.title = null;
 
-					this.$router.push({ name: IDEAS_VIEW_NAME, params: { hackathonId: id }});
+					this.$router.push({ name: HACKATHON_VIEW_NAME, params: { hackathonId: id }});
 				});
 			},
 			exit(event) {

@@ -31,7 +31,7 @@
 
 	import { newIdeaEndpoint } from '../config/endpoints';
 
-	import { IDEAS_VIEW_NAME } from '../config/routes.js';
+	import { HACKATHON_VIEW_NAME } from '../config/routes.js';
 
 	import store from '../data/store.js';
 

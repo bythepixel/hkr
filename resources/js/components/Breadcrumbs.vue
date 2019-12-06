@@ -6,7 +6,7 @@
                 <span v-if="!breadcrumbs.linkToIndex">{{ breadcrumbs.text }}</span>
             </li>
             <li v-if="hackathon" class="breadcrumbs__item">
-                <router-link v-if="isIdeaPage" :to="{ name: ideasRouteName }">{{ hackathon.title }}</router-link>
+                <router-link v-if="isIdeaPage" :to="{ name: hackathonRouteName }">{{ hackathon.title }}</router-link>
                 <span v-if="!isIdeaPage">{{ hackathon.title }}</span>
             </li>
             <li v-if="isIdeaPage" class="breadcrumbs__item">
@@ -22,7 +22,7 @@
 <script>
     import {
         HACKATHONS_VIEW_NAME,
-        IDEAS_VIEW_NAME,
+        HACKATHON_VIEW_NAME,
         IDEA_VIEW_NAME,
         NEW_IDEA_VIEW_NAME,
         NEW_HACKATHON_VIEW_NAME,
@@ -41,7 +41,7 @@
         data() {
             return {
                 hackathonsRouteName: HACKATHONS_VIEW_NAME,
-	            ideasRouteName: IDEAS_VIEW_NAME,
+	            hackathonRouteName: HACKATHON_VIEW_NAME,
                 ideaRouteName: IDEA_VIEW_NAME,
                 newIdeaRouteName: NEW_IDEA_VIEW_NAME,
                 newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
