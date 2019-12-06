@@ -27,7 +27,9 @@
                         <router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }">{{ idea.title }}</router-link>
                     </h2>
                     <p class="idea__author">By {{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
-                    <p class="idea__description">{{ idea.description }}</p>
+                    <p class="idea__description">
+                        <VueShowdown :markdown="idea.description"/>
+                    </p>
                     <div class="delete">
                         <button role="button" v-on:click="destroy(idea.id)">Delete</button>
                     </div>
@@ -54,6 +56,8 @@
 	import { digestNewVotes } from '../data/digest.js';
 
 	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, resetHackathonEndpoint } from '../config/endpoints.js';
+
+    import ShowdownService from '../services/ShowdownService'
 
 	export default {
 		name: 'IdeasView',

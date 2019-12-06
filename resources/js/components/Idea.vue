@@ -5,7 +5,9 @@
             <div class="idea__content">
                 <h2 class="idea__title">{{ idea.title }}</h2>
                 <p class="idea__author">{{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
-                <p class="idea__description">{{ idea.description }}</p>
+                <p class="idea__description">
+                    <VueShowdown :markdown="idea.description"/>
+                </p>
             </div>
         </div>
     </div>
@@ -17,6 +19,7 @@
 
     import HttpService from 'axios';
     import SocketService from '../services/SocketService.js'
+    import ShowdownService from '../services/ShowdownService'
     import { getIdeaEndpoint, getHackathonEndpoint, addIdeaVoteEndpoint, deleteIdeaVoteEndpoint } from '../config/endpoints.js';
 
     export default {
