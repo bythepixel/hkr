@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Events\IdeaDeleted;
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
 use App\Models\FeatureMessage;
@@ -69,7 +70,10 @@ class IdeaController extends Controller
             FeatureMessage::where('feature_id', $feature->id)->delete();
         }
         $features->each->delete();
-        Idea::where('id', $id)->delete();
+        $idea = Idea::where('id', $id)->get();
+        $idea->delete();
+
+        broadcast(new IdeaDeleted($idea));
 
         return response()->json(['success' => 'success'], 200);
     }
