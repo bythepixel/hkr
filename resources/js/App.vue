@@ -6,7 +6,7 @@
                 :hackathon="hackathon"
                 :idea="idea"
                 :breadcrumbs="breadcrumbs"
-                @sendIdeaTitleListener="sendIdeaTitle"
+                @ideaTitleChanged="handleIdeaTitleEvent"
                 :ideaTitle="ideaTitle"
             />
         </div>
@@ -17,7 +17,7 @@
             :ideas="ideas"
             :user="user"
             :loginErrorMessage="loginErrorMessage"
-            @sendIdeaTitleListener="sendIdeaTitle"
+            @ideaTitleChanged="handleIdeaTitleEvent"
             :ideaTitle="ideaTitle"
         />
     </div>
@@ -54,7 +54,7 @@
             this.loaded = true;
         },
         methods: {
-            sendIdeaTitle(ideaTitle) {
+	        handleIdeaTitleEvent(ideaTitle) {
 	            this.ideaTitle = ideaTitle;
             },
             logout() {
