@@ -47,3 +47,13 @@
         background-color: lighten($color-primary, 95%);
     }
 }
+
+.idea-view {
+    .vote {
+        cursor: default;
+
+        &:hover  {
+            background-color: inherit;
+        }
+    }
+}

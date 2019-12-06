@@ -72,7 +72,7 @@ class IdeaController extends Controller
         }
         $features->each->delete();
         $idea = Idea::where('id', $id)->get();
-        $idea->delete();
+        Idea::where('id', $id)->delete();
 
         broadcast(new IdeaDeleted($idea));
 

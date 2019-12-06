@@ -25,9 +25,7 @@
                     :key="message.id"
                     class="message__item"
                 >
-                    <p class="message__name">{{ message.user.name }} <span class="small-text">
-                        {{ message.created_at | moment("timezone", "America/Denver") | moment("from", "now") }}
-                    </span>
+                    <p class="message__name">{{ message.user.name }} <span class="small-text">{{ message.created_at | moment("timezone", "America/Denver") | moment("from", "now") }}</span>
                     </p>
                     <p class="message__content">{{ message.content }}</p>
                 </li>

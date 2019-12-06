@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded">
+    <div v-if="loaded" class="idea-view">
         <div class="container">
             <Idea
                 :idea="idea"

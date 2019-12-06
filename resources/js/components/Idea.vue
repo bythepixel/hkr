@@ -5,7 +5,7 @@
             <div class="idea__content">
                 <h2 class="idea__title">{{ idea.title }}</h2>
                 <p class="idea__author">{{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
-                <p class="idea__description">
+                <p class="idea__description rendered-markdown">
                     <VueShowdown :markdown="idea.long_description"/>
                 </p>
             </div>

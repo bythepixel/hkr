@@ -1,0 +1,26 @@
+.rendered-markdown {
+    ol,
+    ul {
+        margin: 0 0 2rem 2rem;
+    }
+
+    ol {
+        li {
+            list-style-type: decimal;
+        }
+    }
+
+    ul {
+        li {
+            list-style-type: circle;
+        }
+    }
+
+    strong {
+        font-weight: 800;
+    }
+
+    em {
+        font-style: italic;
+    }
+}
