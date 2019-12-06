@@ -28,6 +28,9 @@
                     <p class="idea__author">By {{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
                     <p class="idea__description">{{ idea.description }}</p>
                 </div>
+                <div class="delete">
+                    <button role="button" v-on:click="destroy(idea.id)">Delete</button>
+                </div>
             </li>
         </ul>
     </div>
@@ -50,7 +53,7 @@
 	import { digestNewVotes } from '../data/digest.js';
 
 	import { getHackathonEndpoint, getIdeaVotesEndpoint } from '../config/endpoints.js';
-    import {resetHackathonEndpoint} from "../config/endpoints";
+    import {deleteIdeaEndpoint, resetHackathonEndpoint} from "../config/endpoints";
 
 	export default {
 		name: 'IdeasView',
@@ -103,14 +106,32 @@
 				});
 			},
             reset() {
+                this.ideasLoading = true;
                 if(confirm("Are you sure you want to delete all votes on this Hackathon?")) {
                     HttpService.get(resetHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
                         store.hackathon = response.data;
                         this.bindEvents();
+                        this.ideasLoading = false;
                     });
                 } else {
+                    this.ideasLoading = false;
                     return false;
                 }
+            },
+            destroy(id) {
+              this.ideasLoading = true;
+              if(confirm("Are you sure you want to delete this idea, its votes and its comments?")) {
+                  HttpService.get(deleteIdeaEndpoint(id)).then(response => {
+                      HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
+                          store.hackathon = response.data;
+                          this.bindEvents();
+                            this.ideasLoading = false;
+                      });
+                  });
+              } else {
+                  this.ideasLoading = false;
+                  return false;
+              }
             }
 		}
 	}

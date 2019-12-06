@@ -1,8 +1,12 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Feature;
+use App\Models\FeatureMessage;
+use App\Models\FeatureVote;
 use App\Models\Hackathon;
 use App\Models\Idea;
+use App\Models\IdeaMessage;
 use App\Models\IdeaVote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,8 +50,27 @@ class IdeaController extends Controller
      */
     public function getVotes($ideaId)
     {
-        $ideas = IdeaVote::with(['user'])->where(['idea_id' => $ideaId])->get();
+        $ideaVotes = IdeaVote::with(['user'])->where(['idea_id' => $ideaId])->get();
 
-        return response()->json($ideas);
+        return response()->json($ideaVotes);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        IdeaVote::where('idea_id', $id)->delete();
+        IdeaMessage::where('idea_id', $id)->delete();
+        $features = Feature::where('idea_id', $id)->get();
+        foreach($features as $feature) {
+            FeatureVote::where('feature_id', $feature->id)->delete();
+            FeatureMessage::where('feature_id', $feature->id)->delete();
+        }
+        $features->each->delete();
+        Idea::where('id', $id)->delete();
+
+        return response()->json(['success' => 'success'], 200);
     }
 }
