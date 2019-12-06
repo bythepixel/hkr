@@ -28,6 +28,9 @@
                     </h2>
                     <p class="idea__author">By {{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
                     <p class="idea__description">{{ idea.description }}</p>
+                    <div class="delete">
+                        <button role="button" v-on:click="destroy(idea.id)">Delete</button>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -103,18 +106,11 @@
                 }
             },
             destroy(id) {
-                this.ideasLoading = true;
                 if (confirm("Are you sure you want to delete this idea, its votes and its comments?")) {
-                    HttpService.get(deleteIdeaEndpoint(id)).then(response => {
-                        HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
-                            store.hackathon = response.data;
-                            this.bindEvents();
-                            this.ideasLoading = false;
-                        });
+                    store.hackathon.ideas = store.hackathon.ideas.filter((idea) => {
+                        return idea.id !== id;
                     });
-                } else {
-                    this.ideasLoading = false;
-                    return false;
+                    HttpService.get(deleteIdeaEndpoint(id));
                 }
             }
 		}
