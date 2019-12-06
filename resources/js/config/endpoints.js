@@ -1,6 +1,7 @@
 export const getHackathonsEndpoint = () => `/api/hackathon`,
     newHackathonEndpoint = () => `/api/hackathon`,
     getHackathonEndpoint = (id, order, direction) => `/api/hackathon/${id}/${order}/${direction}`,
+    resetHackathonEndpoint = (id) => `/api/hackathon/reset/${id}`,
 
     newIdeaEndpoint = () => `/api/idea`,
     addIdeaVoteEndpoint = () => `/api/ideaVote`,

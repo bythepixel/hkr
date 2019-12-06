@@ -11,6 +11,9 @@
                 <option value="ASC">ASC</option>
             </select>
         </div>
+        <div class="reset">
+            <button role="button" v-on:click="reset()">Reset Votes</button>
+        </div>
         <ul>
             <li class="idea"
                 v-if="hackathon.ideas && hackathon.ideas.length"
@@ -46,6 +49,7 @@
 	import { digestNewVotes } from '../data/digest.js';
 
 	import { getHackathonEndpoint, getIdeaVotesEndpoint } from '../config/endpoints.js';
+    import {resetHackathonEndpoint} from "../config/endpoints";
 
 	export default {
 		name: 'IdeasView',
@@ -92,7 +96,17 @@
 					store.hackathon = response.data;
 					this.bindEvents();
 				});
-			}
+			},
+            reset() {
+                if(confirm("Are you sure you want to delete all votes on this Hackathon?")) {
+                    HttpService.get(resetHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+                        store.hackathon = response.data;
+                        this.bindEvents();
+                    });
+                } else {
+                    return false;
+                }
+            }
 		}
 	}
 </script>

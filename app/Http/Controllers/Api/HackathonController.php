@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Controller;
 use App\Models\Hackathon;
+use App\Models\Idea;
+use App\Models\IdeaVote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +23,7 @@ class HackathonController extends Controller
      * @param $direction
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id, $order, $direction)
+    public function show($id, $order="created_at", $direction="DESC")
     {
         if($order != "votes") {
             $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($order, $direction) {
@@ -71,5 +73,16 @@ class HackathonController extends Controller
         $hackathon->save();
 
         return response()->json($hackathon);
+    }
+
+    /**
+     * @param $hackathonId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reset($hackathonId) {
+        $ideas = Idea::where('hackathon_id', $hackathonId)->get();
+        IdeaVote::whereIn('idea_id', $ideas->pluck('id'))->delete();
+
+        return $this->show($hackathonId);
     }
 }
