@@ -1,0 +1,53 @@
+.messages {
+    background-color: $color-primary;
+    color: $color-secondary;
+
+    .container {
+        padding: 5.2rem 3rem 7.6rem 3rem;
+        width: 100%;
+        max-width: 670px;
+        box-sizing: border-box;
+
+        @include respond-above(md) {
+            padding: 7.2rem 3.8rem 9.6rem 11.1rem;
+            box-sizing: content-box;
+        }
+    }
+
+    input {
+        width: 100%;
+    }
+
+    label {
+        color: $color-primary;
+    }
+}
+
+.message {
+    &__item {
+        margin-bottom: 3.3rem;
+    }
+    &__name {
+        font-size: 1.6rem;
+        line-height: 2.3rem;
+        font-weight: $font-weight-bold;
+    }
+
+    &__comment {
+        font-size: 1.6rem;
+        line-height: 2.4rem;
+        margin: 0.4rem 0 0.3rem;
+    }
+
+    &__reply {
+        font-size: 1.3rem;
+        line-height: 2.4rem;
+    }
+
+    &__time {
+        opacity: 0.5;
+        font-size: 1.2rem;
+        line-height: 1.8rem;
+        font-weight: $font-weight-default;
+    }
+}

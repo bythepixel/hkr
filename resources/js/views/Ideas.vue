@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!!hackathon">
+    <div v-if="!!hackathon" class="container">
         <div class="sort">
             <select name="sortOrder" v-on:change="order()" v-model.trim="sortOrder">
                 <option value="created_at">Created At</option>

@@ -1,5 +1,5 @@
 <template>
-    <ul class="hackathons">
+    <ul class="hackathons container">
         <li class="hackathons__item" v-for="hackathon in hackathons" :key="hackathon.id">
             <p class="hackathons__summary">
                 <router-link :to="{ name: ideasRouteName, params: { hackathonId: hackathon.id } }">{{ hackathon.title }}</router-link>

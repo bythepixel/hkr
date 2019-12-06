@@ -9,18 +9,16 @@
                 :ideaTitle="ideaTitle"
             />
         </div>
-        <div class="container">
-            <router-view
-                :hackathons="hackathons"
-                :hackathon="hackathon"
-                :idea="idea"
-                :ideas="ideas"
-                :user="user"
-                :loginErrorMessage="loginErrorMessage"
-                @sendIdeaTitleListener="sendIdeaTitle"
-                :ideaTitle="ideaTitle"
-            />
-        </div>
+        <router-view
+            :hackathons="hackathons"
+            :hackathon="hackathon"
+            :idea="idea"
+            :ideas="ideas"
+            :user="user"
+            :loginErrorMessage="loginErrorMessage"
+            @sendIdeaTitleListener="sendIdeaTitle"
+            :ideaTitle="ideaTitle"
+        />
     </div>
 </template>
 

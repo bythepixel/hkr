@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <form v-on:submit.prevent="onSubmit">
             <h1>Login</h1>
             <h1 class="error">{{ loginErrorMessage }}</h1>

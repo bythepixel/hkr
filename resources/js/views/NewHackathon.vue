@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <p v-if="errorMessage">{{ errorMessage }}</p>
         <form v-on:submit.prevent="onSubmit">
             <div class="field-wrapper">

@@ -1,17 +1,17 @@
 .hackathons {
 
-    .hackathons__title {
+    &__title {
         font-size: 2rem;
         line-height: 2.8rem;
     }
 
 
-    .hackathons__summary {
+    &__summary {
         font-size: 4.1rem;
         line-height: 5.7rem;
     }
 
-    .hackathons__item {
+    &__item {
         margin-bottom: 3rem;
 
         @include respond-above(md) {
