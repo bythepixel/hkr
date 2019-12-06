@@ -1,5 +1,6 @@
 <template>
     <div v-if="loaded">
+        <a class="user-control" v-if="user" v-on:click="logout()">Logout</a>
         <div class="container">
             <Breadcrumbs
                 :hackathon="hackathon"
@@ -23,7 +24,11 @@
 </template>
 
 <script>
-    import Breadcrumbs from './components/Breadcrumbs.vue';
+    import  Breadcrumbs from './components/Breadcrumbs.vue';
+    import {logoutEndpoint} from "./config/endpoints";
+    import HttpService from 'axios';
+    import LocalStorageService from "./services/LocalStorageService";
+    import store from './data/store.js';
 
     export default {
         name: 'App',
@@ -51,6 +56,14 @@
         methods: {
             sendIdeaTitle(ideaTitle) {
 	            this.ideaTitle = ideaTitle;
+            },
+            logout() {
+                HttpService.get(logoutEndpoint()).then(response => {
+                    LocalStorageService.setUser(null);
+                    LocalStorageService.setAuth(null);
+                    store.user = null;
+                    this.$router.push('login');
+                });
             }
         }
     }
