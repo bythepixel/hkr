@@ -7,20 +7,20 @@
                 @ideaMessagesChanged="handleIdeaMessagesEvent"
             />
         </div>
-        <IdeaMessage :ideaMessages="ideaMessages" />
+        <IdeaMessages :ideaMessages="ideaMessages" />
     </div>
 </template>
 
 <script>
     import Idea from '../components/Idea';
-    import IdeaMessage from "../components/IdeaMessage";
+    import IdeaMessages from "../components/IdeaMessages";
 
     export default {
         name: "IdeaView",
         props: ['ideaTitle'],
         components: {
             Idea,
-            IdeaMessage
+            IdeaMessages
         },
         data() {
             return {
