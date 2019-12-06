@@ -35,7 +35,7 @@ class IdeaController extends Controller
      */
     public function show($id)
     {
-        $idea = Idea::with(['user', 'messages', 'messages.user'])->findOrFail($id);
+        $idea = Idea::with(['user', 'messages', 'messages.user', 'votes'])->findOrFail($id);
 
         return response()->json($idea);
     }

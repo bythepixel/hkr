@@ -170,12 +170,12 @@ textarea {
 
 // Voting
 
-.vote-wrapper {
+.vote {
     position: relative;
     cursor: pointer;
     border-radius: 10px;
 
-    .icon {
+    &__icon {
         width: 40px;
         height: auto;
 
@@ -194,7 +194,7 @@ textarea {
         }
     }
 
-    .vote-count {
+    &__count {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -203,14 +203,14 @@ textarea {
 
     &.voted {
 
-        .icon {
+        .vote__icon {
 
             .b {
                 fill: $color-primary;
             }
         }
 
-        .vote-count {
+        .vote__count {
             color: $color-secondary;
         }
     }
@@ -244,14 +244,14 @@ textarea {
     }
 }
 
-// Hackathon Details
+// Idea Details
 
-#hackathon-details {
+.idea-details {
     display: flex;
     align-items: flex-start;
     margin-bottom: 6rem;
 
-    .content-wrapper {
+    &__content {
         width: 100%;
         max-width: 658px;
         margin-left: 15px;
@@ -259,66 +259,25 @@ textarea {
         @include respond-above(md) {
             margin-left: 20px;
         }
-
-        h2 {
-            font-weight: $font-weight-bold;
-        }
-
-        .created-by {
-            margin: 10px 0;
-            font-size: 1.2rem;
-            line-height: 1.6rem;
-        }
-
-        .description {
-            font-size: 1.6rem;
-            line-height: 1.8rem;
-
-            @include respond-above(md) {
-                line-height: 2.4rem;
-            }
-        }
-    }
-}
-
-// Features
-
-.features {
-    margin-top: 2rem;
-
-    h3 {
-        font-size: 1.3rem;
-        line-height: 1.6rem;
-        margin-bottom: 1.3rem;
     }
 
-    h4 {
-        font-size: 2rem;
-        line-height: 2.8rem;
+    &__title {
         font-weight: $font-weight-bold;
     }
 
-    li {
-        display: flex;
-        align-items: center;
-        margin-bottom: 0.8rem;
+    &__author {
+        margin: 10px 0;
+        font-size: 1.2rem;
+        line-height: 1.6rem;
+    }
+
+    &__description {
+        font-size: 1.6rem;
+        line-height: 1.8rem;
 
         @include respond-above(md) {
-            margin-bottom: 1.9rem;
+            line-height: 2.4rem;
         }
-    }
-
-    .icon {
-        width: 25px;
-    }
-
-    .vote-count {
-        position: relative;
-        left: auto;
-        top: auto;
-        margin: 0 0.6rem 0 0.5rem;
-        font-size: 1.3rem;
-        line-height: 1.8rem;
     }
 }
 
