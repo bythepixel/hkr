@@ -13,7 +13,6 @@
 
 <script>
 	import store from '../data/store.js';
-    import IdeaMessage from './IdeaMessage.vue';
     import IdeaVote from './IdeaVote.vue';
 
     import HttpService from 'axios';
@@ -23,7 +22,6 @@
     export default {
 	    name: "Idea",
 	    components: {
-		    IdeaMessage,
             IdeaVote,
 	    },
 	    data() {
@@ -37,7 +35,8 @@
 		    HttpService.get(getIdeaEndpoint(this.$route.params.ideaId)).then(response => {
 			    this.idea = response.data;
 			    this.subscribe(response.data.id);
-			    this.sendIdeaTitle(response.data.title);
+			    this.emitIdeaTitleChanged(response.data.title);
+                this.emitIdeaMessagesChanged(response.data.messages);
 		    });
 
 		    if(!store.hackathon) {
@@ -71,12 +70,12 @@
             hasUserVoted(votes) {
                 return !!votes.find(vote => { return vote.user_id === store.user.id });
             },
-            sendIdeaTitle(ideaTitle) {
-            	this.$emit('ideaTitle', ideaTitle);
+            emitIdeaTitleChanged(ideaTitle) {
+            	this.$emit('ideaTitleChanged', ideaTitle);
+            },
+            emitIdeaMessagesChanged(ideaMessages) {
+                this.$emit('ideaMessagesChanged', ideaMessages);
             }
-        },
-        destroyed() {
-	        this.ideaTitle = null;
         }
     }
 </script>

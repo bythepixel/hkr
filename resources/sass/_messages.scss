@@ -16,10 +16,26 @@
 
     input {
         width: 100%;
+        margin-bottom: 0.5rem;
     }
 
     label {
         color: $color-primary;
+    }
+
+    .small-text {
+        opacity: 0.5;
+        font-size: 1.2rem;
+        line-height: 1.8rem;
+        font-weight: $font-weight-default;
+    }
+
+    &__enter-text {
+        margin-left: 3rem;
+    }
+
+    &__submit {
+        margin-bottom: 5rem;
     }
 }
 
@@ -33,21 +49,9 @@
         font-weight: $font-weight-bold;
     }
 
-    &__comment {
+    &__content {
         font-size: 1.6rem;
         line-height: 2.4rem;
-        margin: 0.4rem 0 0.3rem;
-    }
-
-    &__reply {
-        font-size: 1.3rem;
-        line-height: 2.4rem;
-    }
-
-    &__time {
-        opacity: 0.5;
-        font-size: 1.2rem;
-        line-height: 1.8rem;
-        font-weight: $font-weight-default;
+        margin-top: 0.4rem;
     }
 }
