@@ -16,9 +16,6 @@
         <div v-if="showCreateHackathon">
             <router-link :to="{ name: newHackathonRouteName }" class="button">Create a Hackathon</router-link>
         </div>
-        <div v-if="showAddAnIdea">
-            <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
-        </div>
     </div>
 </template>
 

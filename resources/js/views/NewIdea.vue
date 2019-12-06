@@ -26,7 +26,7 @@
 
 	export default {
 		name: "NewIdeaView",
-		props: ['user', 'hackathon'],
+		props: [],
 		data() {
 			return {
 				errorMessage: null,
@@ -53,24 +53,13 @@
 				}
 
 				HttpService.post(newIdeaEndpoint(), {
-					user_id: this.user.id,
 					title: this.title,
 					description: this.description,
-					hackathon_id: this.hackathon.id,
+					hackathon_id: this.$route.params.hackathonId,
 				}).then(response => {
-					const id = response.data.id;
-
-					store.hackathon.ideas.push({
-						id,
-						title: this.title,
-						description: this.description,
-						user_id: this.user.id,
-					});
-
 					this.title = null;
 					this.description = null;
-
-					this.$router.push({ name: HACKATHON_VIEW_NAME, params: { hackathonId: this.hackathon.id}});
+					this.$router.push({ name: IDEAS_VIEW_NAME, params: { hackathonId: this.$route.params.hackathonId}});
 				});
 			},
 			exit(event) {

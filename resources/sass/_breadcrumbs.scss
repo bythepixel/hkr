@@ -6,11 +6,22 @@
         display: block;
         margin: 0 10px 0 0;
         font-size: 2rem;
-        line-height: 2.8rem;
+
+        span, a {
+            display: inline-block;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 2.8rem;
+            height: 2.8rem;
+        }
 
         &::after {
             content: " >";
             margin-left: 10px;
+            line-height: 2.8rem;
+            display: inline-block;
         }
 
         &:last-of-type:after {
