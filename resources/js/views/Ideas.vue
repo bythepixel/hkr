@@ -43,6 +43,7 @@
 	import store from '../data/store.js';
 
 	import SocketService from '../services/SocketService.js'
+    import ShowdownService from '../services/ShowdownService.js'
 
 	import {
 		NEW_IDEA_VIEW_NAME,
@@ -56,8 +57,6 @@
 	import { digestNewVotes } from '../data/digest.js';
 
 	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, resetHackathonEndpoint } from '../config/endpoints.js';
-
-    import ShowdownService from '../services/ShowdownService'
 
 	export default {
 		name: 'IdeasView',

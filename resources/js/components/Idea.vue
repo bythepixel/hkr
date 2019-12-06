@@ -19,7 +19,7 @@
 
     import HttpService from 'axios';
     import SocketService from '../services/SocketService.js'
-    import ShowdownService from '../services/ShowdownService'
+    import ShowdownService from '../services/ShowdownService.js'
     import { getIdeaEndpoint, getHackathonEndpoint, addIdeaVoteEndpoint, deleteIdeaVoteEndpoint } from '../config/endpoints.js';
 
     export default {
