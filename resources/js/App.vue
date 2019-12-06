@@ -5,6 +5,8 @@
                 :hackathon="hackathon"
                 :idea="idea"
                 :breadcrumbs="breadcrumbs"
+                @sendIdeaTitleListener="sendIdeaTitle"
+                :ideaTitle="ideaTitle"
             />
         </div>
         <div class="container">
@@ -15,13 +17,15 @@
                 :ideas="ideas"
                 :user="user"
                 :loginErrorMessage="loginErrorMessage"
+                @sendIdeaTitleListener="sendIdeaTitle"
+                :ideaTitle="ideaTitle"
             />
         </div>
     </div>
 </template>
 
 <script>
-    import Breadcrumbs from '../components/Breadcrumbs.vue';
+    import Breadcrumbs from './components/Breadcrumbs.vue';
 
     export default {
         name: 'App',
@@ -37,6 +41,7 @@
 	    data() {
 		    return {
 		    	loaded: false,
+                ideaTitle: null,
 		    }
         },
         components: {
@@ -45,5 +50,10 @@
         created() {
             this.loaded = true;
         },
+        methods: {
+            sendIdeaTitle(ideaTitle) {
+	            this.ideaTitle = ideaTitle;
+            }
+        }
     }
 </script>

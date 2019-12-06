@@ -37,6 +37,7 @@
 		    HttpService.get(getIdeaEndpoint(this.$route.params.ideaId)).then(response => {
 			    this.idea = response.data;
 			    this.subscribe(response.data.id);
+			    this.sendIdeaTitle(response.data.title);
 		    });
 
 		    if(!store.hackathon) {
@@ -69,7 +70,13 @@
             },
             hasUserVoted(votes) {
                 return !!votes.find(vote => { return vote.user_id === store.user.id });
+            },
+            sendIdeaTitle(ideaTitle) {
+            	this.$emit('ideaTitle', ideaTitle);
             }
+        },
+        destroyed() {
+	        this.ideaTitle = null;
         }
     }
 </script>

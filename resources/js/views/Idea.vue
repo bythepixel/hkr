@@ -1,6 +1,10 @@
 <template>
     <div>
-        <Idea :idea="this.$route.params.ideaId" />
+        <Idea
+            :idea="this.$route.params.ideaId"
+            @ideaTitle="sendIdeaTitleListener"
+            :ideaTitle="ideaTitle"
+        />
     </div>
 </template>
 
@@ -9,8 +13,15 @@
 
     export default {
         name: "IdeaView",
+        props: ['ideaTitle'],
         components: {
-            Idea
-        }
+            Idea,
+        },
+	    methods: {
+            sendIdeaTitleListener(ideaTitle) {
+                this.$emit('sendIdeaTitleListener', ideaTitle);
+                console.log(ideaTitle);
+            }
+	    }
     }
 </script>

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import HttpService from 'axios';
-import App from './views/App.vue';
+import App from './App.vue';
 import VueRouter from 'vue-router';
 import routes from './routes.js';
 import store from './data/store.js';

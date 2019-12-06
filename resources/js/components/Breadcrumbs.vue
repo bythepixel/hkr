@@ -6,11 +6,11 @@
                 <span v-if="!breadcrumbs.linkToIndex">{{ breadcrumbs.text }}</span>
             </li>
             <li v-if="hackathon" class="breadcrumbs__item">
-                <router-link v-if="idea" to="{ name: ideasRouteName }">{{ hackathon.title }}</router-link>
-                <span v-if="!idea">{{ hackathon.title }}</span>
+                <router-link v-if="isIdeaPage" :to="{ name: ideasRouteName }">{{ hackathon.title }}</router-link>
+                <span v-if="!isIdeaPage">{{ hackathon.title }}</span>
             </li>
-            <li v-if="idea" class="breadcrumbs__item">
-                <span>{{ idea.title }}</span>
+            <li v-if="isIdeaPage" class="breadcrumbs__item">
+                <span>{{ ideaTitle }}</span>
             </li>
         </ul>
         <div v-if="showCreateHackathon">
@@ -37,7 +37,8 @@
         props: [
         	'hackathon',
             'idea',
-            'breadcrumbs'
+            'breadcrumbs',
+            'ideaTitle'
         ],
         name: 'Breadcrumbs',
         data() {
@@ -55,7 +56,10 @@
             },
             showAddAnIdea() {
                 return this.hackathon && store.showIdeaButton;
-            }
+            },
+	        isIdeaPage() {
+		        return this.$route.name === this.ideaRouteName;
+	        }
         }
     }
 </script>
