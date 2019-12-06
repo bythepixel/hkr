@@ -20,7 +20,6 @@
 	    methods: {
             sendIdeaTitleListener(ideaTitle) {
                 this.$emit('sendIdeaTitleListener', ideaTitle);
-                console.log(ideaTitle);
             }
 	    }
     }
