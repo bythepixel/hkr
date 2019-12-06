@@ -14,7 +14,8 @@
         <div class="reset">
             <button role="button" v-on:click="reset()">Reset Votes</button>
         </div>
-        <ul>
+        <div class="ideas-loading" v-if="ideasLoading">loading ideas, some good, some bad...</div>
+        <ul v-if="!ideasLoading">
             <li class="idea"
                 v-if="hackathon.ideas && hackathon.ideas.length"
                 v-for="idea in hackathon.ideas"
@@ -64,10 +65,12 @@
 				newIdeaRouteName: NEW_IDEA_VIEW_NAME,
 				sortOrder: "created_at",
 				sortDirection: "DESC",
+                ideasLoading: true
 			}
 		},
 		created() {
 			store.showIdeaButton = true;
+            this.ideasLoading = false;
 			HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, "votes", "DESC")).then(response => {
 				store.hackathon = response.data;
 				this.subscribe(response.data.id);
@@ -92,7 +95,9 @@
 				});
 			},
 			order() {
+                this.ideasLoading = true;
 				HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
+                    this.ideasLoading = false;
 					store.hackathon = response.data;
 					this.bindEvents();
 				});
