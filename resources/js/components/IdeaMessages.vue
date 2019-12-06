@@ -5,7 +5,7 @@
                 <div class="field-wrapper">
                     <p v-if="errorMessage">{{ errorMessage }}</p>
                     <form v-on:submit.prevent="onSubmit">
-                        <input type="text" name="comment" required="" v-model.trim="messageContent" :class="{'has-value': message}">
+                        <input type="text" name="comment" required="" v-model.trim="messageContent" :class="{'has-value': messageContent}">
                         <label>Join the conversation...</label>
                     </form>
                 </div>
