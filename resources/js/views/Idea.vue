@@ -1,19 +1,24 @@
 <template>
-    <div>
+    <div v-if="loaded">
         <div class="container">
             <Idea
-                :idea="this.$route.params.ideaId"
-                @ideaTitleChanged="handleIdeaTitleEvent"
-                @ideaMessagesChanged="handleIdeaMessagesEvent"
+                :idea="idea"
+                :hackathon="hackathon"
             />
         </div>
-        <IdeaMessages :ideaMessages="ideaMessages" />
+        <IdeaMessages :idea="idea" />
     </div>
 </template>
 
 <script>
     import Idea from '../components/Idea';
     import IdeaMessages from "../components/IdeaMessages";
+
+    import HttpService from 'axios';
+    import SocketService from '../services/SocketService.js'
+    import { getIdeaEndpoint, getHackathonEndpoint, addIdeaVoteEndpoint, deleteIdeaVoteEndpoint } from '../config/endpoints.js';
+
+    import store from '../data/store.js';
 
     export default {
         name: "IdeaView",
@@ -22,17 +27,75 @@
             Idea,
             IdeaMessages
         },
-        data() {
-            return {
-	            ideaMessages: null,
-            }
-        },
+	    data() {
+		    return {
+			    channel: null,
+			    idea: null,
+			    hackathon: null,
+                loaded: false,
+		    }
+	    },
+	    created() {
+            this.loadIdea();
+            this.loadHackathon();
+            this.channel = SocketService.subscribe(`idea.${this.$route.params.ideaId}`);
+	    },
 	    methods: {
-            handleIdeaTitleEvent(ideaTitle) {
-                this.$emit('ideaTitleChanged', ideaTitle);
+            bindEvents() {
+                this.channel.unbind();
+                this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
+                    HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
+                });
+                this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
+                    HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
+                });
+                this.channel.bind('App\\Events\\IdeaMessagedAdded', (data) => {
+                    HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+                        store.hackathon = response.data;
+                    });
+                });
             },
-            handleIdeaMessagesEvent(ideaMessages) {
-                this.ideaMessages = ideaMessages;
+            handleIdeaEvent(idea) {
+                this.$emit('ideaRetrieved', idea);
+            },
+            subscribe(id) {
+                this.channel = SocketService.subscribe(`idea.${id}`);
+            },
+            handleVote(idea) {
+                let storeIdea = store.hackathon.ideas.find((innerIdea) => { return innerIdea.id === idea.id });
+                this.hasUserVoted(storeIdea.votes) ? this.deleteVote(storeIdea) : this.addVote(storeIdea);
+            },
+            deleteVote(idea) {
+                idea.votes = idea.votes.filter((vote) => {
+                    return vote.user_id !== store.user.id;
+                });
+                HttpService.delete(deleteIdeaVoteEndpoint(idea.id));
+            },
+            addVote(idea) {
+                let vote = {
+                    idea_id: idea.id,
+                    user_id: store.user.id
+                };
+                idea.votes.push(vote);
+                HttpService.post(addIdeaVoteEndpoint(), { idea_id: idea.id });
+            },
+            hasUserVoted(votes) {
+                return !!votes.find(vote => { return vote.user_id === store.user.id });
+            },
+            loadIdea() {
+                HttpService.get(getIdeaEndpoint(this.$route.params.ideaId)).then(response => {
+                    this.idea = response.data;
+                    this.loaded = true;
+	                this.handleIdeaEvent(this.idea);
+                    this.subscribe(response.data.id);
+                });
+            },
+            loadHackathon() {
+	            if (!store.hackathon) {
+		            HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, "votes", "DESC")).then(response => {
+			            store.hackathon = response.data;
+		            });
+	            }
             }
 	    }
     }

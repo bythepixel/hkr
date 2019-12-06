@@ -4,6 +4,8 @@ import App from './App.vue';
 import VueRouter from 'vue-router';
 import routes from './routes.js';
 import store from './data/store.js';
+import moment from "moment-timezone";
+import VueMoment from 'vue-moment'
 import LocalStorageService from './services/LocalStorageService';
 
 HttpService.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -20,6 +22,8 @@ HttpService.defaults.headers.common['Content-type'] = 'application/json';
 HttpService.defaults.headers.common['Authorization'] = `Bearer ${LocalStorageService.getAuth()}`;
 
 Vue.use(VueRouter);
+Vue.use(VueMoment, {moment});
+moment.tz.setDefault('UTC');
 
 const router = new VueRouter({
     mode: 'history',

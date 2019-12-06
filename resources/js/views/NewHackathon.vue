@@ -39,7 +39,7 @@
 			store.breadcrumbs.linkToIndex = true;
 		},
 		methods: {
-			onSubmit(event) {
+			onSubmit() {
 				this.errorMessage = null;
 
 				if (!this.title) {

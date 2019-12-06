@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\IdeaVote;
+use App\Models\IdeaMessage;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -10,22 +10,13 @@ class IdeaMessageAdded implements ShouldBroadcast
 {
     private $ideaMessage;
 
-    public function __construct(IdeaVote $ideaMessage)
+    public function __construct(IdeaMessage $ideaMessage)
     {
         $this->ideaMessage = $ideaMessage;
     }
 
     public function broadcastOn()
     {
-        return new Channel('hackathon.' . $this->ideaMessage->idea->hackathon->id);
-    }
-
-    public function broadcastWith(): array
-    {
-        return [
-            'idea_user_id' => $this->ideaMessage->user->id,
-            'idea_id' => $this->ideaMessage->idea->id,
-            'idea_message_id' => $this->ideaMessage->id
-        ];
+        return new Channel('idea.' . $this->ideaMessage->idea->id);
     }
 }

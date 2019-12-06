@@ -13,6 +13,6 @@ class IdeaMessage extends Model
 
     public function idea()
     {
-        return $this->hasOne(Idea::class);
+        return $this->belongsTo(Idea::class);
     }
 }

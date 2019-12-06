@@ -5,7 +5,14 @@
                 <div class="field-wrapper">
                     <p v-if="errorMessage">{{ errorMessage }}</p>
                     <form v-on:submit.prevent="onSubmit">
-                        <input type="text" name="comment" required="" v-model.trim="messageContent" :class="{'has-value': messageContent}">
+                        <input
+                            type="text"
+                            name="comment"
+                            required
+                            maxlength="255"
+                            v-model.trim="messageContent"
+                            :class="{'has-value': messageContent}"
+                        >
                         <label>Join the conversation...</label>
                     </form>
                 </div>
@@ -13,12 +20,15 @@
             </div>
             <ul class="messages__message message">
                 <li
-                    v-if="ideaMessages"
-                    v-for="message in ideaMessages"
+                    v-if="idea.messages"
+                    v-for="message in idea.messages"
                     :key="message.id"
                     class="message__item"
                 >
-                    <p class="message__name">{{ message.user.name }} <span class="small-text">{{ message.created_at}}</span></p>
+                    <p class="message__name">{{ message.user.name }} <span class="small-text">
+                        {{ message.created_at | moment("timezone", "America/Denver") | moment("from", "now") }}
+                    </span>
+                    </p>
                     <p class="message__content">{{ message.content }}</p>
                 </li>
             </ul>
@@ -29,29 +39,49 @@
 <script>
 	import HttpService from 'axios';
 
-	import { newIdeaEndpoint } from '../config/endpoints';
-
-	import { HACKATHON_VIEW_NAME } from '../config/routes.js';
+	import { addIdeaMessageEndpoint } from '../config/endpoints';
 
 	import store from '../data/store.js';
 
     export default {
         name: "IdeaMessage",
-        props: ['ideaMessages'],
+        props: [
+        	'idea',
+        ],
         data() {
         	return {
-                messageContent: "",
+                messageContent: null,
                 errorMessage: null
             }
         },
 	    methods: {
-            onSubmit(event) {
+            onSubmit() {
                 this.errorMessage = null;
 
                 if (!this.messageContent) {
                     this.errorMessage = 'Message is required';
                     return;
                 }
+
+	            HttpService.post(addIdeaMessageEndpoint(), {
+	            	idea_id: this.idea.id,
+		            content: this.messageContent,
+	            }).then(response => {
+	            	console.log(response);
+                    const id = response.data.id;
+                    const date = response.data.created_at;
+
+		            store.idea.messages.push({
+                        id,
+                        created_at: date,
+			            content: this.messageContent,
+			            user: {
+                        	name: store.user.name
+                        }
+		            });
+
+		            this.messageContent = null;
+	            });
             }
         }
     }

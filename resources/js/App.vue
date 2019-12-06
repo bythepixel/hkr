@@ -6,8 +6,8 @@
                 :hackathon="hackathon"
                 :idea="idea"
                 :breadcrumbs="breadcrumbs"
-                @ideaTitleChanged="handleIdeaTitleEvent"
-                :ideaTitle="ideaTitle"
+                @ideaRetrieved="handleIdeaEvent"
+                :ideaTitle="idea ? idea.title : ''"
             />
         </div>
         <router-view
@@ -17,8 +17,7 @@
             :ideas="ideas"
             :user="user"
             :loginErrorMessage="loginErrorMessage"
-            @ideaTitleChanged="handleIdeaTitleEvent"
-            :ideaTitle="ideaTitle"
+            @ideaRetrieved="handleIdeaEvent"
         />
     </div>
 </template>
@@ -44,7 +43,6 @@
 	    data() {
 		    return {
 		    	loaded: false,
-                ideaTitle: null,
 		    }
         },
         components: {
@@ -54,8 +52,9 @@
             this.loaded = true;
         },
         methods: {
-	        handleIdeaTitleEvent(ideaTitle) {
-	            this.ideaTitle = ideaTitle;
+	        handleIdeaEvent(idea) {
+	        	console.log(idea)
+	            store.idea = idea;
             },
             logout() {
                 HttpService.get(logoutEndpoint()).then(response => {
