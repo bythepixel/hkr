@@ -1,0 +1,34 @@
+.idea {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 6rem;
+
+    &__content {
+        width: 100%;
+        max-width: 658px;
+        margin-left: 15px;
+
+        @include respond-above(md) {
+            margin-left: 20px;
+        }
+    }
+
+    &__title {
+        font-weight: $font-weight-bold;
+    }
+
+    &__author {
+        margin: 10px 0;
+        font-size: 1.2rem;
+        line-height: 1.6rem;
+    }
+
+    &__description {
+        font-size: 1.6rem;
+        line-height: 1.8rem;
+
+        @include respond-above(md) {
+            line-height: 2.4rem;
+        }
+    }
+}

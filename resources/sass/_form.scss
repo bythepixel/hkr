@@ -1,0 +1,49 @@
+input,
+select,
+textarea {
+    border-radius: 99px;
+    border: 2px solid $color-primary;
+    font-size: 2rem;
+    padding: 1.5rem 3rem;
+    font-family: $font-family-primary;
+    box-sizing: border-box;
+}
+
+textarea {
+    border-radius: 30px;
+    resize: none;
+    width: 100%;
+    max-width: 660px;
+}
+
+.field-wrapper {
+    position: relative;
+
+    label  {
+        position: absolute;
+        pointer-events: none;
+        left: 3rem;
+        top: 1.5rem;
+        line-height: 2.8rem;
+        font-size: 2rem;
+        transition: 0.2s ease all;
+    }
+
+    input,
+    textarea {
+        padding: 2rem 3rem 1rem;
+        min-width: 250px;
+        margin-bottom: 1.4rem;
+
+        &:focus ~ label,
+        &.has-value ~ label {
+            top: 0.7rem;
+            font-size: 1rem;
+            line-height: 1.4rem;
+        }
+    }
+}
+
+.error {
+    color: red;
+}

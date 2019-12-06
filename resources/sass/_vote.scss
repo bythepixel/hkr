@@ -1,0 +1,49 @@
+.vote {
+    position: relative;
+    cursor: pointer;
+    border-radius: 10px;
+
+    &__icon {
+        width: 40px;
+        height: auto;
+
+        @include respond-above(md) {
+            width: 51px;
+        }
+
+        .a,
+        .b {
+            fill: none;
+        }
+
+        .b {
+            stroke: #000;
+            stroke-width: 2px;
+        }
+    }
+
+    &__count {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 1.3rem;
+    }
+
+    &.voted {
+
+        .vote__icon {
+
+            .b {
+                fill: $color-primary;
+            }
+        }
+
+        .vote__count {
+            color: $color-secondary;
+        }
+    }
+
+    &:hover  {
+        background-color: lighten($color-primary, 95%);
+    }
+}

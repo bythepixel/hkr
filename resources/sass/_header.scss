@@ -1,0 +1,15 @@
+.header {
+
+    @include respond-above(md) {
+        display: flex;
+        align-items: center;
+    }
+
+    button {
+        margin-top: 1.6rem;
+
+        @include respond-above(md) {
+            margin-top: 0;
+        }
+    }
+}

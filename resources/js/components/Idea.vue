@@ -1,11 +1,11 @@
 <template>
     <div v-if="!!idea">
-        <div class="idea-details container">
+        <div class="idea">
             <IdeaVote :idea="idea" :hackathon="hackathon" />
-            <div class="idea-details__content">
-                <h2 class="idea-details__title">{{ idea.title }}</h2>
-                <p class="idea-details__author">{{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
-                <p class="idea-details__description">{{ idea.description }}</p>
+            <div class="idea__content">
+                <h2 class="idea__title">{{ idea.title }}</h2>
+                <p class="idea__author">{{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
+                <p class="idea__description">{{ idea.description }}</p>
             </div>
         </div>
     </div>
@@ -17,11 +17,8 @@
     import IdeaVote from './IdeaVote.vue';
 
     import HttpService from 'axios';
-
     import SocketService from '../services/SocketService.js'
-
     import { getIdeaEndpoint, getHackathonEndpoint, addIdeaVoteEndpoint, deleteIdeaVoteEndpoint } from '../config/endpoints.js';
-
 
     export default {
 	    name: "Idea",
@@ -41,6 +38,7 @@
 			    this.idea = response.data;
 			    this.subscribe(response.data.id);
 		    });
+
 		    if(!store.hackathon) {
                 HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, "votes", "DESC")).then(response => {
                     store.hackathon = response.data;
@@ -48,7 +46,6 @@
             }
 	    },
 	    methods: {
-	    	// TODO: move these reusable functions into a component
             subscribe(id) {
                 this.channel = SocketService.subscribe(`idea.${id}`);
             },
@@ -72,7 +69,7 @@
             },
             hasUserVoted(votes) {
                 return !!votes.find(vote => { return vote.user_id === store.user.id });
-            },
+            }
         }
     }
 </script>

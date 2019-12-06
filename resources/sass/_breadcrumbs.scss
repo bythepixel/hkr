@@ -1,0 +1,24 @@
+.breadcrumbs {
+    @include respond-above(md) {
+        display: flex;
+    }
+    &__item {
+        display: block;
+        margin: 0 10px 0 0;
+        font-size: 2rem;
+        line-height: 2.8rem;
+
+        &::after {
+            content: " >";
+            margin-left: 10px;
+        }
+
+        &:last-of-type:after {
+            content: "";
+        }
+
+        &:last-of-type {
+            margin-right: 1.6rem;
+        }
+    }
+}

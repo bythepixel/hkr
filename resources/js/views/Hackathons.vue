@@ -1,15 +1,11 @@
 <template>
-    <div id="hackathons">
-        <div class="container">
-            <ul class="hackathons-list">
-                <li v-for="hackathon in hackathons" :key="hackathon.id">
-                    <h2>
-                        <router-link :to="{ name: hackathonRouteName, params: { hackathonId: hackathon.id } }">{{ hackathon.title }}</router-link>
-                    </h2>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <ul class="hackathons">
+        <li class="hackathons__item" v-for="hackathon in hackathons" :key="hackathon.id">
+            <p class="hackathons__summary">
+                <router-link :to="{ name: ideasRouteName, params: { hackathonId: hackathon.id } }">{{ hackathon.title }}</router-link>
+            </p>
+        </li>
+    </ul>
 </template>
 
 <script>
@@ -19,13 +15,10 @@ import store from '../data/store.js';
 
 import {
     NEW_HACKATHON_VIEW_NAME,
-    HACKATHON_VIEW_NAME
+    IDEAS_VIEW_NAME
 } from '../config/routes.js';
 
-import {
-    getHackathonsEndpoint,
-    getHackathonEndpoint,
-} from '../config/endpoints.js';
+import { getHackathonsEndpoint } from '../config/endpoints.js';
 
 export default {
     name: "HackathonsView",
@@ -33,7 +26,7 @@ export default {
     data() {
         return {
             newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
-            hackathonRouteName: HACKATHON_VIEW_NAME,
+            ideasRouteName: IDEAS_VIEW_NAME,
         }
     },
     created() {

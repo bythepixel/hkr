@@ -6,10 +6,11 @@
 
 <script>
     import Idea from '../components/Idea.vue';
+
     export default {
         name: "IdeaView",
         components: {
-            Idea,
-        },
+            Idea
+        }
     }
 </script>

@@ -1,12 +1,9 @@
-import HackathonsView from './views/HackathonsView.vue';
-import IdeaView from './views/IdeaView.vue';
-import NewIdeaView from './views/NewIdeaView.vue';
-import NewHackathonForm from './components/NewHackathonForm.vue';
-import Hackathon from './components/Hackathon.vue';
-
-import NotFoundView from './views/NotFoundView.vue';
-
-import LoginView from './views/LoginView.vue';
+import Hackathons from './views/Hackathons.vue';
+import Ideas from './views/Ideas.vue';
+import Idea from './views/Idea.vue';
+import NewIdea from './views/NewIdea.vue';
+import NewHackathon from './views/NewHackathon.vue';
+import LoginView from './views/Login.vue';
 
 import HttpService from 'axios';
 import LocalStorageService from './services/LocalStorageService.js';
@@ -15,12 +12,11 @@ import store from './data/store.js';
 
 import {
     HACKATHONS_VIEW_NAME,
-    HACKATHON_VIEW_NAME,
     NEW_HACKATHON_VIEW_NAME,
+    IDEAS_VIEW_NAME,
     IDEA_VIEW_NAME,
     NEW_IDEA_VIEW_NAME,
-    LOGIN_VIEW_NAME,
-    NOT_FOUND_VIEW_NAME
+    LOGIN_VIEW_NAME
 } from './config/routes.js';
 
 import {
@@ -64,7 +60,7 @@ export default [
     {
         path: '/',
         name: HACKATHONS_VIEW_NAME,
-        component: HackathonsView,
+        component: Hackathons,
         beforeEnter(to, from, next) {
             if (!checkAuth()) {
                 next('/login');
@@ -85,7 +81,7 @@ export default [
     {
         path: '/new',
         name: NEW_HACKATHON_VIEW_NAME,
-        component: NewHackathonForm,
+        component: NewHackathon,
         beforeEnter(to, from, next) {
             if (!checkAuth()) {
                 next('/login');
@@ -100,9 +96,9 @@ export default [
         }
     },
     {
-        path: '/hackathon/:hackathonId',
-        name: HACKATHON_VIEW_NAME,
-        component: Hackathon,
+        path: '/hackathon/:hackathonId/ideas',
+        name: IDEAS_VIEW_NAME,
+        component: Ideas,
         beforeEnter(to, from, next) {
             if (!checkAuth()) {
                 next('/login');
@@ -115,7 +111,7 @@ export default [
     {
         path: '/hackathon/:hackathonId/ideas/new',
         name: NEW_IDEA_VIEW_NAME,
-        component: NewIdeaView,
+        component: NewIdea,
         beforeEnter(to, from, next) {
             if (!checkAuth()) {
                 next('/login');
@@ -132,7 +128,7 @@ export default [
     {
         path: '/hackathon/:hackathonId/ideas/:ideaId',
         name: IDEA_VIEW_NAME,
-        component: IdeaView,
+        component: Idea,
         beforeEnter(to, from, next) {
             if (!checkAuth()) {
                 next('/login');
