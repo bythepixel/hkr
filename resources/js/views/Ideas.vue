@@ -1,12 +1,13 @@
 <template>
     <div v-if="!!hackathon" class="container">
+        <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
         <div class="sort">
-            <select name="sortOrder" v-on:change="order()" v-model.trim="sortOrder">
+            <select name="sortOrder" v-on:change="loadHackathon()" v-model.trim="sortOrder">
                 <option value="created_at">Created At</option>
                 <option value="title">Title</option>
                 <option value="votes">Votes</option>
             </select>
-            <select name="sortDirection" v-on:change="order()" v-model.trim="sortDirection">
+            <select name="sortDirection" v-on:change="loadHackathon()" v-model.trim="sortDirection">
                 <option value="DESC">DESC</option>
                 <option value="ASC">ASC</option>
             </select>
@@ -27,9 +28,6 @@
                     </h2>
                     <p class="idea__author">By {{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
                     <p class="idea__description">{{ idea.description }}</p>
-                </div>
-                <div class="delete">
-                    <button role="button" v-on:click="destroy(idea.id)">Delete</button>
                 </div>
             </li>
         </ul>
@@ -52,8 +50,7 @@
 
 	import { digestNewVotes } from '../data/digest.js';
 
-	import { getHackathonEndpoint, getIdeaVotesEndpoint } from '../config/endpoints.js';
-    import {deleteIdeaEndpoint, resetHackathonEndpoint} from "../config/endpoints";
+	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, resetHackathonEndpoint } from '../config/endpoints.js';
 
 	export default {
 		name: 'IdeasView',
@@ -72,22 +69,10 @@
 			}
 		},
 		created() {
-			store.showIdeaButton = true;
-            this.ideasLoading = false;
-			HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, "votes", "DESC")).then(response => {
-				store.hackathon = response.data;
-				this.subscribe(response.data.id);
-			});
-		},
-
-		destroyed() {
-			store.showIdeaButton = false;
+            this.channel = SocketService.subscribe(`hackathon.${this.$route.params.hackathonId}`);
+			this.loadHackathon();
 		},
 		methods: {
-			subscribe(id) {
-				this.channel = SocketService.subscribe(`hackathon.${id}`);
-				this.bindEvents();
-			},
 			bindEvents() {
 				this.channel.unbind();
 				this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
@@ -96,42 +81,41 @@
 				this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
 					HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
 				});
+                this.channel.bind('App\\Events\\IdeaMessagedAdded', (data) => {
+                    HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+                        store.hackathon = response.data;
+                    });
+                });
 			},
-			order() {
-                this.ideasLoading = true;
-				HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
+            loadHackathon() {
+			    this.ideasLoading = true;
+                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
                     this.ideasLoading = false;
-					store.hackathon = response.data;
-					this.bindEvents();
-				});
-			},
+                    store.hackathon = response.data;
+                    this.bindEvents();
+                });
+            },
             reset() {
-                this.ideasLoading = true;
                 if(confirm("Are you sure you want to delete all votes on this Hackathon?")) {
                     HttpService.get(resetHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
-                        store.hackathon = response.data;
-                        this.bindEvents();
-                        this.ideasLoading = false;
+                        this.loadHackathon();
+                    });
+                }
+            },
+            destroy(id) {
+                this.ideasLoading = true;
+                if (confirm("Are you sure you want to delete this idea, its votes and its comments?")) {
+                    HttpService.get(deleteIdeaEndpoint(id)).then(response => {
+                        HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
+                            store.hackathon = response.data;
+                            this.bindEvents();
+                            this.ideasLoading = false;
+                        });
                     });
                 } else {
                     this.ideasLoading = false;
                     return false;
                 }
-            },
-            destroy(id) {
-              this.ideasLoading = true;
-              if(confirm("Are you sure you want to delete this idea, its votes and its comments?")) {
-                  HttpService.get(deleteIdeaEndpoint(id)).then(response => {
-                      HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
-                          store.hackathon = response.data;
-                          this.bindEvents();
-                            this.ideasLoading = false;
-                      });
-                  });
-              } else {
-                  this.ideasLoading = false;
-                  return false;
-              }
             }
 		}
 	}

@@ -25,8 +25,7 @@ class IdeaMessageAdded implements ShouldBroadcast
         return [
             'idea_user_id' => $this->ideaMessage->user->id,
             'idea_id' => $this->ideaMessage->idea->id,
-            'idea_message_id' => $this->ideaMessage->id,
-            'idea_message_content' => $this->ideaMessage->content,
+            'idea_message_id' => $this->ideaMessage->id
         ];
     }
 }
