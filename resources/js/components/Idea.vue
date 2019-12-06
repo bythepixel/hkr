@@ -6,7 +6,7 @@
                 <h2 class="idea__title">{{ idea.title }}</h2>
                 <p class="idea__author">{{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
                 <p class="idea__description">
-                    <VueShowdown :markdown="idea.description"/>
+                    <VueShowdown :markdown="idea.long_description"/>
                 </p>
             </div>
         </div>

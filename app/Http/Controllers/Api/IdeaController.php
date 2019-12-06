@@ -29,6 +29,7 @@ class IdeaController extends Controller
         $idea->user_id = Auth::user()->id;
         $idea->title = $request->input('title');
         $idea->description = $request->input('description');
+        $idea->long_description = $request->input('long_description');
         $idea->save();
 
         return response()->json($idea);

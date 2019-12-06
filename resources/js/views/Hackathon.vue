@@ -30,7 +30,7 @@
                     </h2>
                     <p class="idea__author">By {{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
                     <p class="idea__description">
-                        <VueShowdown :markdown="idea.description"/>
+                        {{ idea.description }}
                     </p>
                     <div class="delete">
                         <button role="button" v-on:click="destroy(idea.id)">Delete</button>
@@ -45,7 +45,6 @@
 	import store from '../data/store.js';
 
 	import SocketService from '../services/SocketService.js'
-    import ShowdownService from '../services/ShowdownService.js'
 
 	import {
 		NEW_IDEA_VIEW_NAME,
