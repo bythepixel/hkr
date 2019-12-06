@@ -1,0 +1,25 @@
+.hackathon {
+    &__tools {
+        margin-bottom: 7rem;
+    }
+
+    @include respond-above(md) {
+        &__tools {
+            display: flex;
+            align-items: center;
+
+            .button {
+                margin-right: 1rem;
+            }
+
+            .sort {
+                margin-right: 3rem;
+            }
+        }
+    }
+
+    &__loading {
+        padding: 5rem 0;
+        font-size: 2rem;
+    }
+}

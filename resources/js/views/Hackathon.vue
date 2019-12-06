@@ -1,21 +1,23 @@
 <template>
-    <div v-if="!!hackathon" class="container">
-        <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
-        <div class="sort">
-            <select name="sortOrder" v-on:change="loadHackathon()" v-model.trim="sortOrder">
-                <option value="created_at">Created At</option>
-                <option value="title">Title</option>
-                <option value="votes">Votes</option>
-            </select>
-            <select name="sortDirection" v-on:change="loadHackathon()" v-model.trim="sortDirection">
-                <option value="DESC">DESC</option>
-                <option value="ASC">ASC</option>
-            </select>
+    <div v-if="!!hackathon" class="hackathon container">
+        <div class="hackathon__tools">
+            <div class="sort">
+                <select name="sortOrder" v-on:change="loadHackathon()" v-model.trim="sortOrder">
+                    <option value="created_at">Created At</option>
+                    <option value="title">Title</option>
+                    <option value="votes">Votes</option>
+                </select>
+                <select name="sortDirection" v-on:change="loadHackathon()" v-model.trim="sortDirection">
+                    <option value="DESC">DESC</option>
+                    <option value="ASC">ASC</option>
+                </select>
+            </div>
+            <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
+            <div class="reset">
+                <button role="button" v-on:click="reset()">Reset Votes</button>
+            </div>
         </div>
-        <div class="reset">
-            <button role="button" v-on:click="reset()">Reset Votes</button>
-        </div>
-        <div class="ideas-loading" v-if="ideasLoading">loading ideas, some good, some bad...</div>
+        <div class="hackathon__loading" v-if="ideasLoading">loading ideas, some good, some bad...</div>
         <ul v-if="!ideasLoading">
             <li class="idea"
                 v-if="hackathon.ideas && hackathon.ideas.length"

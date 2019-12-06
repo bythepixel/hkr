@@ -11,6 +11,7 @@ button,
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
     transition: all 0.1s;
     text-decoration: none;
+    line-height: 1;
 
     &:hover {
         transform: translateY(-6px);
