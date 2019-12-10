@@ -5,9 +5,10 @@
             <div class="idea__content">
                 <h2 class="idea__title">{{ idea.title }}</h2>
                 <p class="idea__author">{{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
-                <p v-if="idea.long_description" class="idea__description rendered-markdown">
+                <p class="idea__description">{{ idea.description }}</p>
+                <div v-if="idea.long_description" class="idea__long_description rendered-markdown">
                     <VueShowdown :markdown="idea.long_description"/>
-                </p>
+                </div>
             </div>
         </div>
     </div>
