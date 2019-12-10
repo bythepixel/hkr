@@ -17,7 +17,10 @@ class IdeaVoteDeleted implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('hackathon.' . $this->ideaVote->idea->hackathon->id);
+        return [
+            new Channel('hackathon.' . $this->ideaVote->idea->hackathon->id),
+            new Channel('idea.' . $this->ideaVote->idea->id)
+        ];
     }
 
     public function broadcastWith(): array

@@ -44,15 +44,13 @@
             bindEvents() {
                 this.channel.unbind();
                 this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
-                    HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
+	                this.loadIdea();
                 });
                 this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
-                    HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
+	                this.loadIdea();
                 });
-                this.channel.bind('App\\Events\\IdeaMessagedAdded', (data) => {
-                    HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
-                        store.hackathon = response.data;
-                    });
+                this.channel.bind('App\\Events\\IdeaMessageAdded', (data) => {
+                	this.loadIdea();
                 });
             },
             handleIdeaEvent(idea) {
@@ -88,6 +86,7 @@
                     this.loaded = true;
 	                this.handleIdeaEvent(this.idea);
                     this.subscribe(response.data.id);
+	                this.bindEvents();
                 });
             },
             loadHackathon() {

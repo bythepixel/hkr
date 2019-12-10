@@ -2,12 +2,12 @@
     <div v-if="!!hackathon" class="hackathon container">
         <div class="hackathon__tools">
             <div class="sort">
-                <select name="sortOrder" v-on:change="loadHackathon()" v-model.trim="sortOrder">
+                <select name="sortOrder" v-on:change="loadHackathon(true)" v-model.trim="sortOrder">
                     <option value="created_at">Created At</option>
                     <option value="title">Title</option>
                     <option value="votes">Votes</option>
                 </select>
-                <select name="sortDirection" v-on:change="loadHackathon()" v-model.trim="sortDirection">
+                <select name="sortDirection" v-on:change="loadHackathon(true)" v-model.trim="sortDirection">
                     <option value="DESC">DESC</option>
                     <option value="ASC">ASC</option>
                 </select>
@@ -78,6 +78,7 @@
 		created() {
             this.channel = SocketService.subscribe(`hackathon.${this.$route.params.hackathonId}`);
 			this.loadHackathon();
+            this.bindEvents();
 		},
 		methods: {
 			bindEvents() {
@@ -88,18 +89,17 @@
 				this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
 					HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
 				});
-                this.channel.bind('App\\Events\\IdeaMessagedAdded', (data) => {
+                this.channel.bind('App\\Events\\IdeaMessageAdded', (data) => {
                     HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
-                        store.hackathon = response.data;
+                        this.loadHackathon();
                     });
                 });
 			},
-            loadHackathon() {
-			    this.ideasLoading = true;
+            loadHackathon(showLoader) {
+			    this.ideasLoading = showLoader;
                 HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
                     this.ideasLoading = false;
                     store.hackathon = response.data;
-                    this.bindEvents();
                 });
             },
             reset() {

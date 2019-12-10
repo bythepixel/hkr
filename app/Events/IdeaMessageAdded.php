@@ -17,6 +17,9 @@ class IdeaMessageAdded implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('idea.' . $this->ideaMessage->idea->id);
+        return [
+            new Channel('idea.' . $this->ideaMessage->idea->id),
+            new Channel('hackathon.' . $this->ideaMessage->idea->hackathon->id)
+        ];
     }
 }
