@@ -38,7 +38,6 @@
 	    created() {
             this.loadIdea();
             this.loadHackathon();
-            this.channel = SocketService.subscribe(`idea.${this.$route.params.ideaId}`);
 	    },
 	    methods: {
             bindEvents() {

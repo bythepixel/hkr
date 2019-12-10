@@ -53,7 +53,6 @@
         },
         methods: {
 	        handleIdeaEvent(idea) {
-	        	console.log(idea)
 	            store.idea = idea;
             },
             logout() {

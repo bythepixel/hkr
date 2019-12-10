@@ -33,7 +33,7 @@
                         {{ idea.description }}
                     </p>
                     <div class="delete">
-                        <button role="button" v-on:click="destroy(idea.id)">Delete</button>
+                        <a role="button" v-on:click="destroy(idea.id)">Delete</a>
                     </div>
                 </div>
             </li>
@@ -90,9 +90,7 @@
 					HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
 				});
                 this.channel.bind('App\\Events\\IdeaMessageAdded', (data) => {
-                    HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
-                        this.loadHackathon();
-                    });
+                    this.loadHackathon();
                 });
 			},
             loadHackathon(showLoader) {

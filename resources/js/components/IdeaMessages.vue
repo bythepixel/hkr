@@ -65,7 +65,6 @@
 	            	idea_id: this.idea.id,
 		            content: this.messageContent,
 	            }).then(response => {
-	            	console.log(response);
                     const id = response.data.id;
                     const date = response.data.created_at;
 
