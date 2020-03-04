@@ -1,8 +1,13 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Events\HackathonDeleted;
 use App\Http\Controllers\Controller;
+use App\Models\Feature;
+use App\Models\FeatureMessage;
+use App\Models\FeatureVote;
 use App\Models\Hackathon;
 use App\Models\Idea;
+use App\Models\IdeaMessage;
 use App\Models\IdeaVote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,18 +26,19 @@ class HackathonController extends Controller
      * @param $id
      * @param string $order
      * @param string $direction
-     * @param bool $showArchives
+     * @param string $showArchives
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id, $order="created_at", $direction="DESC", $showArchives=false)
+    public function show($id, $order="created_at", $direction="DESC", $showArchives="false")
     {
+        $showArchives = $showArchives === "true" ? [true, false] : [false];
         if($order != "votes") {
             $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($order, $direction, $showArchives) {
-                $query->where('archived', $showArchives)->orderBy($order, $direction);
+                $query->whereIn('archived', $showArchives)->orderBy($order, $direction);
             }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
         } else {
             $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($showArchives) {
-                $query->where('archived', $showArchives);
+                $query->whereIn('archived', $showArchives);
             }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
             $hackathon['ideas']->loadCount('votes');
             $sorted = false;
@@ -87,5 +93,28 @@ class HackathonController extends Controller
         IdeaVote::whereIn('idea_id', $ideas->pluck('id'))->delete();
 
         return $this->show($hackathonId);
+    }
+
+    /**
+     * @param $hackathonId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete($hackathonId) {
+        $hackathon = Hackathon::findOrFail($hackathonId);
+        $ideas = Idea::where('hackathon_id', $hackathonId)->get();
+        IdeaVote::whereIn('idea_id', $ideas->pluck('id'))->delete();
+        IdeaMessage::whereIn('idea_id', $ideas->pluck('id'))->delete();
+        $features = Feature::whereIn('idea_id', $ideas->pluck('id'))->get();
+        foreach($features as $feature) {
+            FeatureVote::where('feature_id', $feature->id)->delete();
+            FeatureMessage::where('feature_id', $feature->id)->delete();
+        }
+        $features->each->delete();
+        $ideas->each->delete();
+        $hackathon->delete();
+
+        broadcast(new HackathonDeleted($hackathon));
+
+        return response()->json(['success' => 'success'], 200);
     }
 }

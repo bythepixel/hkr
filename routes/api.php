@@ -18,8 +18,9 @@ Route::get('logout', 'Api\LoginController@logout')->middleware('auth:api');
 
 Route::get('hackathon', 'Api\HackathonController@index')->middleware('auth:api');
 Route::post('hackathon', 'Api\HackathonController@create')->middleware('auth:api');
-Route::get('hackathon/{id}/{order}/{direction}', 'Api\HackathonController@show')->middleware('auth:api');
+Route::get('hackathon/{id}/{order}/{direction}/{showArchives}', 'Api\HackathonController@show')->middleware('auth:api');
 Route::get('hackathon/reset/{id}', 'Api\HackathonController@reset')->middleware('auth:api');
+Route::get('hackathon/delete/{id}', 'Api\HackathonController@delete')->middleware('auth:api');
 
 Route::post('idea', 'Api\IdeaController@create')->middleware('auth:api');
 Route::get('idea/{id}/votes', 'Api\IdeaController@getVotes')->middleware('auth:api');

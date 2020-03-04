@@ -3,7 +3,6 @@
 use App\Events\IdeaArchived;
 use App\Events\IdeaDeleted;
 use App\Events\IdeaRestored;
-use App\Events\IdeaUnarchived;
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
 use App\Models\FeatureMessage;
@@ -88,7 +87,7 @@ class IdeaController extends Controller
      */
     public function archive($id)
     {
-        $idea = Idea::where('id', $id)->get();
+        $idea = Idea::where('id', $id)->first();
         $idea->archived = true;
         $idea->save();
 
@@ -103,7 +102,7 @@ class IdeaController extends Controller
      */
     public function restore($id)
     {
-        $idea = Idea::where('id', $id)->get();
+        $idea = Idea::where('id', $id)->first();
         $idea->archived = false;
         $idea->save();
 

@@ -11,12 +11,15 @@
                     <option value="DESC">DESC</option>
                     <option value="ASC">ASC</option>
                 </select>
-                <input type="checkbox" name="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
+                <input type="checkbox" name="showArchives" id="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
                 <label dor="showArchives">Show Archives</label>
             </div>
             <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
             <div class="reset">
-                <button role="button" v-on:click="reset()">Reset Votes</button>
+                <button role="button" v-on:click="resetHackathon()">Reset Votes</button>
+            </div>
+            <div class="delete-hackathon">
+                <button role="button" v-on:click="deleteHackathon()">Delete Hackathon</button>
             </div>
         </div>
         <div class="hackathon__loading" v-if="ideasLoading">loading ideas, some good, some bad...</div>
@@ -28,7 +31,7 @@
                 <IdeaVote :idea="idea" :hackathon="hackathon" />
                 <div class="idea__content">
                     <h2 class="idea__title">
-                        <router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }">{{ idea.title }}</router-link>
+                        <router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }"><span v-if="idea.archived === 1">ARCHIVED: </span>{{ idea.title }}</router-link>
                     </h2>
                     <p class="idea__author">By {{ idea.user.name }} on {{ idea.created_at }}, {{ idea.messages.length }} Comments</p>
                     <p class="idea__description">
@@ -65,7 +68,7 @@
 
 	import { digestNewVotes } from '../data/digest.js';
 
-	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, resetHackathonEndpoint, archiveIdeaEndpoint, restoreIdeaEndpoint } from '../config/endpoints.js';
+	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, resetHackathonEndpoint, deleteHackathonEndpoint, archiveIdeaEndpoint, restoreIdeaEndpoint } from '../config/endpoints.js';
 
 	export default {
 		name: 'IdeasView',
@@ -115,10 +118,17 @@
                     store.hackathon = response.data;
                 });
             },
-            reset() {
+            resetHackathon() {
                 if(confirm("Are you sure you want to delete all votes on this Hackathon?")) {
                     HttpService.get(resetHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
                         this.loadHackathon();
+                    });
+                }
+            },
+            deleteHackathon() {
+                if(confirm("Are you sure you want to delete this Hackathon?")) {
+                    HttpService.get(deleteHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+                        this.$router.push('/');
                     });
                 }
             },
@@ -133,14 +143,10 @@
                 }
             },
             archive(id) {
-              HttpService.get(archiveIdeaEndpoint(id)).then(response => {
-                this.loadHackathon();
-              });
+              HttpService.get(archiveIdeaEndpoint(id));
             },
             restore(id) {
-              HttpService.get(restoreIdeaEndpoint(id)).then(response => {
-                this.loadHackathon();
-              });
+              HttpService.get(restoreIdeaEndpoint(id));
             }
 		}
 	}
