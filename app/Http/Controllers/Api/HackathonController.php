@@ -19,18 +19,21 @@ class HackathonController extends Controller
 
     /**
      * @param $id
-     * @param $order
-     * @param $direction
+     * @param string $order
+     * @param string $direction
+     * @param bool $showArchives
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id, $order="created_at", $direction="DESC")
+    public function show($id, $order="created_at", $direction="DESC", $showArchives=false)
     {
         if($order != "votes") {
-            $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($order, $direction) {
-                $query->orderBy($order, $direction);
+            $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($order, $direction, $showArchives) {
+                $query->where('archived', $showArchives)->orderBy($order, $direction);
             }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
         } else {
-            $hackathon = Hackathon::with(['user', 'ideas', 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
+            $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($showArchives) {
+                $query->where('archived', $showArchives);
+            }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
             $hackathon['ideas']->loadCount('votes');
             $sorted = false;
             while(!$sorted) {

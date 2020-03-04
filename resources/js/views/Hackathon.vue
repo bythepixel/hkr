@@ -11,6 +11,8 @@
                     <option value="DESC">DESC</option>
                     <option value="ASC">ASC</option>
                 </select>
+                <input type="checkbox" name="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
+                <label dor="showArchives">Show Archives</label>
             </div>
             <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
             <div class="reset">
@@ -34,12 +36,12 @@
                     </p>
                     <div class="delete">
                         <a role="button" v-on:click="destroy(idea.id)">Delete</a>
-                    </div>
-                    <div class="archive" v-if="idea.archived === 0">
-                        <a role="button" v-on:click="archive(idea.id)">Archive</a>
-                    </div>
-                    <div class="restore" v-if="idea.archived === 1">
-                        <a role="button" v-on:click="restore(idea.id)">Restore</a>
+                        <span class="archive" v-if="idea.archived === 0">
+                            <a role="button" v-on:click="archive(idea.id)">Archive</a>
+                        </span>
+                        <span class="restore" v-if="idea.archived === 1">
+                            <a role="button" v-on:click="restore(idea.id)">Restore</a>
+                        </span>
                     </div>
                 </div>
             </li>
@@ -63,7 +65,7 @@
 
 	import { digestNewVotes } from '../data/digest.js';
 
-	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, resetHackathonEndpoint } from '../config/endpoints.js';
+	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, resetHackathonEndpoint, archiveIdeaEndpoint, restoreIdeaEndpoint } from '../config/endpoints.js';
 
 	export default {
 		name: 'IdeasView',
@@ -78,6 +80,7 @@
 				newIdeaRouteName: NEW_IDEA_VIEW_NAME,
 				sortOrder: "created_at",
 				sortDirection: "DESC",
+                showArchives: false,
                 ideasLoading: true
 			}
 		},
@@ -107,7 +110,7 @@
 			},
             loadHackathon(showLoader) {
 			    this.ideasLoading = showLoader;
-                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection)).then(response => {
+                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection, this.showArchives)).then(response => {
                     this.ideasLoading = false;
                     store.hackathon = response.data;
                 });
@@ -124,11 +127,21 @@
                     store.hackathon.ideas = store.hackathon.ideas.filter((idea) => {
                         return idea.id !== id;
                     });
-                    HttpService.get(deleteIdeaEndpoint(id));
+                    HttpService.get(deleteIdeaEndpoint(id)).then(response => {
+                      this.loadHackathon();
+                    });;
                 }
             },
-            archive(id) {},
-            restore(id) {}
+            archive(id) {
+              HttpService.get(archiveIdeaEndpoint(id)).then(response => {
+                this.loadHackathon();
+              });
+            },
+            restore(id) {
+              HttpService.get(restoreIdeaEndpoint(id)).then(response => {
+                this.loadHackathon();
+              });
+            }
 		}
 	}
 </script>
