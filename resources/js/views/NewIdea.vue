@@ -11,7 +11,7 @@
                 <label for="description">Description</label>
             </div>
             <div class="field-wrapper">
-                <textarea rows="4" cols="50" v-model.trim="long_description" id="long_description" required="" :class="{'has-value': long_description}"></textarea>
+                <textarea rows="4" cols="50" v-model.trim="long_description" id="long_description" :class="{'has-value': long_description}"></textarea>
                 <label for="long_description">Long Description</label>
             </div>
             <button role="button">Add</button>
