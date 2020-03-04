@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Events\IdeaArchived;
 use App\Events\IdeaDeleted;
+use App\Events\IdeaUnarchived;
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
 use App\Models\FeatureMessage;
@@ -75,6 +77,36 @@ class IdeaController extends Controller
         Idea::where('id', $id)->delete();
 
         broadcast(new IdeaDeleted($idea));
+
+        return response()->json(['success' => 'success'], 200);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function archive($id)
+    {
+        $idea = Idea::where('id', $id)->get();
+        $idea->archived = true;
+        $idea->save();
+
+        broadcast(new IdeaArchived($idea));
+
+        return response()->json(['success' => 'success'], 200);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unarchive($id)
+    {
+        $idea = Idea::where('id', $id)->get();
+        $idea->archived = false;
+        $idea->save();
+
+        broadcast(new IdeaUnarchived($idea));
 
         return response()->json(['success' => 'success'], 200);
     }
