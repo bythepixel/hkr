@@ -28,7 +28,7 @@
                     <h2 class="idea__title">
                         <router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }">{{ idea.title }}</router-link>
                     </h2>
-                    <p class="idea__author">By {{ idea.user.name }}, {{ idea.messages.length }} Comments</p>
+                    <p class="idea__author">By {{ idea.user.name }} on {{ idea.created_at }}, {{ idea.messages.length }} Comments</p>
                     <p class="idea__description">
                         {{ idea.description }}
                     </p>
