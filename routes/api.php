@@ -25,6 +25,8 @@ Route::post('idea', 'Api\IdeaController@create')->middleware('auth:api');
 Route::get('idea/{id}/votes', 'Api\IdeaController@getVotes')->middleware('auth:api');
 Route::get('idea/{id}', 'Api\IdeaController@show')->middleware('auth:api');
 Route::get('idea/{id}/delete', 'Api\IdeaController@destroy')->middleware('auth:api');
+Route::get('idea/{id}/archive', 'Api\IdeaController@archive')->middleware('auth:api');
+Route::get('idea/{id}/restore', 'Api\IdeaController@restore')->middleware('auth:api');
 
 Route::post('ideaVote', 'Api\IdeaVoteController@create')->middleware('auth:api');
 Route::delete('ideaVote/{id}', 'Api\IdeaVoteController@delete')->middleware('auth:api');

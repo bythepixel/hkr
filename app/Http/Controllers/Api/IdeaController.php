@@ -2,6 +2,7 @@
 
 use App\Events\IdeaArchived;
 use App\Events\IdeaDeleted;
+use App\Events\IdeaRestored;
 use App\Events\IdeaUnarchived;
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
@@ -100,13 +101,13 @@ class IdeaController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function unarchive($id)
+    public function restore($id)
     {
         $idea = Idea::where('id', $id)->get();
         $idea->archived = false;
         $idea->save();
 
-        broadcast(new IdeaUnarchived($idea));
+        broadcast(new IdeaRestored($idea));
 
         return response()->json(['success' => 'success'], 200);
     }

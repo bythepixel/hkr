@@ -6,7 +6,7 @@ use App\Models\Idea;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class IdeaUnarchived implements ShouldBroadcast
+class IdeaRestored implements ShouldBroadcast
 {
     private $idea;
 

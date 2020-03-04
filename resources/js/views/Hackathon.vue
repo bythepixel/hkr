@@ -35,6 +35,12 @@
                     <div class="delete">
                         <a role="button" v-on:click="destroy(idea.id)">Delete</a>
                     </div>
+                    <div class="archive" v-if="idea.archived === 0">
+                        <a role="button" v-on:click="archive(idea.id)">Archive</a>
+                    </div>
+                    <div class="restore" v-if="idea.archived === 1">
+                        <a role="button" v-on:click="restore(idea.id)">Restore</a>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -92,6 +98,12 @@
                 this.channel.bind('App\\Events\\IdeaMessageAdded', (data) => {
                     this.loadHackathon();
                 });
+                this.channel.bind('App\\Events\\IdeaArchived', (data) => {
+                    this.loadHackathon();
+                });
+                this.channel.bind('App\\Events\\IdeaRestored', (data) => {
+                    this.loadHackathon();
+                });
 			},
             loadHackathon(showLoader) {
 			    this.ideasLoading = showLoader;
@@ -114,7 +126,9 @@
                     });
                     HttpService.get(deleteIdeaEndpoint(id));
                 }
-            }
+            },
+            archive(id) {},
+            restore(id) {}
 		}
 	}
 </script>
