@@ -8,9 +8,22 @@
     text-decoration: underline;
     border: 1px solid transparent;
     width: fit-content;
+    cursor: pointer;
 
     &:hover,
     &:focus {
         background-color: darken($color-primary, 10%);
+    }
+
+    &--reverse {
+        color: $color-primary;
+        background-color: transparent;
+        padding: 0;
+
+        &:hover,
+        &:focus {
+            color: darken($color-primary, 10%);
+            background-color: transparent;
+        }
     }
 }

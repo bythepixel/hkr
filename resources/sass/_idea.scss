@@ -19,6 +19,10 @@
         @include respond-above(md) {
             margin-left: 2rem;
         }
+
+        .link:not(:last-of-type) {
+            margin-right: 1.5rem;
+        }
     }
 
     &__details {
