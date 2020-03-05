@@ -6,5 +6,7 @@ export const
     IDEA_VIEW_NAME = 'idea',
     NEW_IDEA_VIEW_NAME = 'new-ideas',
 
+    USER_VIEW_NAME = 'user',
+
     LOGIN_VIEW_NAME = 'login',
     NOT_FOUND_VIEW_NAME = 'not-found';

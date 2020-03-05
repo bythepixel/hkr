@@ -17,7 +17,7 @@
                 </ul>
                 <div class="header__user-logout" v-if="user">
                     <p>
-                        <span class="header__user-name">User: {{ user.name }} </span><a class="link" @click="handleUserLogout">Logout</a>
+                        <span class="header__user-name">User: <a href="/user">{{ user.name }}</a> </span><a class="link" @click="handleUserLogout">Logout</a>
                     </p>
                 </div>
             </div>

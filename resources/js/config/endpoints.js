@@ -17,5 +17,8 @@ export const getHackathonsEndpoint = () => `/api/hackathon`,
     getIdeaVotesEndpoint= (id) => `/api/idea/${id}/votes`,
     getIdeaEndpoint = (id) => `/api/idea/${id}`,
 
+    getUserEndpoint = () => `/api/user`,
+    copyIdeaEndpoint = () => `/api/user/copy-idea`,
+
     loginEndpoint = () => `/api/login`,
     logoutEndpoint = () => `/api/logout`;

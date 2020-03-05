@@ -4,6 +4,7 @@ import Idea from './views/Idea.vue';
 import NewIdea from './views/NewIdea.vue';
 import NewHackathon from './views/NewHackathon.vue';
 import LoginView from './views/Login.vue';
+import UserView from './views/User.vue';
 
 import HttpService from 'axios';
 import LocalStorageService from './services/LocalStorageService.js';
@@ -16,7 +17,8 @@ import {
     HACKATHON_VIEW_NAME,
     IDEA_VIEW_NAME,
     NEW_IDEA_VIEW_NAME,
-    LOGIN_VIEW_NAME
+    LOGIN_VIEW_NAME,
+    USER_VIEW_NAME
 } from './config/routes.js';
 
 import {
@@ -89,6 +91,19 @@ export default [
 
             if (!store.hackathons) {
                 getHackathons();
+            }
+
+            attachInterceptor(next);
+            next();
+        }
+    },
+    {
+        path: '/user',
+        name: USER_VIEW_NAME,
+        component: UserView,
+        beforeEnter(to, from, next) {
+            if (!checkAuth()) {
+              next('/login');
             }
 
             attachInterceptor(next);
