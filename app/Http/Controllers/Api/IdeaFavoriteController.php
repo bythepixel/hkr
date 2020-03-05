@@ -1,8 +1,10 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Events\IdeaFavoriteAdded;
 use App\Events\IdeaVoteAdded;
 use App\Events\IdeaVoteDeleted;
 use App\Http\Controllers\Controller;
+use App\Models\Hackathon;
 use App\Models\Idea;
 use App\Models\IdeaFavorite;
 use App\Models\IdeaVote;

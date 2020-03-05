@@ -56,14 +56,20 @@
                 return !!votes.find(vote => { return vote.user_id === store.user.id });
             },
             handleFavorite(idea) {
+                store.hackathon.ideas.forEach(function(idea, ideaIndex){
+                  idea.favorites.forEach(function(favorite, favoriteIndex) {
+                    if(favorite.user_id === store.user.id) {
+                      store.hackathon.ideas[ideaIndex].favorites.splice(favoriteIndex, 1);
+                    }
+                  });
+                });
                 let storeIdea = store.hackathon.ideas.find((innerIdea) => { return innerIdea.id === idea.id });
                 let favorite = {
                   idea_id: storeIdea.id,
-                  user_id: store.user.id,
-                  hackathon_id: store.hackathon.id
+                  user_id: store.user.id
                 };
                 storeIdea.favorites.push(favorite);
-                HttpService.post(addIdeaFavoriteEndpoint(), { idea_id: storeIdea.id });
+                HttpService.post(addIdeaFavoriteEndpoint(), { idea_id: storeIdea.id, hackathon_id: store.hackathon.id });
             },
             hasUserFavorited(favorites) {
                 return !!favorites.find(favorite => { return favorite.user_id === store.user.id });
