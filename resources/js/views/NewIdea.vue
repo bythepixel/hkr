@@ -22,7 +22,7 @@
 <script>
 	import HttpService from 'axios';
 
-	import { newIdeaEndpoint } from '../config/endpoints';
+	import { newIdeaEndpoint, getHackathonEndpoint } from '../config/endpoints';
 
 	import { HACKATHON_VIEW_NAME } from '../config/routes.js';
 
@@ -37,18 +37,21 @@
 				title: null,
 				description: null,
                 long_description: null,
+                hackathon: null,
 			}
 		},
 		created() {
-			store.breadcrumbs.text = 'Hackathon Idea';
-			store.breadcrumbs.linkToIndex = false;
 			store.idea = null;
-		},
-		destroyed() {
-			store.breadcrumbs.text = 'Hackathonizer';
-			store.breadcrumbs.linkToIndex = true;
+            this.loadHackathon();
 		},
 		methods: {
+            loadHackathon() {
+                if (!store.hackathon) {
+                        HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, "votes", "DESC")).then(response => {
+                        store.hackathon = response.data;
+                    });
+                }
+            },
 			onSubmit(event) {
 				this.errorMessage = null;
 

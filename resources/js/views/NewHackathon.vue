@@ -30,13 +30,7 @@
 			}
 		},
 		created() {
-			store.breadcrumbs.text = 'Create a Hackathon';
-			store.breadcrumbs.linkToIndex = false;
 			store.idea = null;
-		},
-		destroyed() {
-			store.breadcrumbs.text = 'Hackathonizer';
-			store.breadcrumbs.linkToIndex = true;
 		},
 		methods: {
 			onSubmit() {
