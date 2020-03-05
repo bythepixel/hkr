@@ -99,6 +99,30 @@ class HackathonController extends Controller
      * @param $hackathonId
      * @return \Illuminate\Http\JsonResponse
      */
+    public function lock($hackathonId) {
+        $hackathon = Hackathon::findOrFail($hackathonId);
+        $hackathon->locked = true;
+        $hackathon->save();
+
+        return $this->show($hackathonId);
+    }
+
+    /**
+     * @param $hackathonId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unlock($hackathonId) {
+        $hackathon = Hackathon::findOrFail($hackathonId);
+        $hackathon->locked = false;
+        $hackathon->save();
+
+        return $this->show($hackathonId);
+    }
+
+    /**
+     * @param $hackathonId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($hackathonId) {
         $hackathon = Hackathon::findOrFail($hackathonId);
         $ideas = Idea::where('hackathon_id', $hackathonId)->get();

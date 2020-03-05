@@ -1,5 +1,6 @@
 <template>
     <div v-if="!!hackathon" class="hackathon container">
+        <h1>{{ hackathon.title }}{{ hackathon.locked ? " - LOCKED" : "" }}</h1>
         <div class="hackathon__loading" v-if="ideasLoading">loading ideas, some good, some bad...</div>
         <ul v-if="!ideasLoading">
             <li class="idea"
@@ -33,6 +34,8 @@
                             New Idea ""
                         </router-link>
                         <button role="button" @click="reset()" class="button">Reset Votes</button>
+                        <button role="button" v-if="hackathon.locked === 0" v-on:click="lockHackathon()" class="button">Lock Hackathon</button>
+                        <button role="button" v-if="hackathon.locked === 1" v-on:click="unlockHackathon()" class="button">Unlock Hackathon</button>
                         <button role="button" v-on:click="deleteHackathon()" class="button">Delete Hackathon</button>
                         <input type="checkbox" name="showArchives" id="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
                         <label dor="showArchives">Show Archives</label>
@@ -72,7 +75,7 @@
 
 	import { digestNewVotes } from '../data/digest.js';
 
-	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, resetHackathonEndpoint, deleteHackathonEndpoint, archiveIdeaEndpoint, restoreIdeaEndpoint } from '../config/endpoints.js';
+	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, lockHackathonEndpoint, unlockHackathonEndpoint, resetHackathonEndpoint, deleteHackathonEndpoint, archiveIdeaEndpoint, restoreIdeaEndpoint } from '../config/endpoints.js';
 
 	export default {
 		name: 'IdeasView',
@@ -136,6 +139,16 @@
                         this.$router.push('/');
                     });
                 }
+            },
+            lockHackathon() {
+                HttpService.get(lockHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+                  store.hackathon.locked = 1;
+                });;
+            },
+            unlockHackathon() {
+                HttpService.get(unlockHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+                  store.hackathon.locked = 0;
+                });;
             },
             destroy(id) {
                 if (confirm("Are you sure you want to delete this idea, its votes and its comments?")) {
