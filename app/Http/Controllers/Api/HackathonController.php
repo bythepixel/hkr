@@ -35,11 +35,11 @@ class HackathonController extends Controller
         if($order != "votes") {
             $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($order, $direction, $showArchives) {
                 $query->whereIn('archived', $showArchives)->orderBy($order, $direction);
-            }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
+            }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.favorites', 'ideas.user'])->findOrFail($id);
         } else {
             $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($showArchives) {
                 $query->whereIn('archived', $showArchives);
-            }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.user'])->findOrFail($id);
+            }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.favorites', 'ideas.user'])->findOrFail($id);
             $hackathon['ideas']->loadCount('votes');
             $sorted = false;
             while(!$sorted) {

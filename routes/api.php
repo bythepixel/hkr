@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,5 +30,7 @@ Route::get('idea/{id}/restore', 'Api\IdeaController@restore')->middleware('auth:
 Route::post('ideaVote', 'Api\IdeaVoteController@create')->middleware('auth:api');
 Route::delete('ideaVote/{id}', 'Api\IdeaVoteController@delete')->middleware('auth:api');
 Route::delete('ideaVote/deleteByUserAndIdea/{ideaId}', 'Api\IdeaVoteController@deleteByUserAndIdea')->middleware('auth:api');
+
+Route::post('ideaFavorite', 'Api\IdeaFavoriteController@create')->middleware('auth:api');
 
 Route::post('ideaMessage', 'Api\IdeaMessageController@create')->middleware('auth:api');
