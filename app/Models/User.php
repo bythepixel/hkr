@@ -38,4 +38,12 @@ class User extends Authenticatable
 
         $this->save();
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ideas()
+    {
+        return $this->hasMany(Idea::class);
+    }
 }

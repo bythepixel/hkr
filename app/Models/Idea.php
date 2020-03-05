@@ -35,4 +35,5 @@ class Idea extends Model
     {
         return date("d/m/Y", strtotime($value));
     }
+
 }

@@ -34,3 +34,6 @@ Route::delete('ideaVote/deleteByUserAndIdea/{ideaId}', 'Api\IdeaVoteController@d
 Route::post('ideaFavorite', 'Api\IdeaFavoriteController@create')->middleware('auth:api');
 
 Route::post('ideaMessage', 'Api\IdeaMessageController@create')->middleware('auth:api');
+
+Route::get('user', 'Api\UserController@index')->middleware('auth:api');
+Route::post('user/copy-idea', 'Api\UserController@copyIdea')->middleware('auth:api');
