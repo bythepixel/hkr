@@ -1,8 +1,15 @@
 .header {
+    font-size: 2rem;
+    line-height: 2.8rem;
 
-    @include respond-above(md) {
+    .container {
+        padding-bottom: 0;
+    }
+
+    &__top {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        justify-content: space-between;
     }
 
     button {
@@ -11,5 +18,25 @@
         @include respond-above(md) {
             margin-top: 0;
         }
+    }
+
+    &__user-logout {
+        text-align: right;
+        text-transform: uppercase;
+    }
+
+    &__user-name {
+        display: none;
+
+        @include respond-above(md) {
+            display: inline;
+        }
+    }
+
+    hr {
+        border: none;
+        border-top: 2px solid $color-primary;
+        width: 2rem;
+        margin: 2rem auto 0 0;
     }
 }

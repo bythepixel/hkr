@@ -4,7 +4,7 @@
             <div class="messages__submit">
                 <div class="field-wrapper">
                     <p v-if="errorMessage">{{ errorMessage }}</p>
-                    <form v-on:submit.prevent="onSubmit">
+                    <form @submit.prevent="onSubmit">
                         <input
                             type="text"
                             name="comment"

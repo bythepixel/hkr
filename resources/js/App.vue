@@ -1,15 +1,14 @@
 <template>
     <div v-if="loaded">
-        <a class="user-control" v-if="user" v-on:click="logout()">Logout</a>
-        <div class="container">
-            <Breadcrumbs
-                :hackathon="hackathon"
-                :idea="idea"
-                :breadcrumbs="breadcrumbs"
-                @ideaRetrieved="handleIdeaEvent"
-                :ideaTitle="idea ? idea.title : ''"
-            />
-        </div>
+        <Header
+            :hackathon="hackathon"
+            :idea="idea"
+            :breadcrumbs="breadcrumbs"
+            @ideaRetrieved="handleIdeaEvent"
+            :ideaTitle="idea ? idea.title : ''"
+            :user="user"
+            @userLogoutRetrieved="handleLogout"
+        />
         <router-view
             :hackathons="hackathons"
             :hackathon="hackathon"
@@ -23,7 +22,7 @@
 </template>
 
 <script>
-    import  Breadcrumbs from './components/Breadcrumbs.vue';
+    import Header from './components/Header.vue';
     import {logoutEndpoint} from "./config/endpoints";
     import HttpService from 'axios';
     import LocalStorageService from "./services/LocalStorageService";
@@ -46,7 +45,7 @@
 		    }
         },
         components: {
-            Breadcrumbs,
+            Header,
         },
         created() {
             this.loaded = true;
@@ -55,12 +54,12 @@
 	        handleIdeaEvent(idea) {
 	            store.idea = idea;
             },
-            logout() {
+            handleLogout() {
                 HttpService.get(logoutEndpoint()).then(response => {
                     LocalStorageService.setUser(null);
                     LocalStorageService.setAuth(null);
                     store.user = null;
-                    this.$router.push('login');
+                    this.$router.go('/login');
                 });
             }
         }

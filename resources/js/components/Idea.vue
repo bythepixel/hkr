@@ -16,7 +16,7 @@
 
 <script>
     import IdeaVote from './IdeaVote.vue';
-    import ShowdownService from '../services/ShowdownService';
+    import ShowdownService from '../services/ShowdownService.js';
 
     export default {
 	    name: "Idea",
