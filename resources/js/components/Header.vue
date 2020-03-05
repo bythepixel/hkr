@@ -8,11 +8,17 @@
                         <span v-if="!breadcrumbs.linkToIndex">{{ breadcrumbs.text }}</span>
                     </li>
                     <li v-if="hackathon" class="breadcrumbs__item">
-                        <span v-if="hackathon && !isIdeaPage">{{ hackathon.title }}</span>
-                        <router-link v-if="isIdeaPage" :to="{ name: hackathonRouteName }" class="link">{{ hackathon.title }}</router-link>
+                        <span v-if="!isIdeaPage && !isIdeaAddPage">{{ hackathon.title }}</span>
+                        <router-link v-if="isIdeaPage || isIdeaAddPage" :to="{ name: hackathonRouteName }" class="link">{{ hackathon.title }}</router-link>
                     </li>
                     <li v-if="isIdeaPage" class="breadcrumbs__item">
                         <span>{{ ideaTitle }}</span>
+                    </li>
+                    <li v-if="isIdeaAddPage" class="breadcrumbs__item">
+                        <span>New Idea</span>
+                    </li>
+                    <li v-if="isHackathonAddPage" class="breadcrumbs__item">
+                        <span>New Hackathon</span>
                     </li>
                 </ul>
                 <div class="header__user-logout" v-if="user">
@@ -60,8 +66,14 @@
                 return this.hackathon && store.showIdeaButton;
             },
 	        isIdeaPage() {
-		        return this.$route.name === this.ideaRouteName || this.$route.name === this.newIdeaRouteName;
-	        }
+		        return this.$route.name === this.ideaRouteName;
+	        },
+            isIdeaAddPage() {
+                return this.$route.name === this.newIdeaRouteName;
+            },
+            isHackathonAddPage() {
+                return this.$route.name === this.newHackathonRouteName;
+            }
         },
         methods: {
             handleUserLogout() {

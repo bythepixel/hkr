@@ -30,4 +30,10 @@ class Idea extends Model
     {
         return $this->hasMany(IdeaFavorite::class);
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date("d/m/Y", strtotime($value));
+    }
+
 }

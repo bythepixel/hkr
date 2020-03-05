@@ -13,14 +13,14 @@
                             <router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }" class="link"><span v-if="idea.archived === 1">ARCHIVED: </span>{{ idea.title }}</router-link>
                         </h2>
                         <p class="idea__details">
-                            {{ idea.created_at  | moment("timezone", "America/Denver") | moment("from", "now") }} | {{ idea.user.name }} | {{ idea.messages.length }} Comment<span v-if="idea.messages.length !== 1">s</span>
+                            {{ idea.created_at }} | {{ idea.user.name }} | {{ idea.messages.length }} Comment<span v-if="idea.messages.length !== 1">s</span>
                         </p>
                         <p class="idea__description">
                             {{ idea.description }}
                         </p>
-                        <a role="button" @click="destroy(idea.id)" class="delete button">Delete</a>
-                        <a role="button" v-on:click="archive(idea.id)" v-if="idea.archived === 0" class="archive button">Archive</a>
-                        <a role="button" v-on:click="restore(idea.id)" v-if="idea.archived === 1" class="restore button">Restore</a>
+                        <a role="button" v-on:click="archive(idea.id)" v-if="idea.archived === 0" class="link link--reverse">Archive</a>
+                        <a role="button" v-on:click="restore(idea.id)" v-if="idea.archived === 1" class="link link--reverse">Restore</a>
+                        <a role="button" @click="destroy(idea.id)" class="link link--reverse">Delete</a>
                     </div>
                 </div>
             </li>
