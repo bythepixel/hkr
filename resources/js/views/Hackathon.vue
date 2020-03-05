@@ -33,6 +33,9 @@
                             New Idea ""
                         </router-link>
                         <button role="button" @click="reset()" class="button">Reset Votes</button>
+                        <button role="button" v-on:click="deleteHackathon()" class="button">Delete Hackathon</button>
+                        <input type="checkbox" name="showArchives" id="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
+                        <label dor="showArchives">Show Archives</label>
                     </div>
                     <div class="footer__sort">
                         <select name="sortOrder" @change="loadHackathon(true)" v-model.trim="sortOrder">
@@ -44,15 +47,6 @@
                             <option value="DESC">Desc</option>
                             <option value="ASC">Asc</option>
                         </select>
-                        <input type="checkbox" name="showArchives" id="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
-                        <label dor="showArchives">Show Archives</label>
-                        <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
-                        <div class="reset">
-                            <button role="button" v-on:click="resetHackathon()">Reset Votes</button>
-                        </div>
-                        <div class="delete-hackathon">
-                            <button role="button" v-on:click="deleteHackathon()">Delete Hackathon</button>
-                        </div>
                     </div>
                 </div>
                 <Copyright/>
