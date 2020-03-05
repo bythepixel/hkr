@@ -1,31 +1,36 @@
 .idea {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 4rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid $color-primary;
+    padding: 0.5rem;
+    max-width: 80rem;
+
+    &__inner {
+        padding: 2rem;
+        border: 1px solid $color-primary;
+        display: flex;
+        align-items: flex-start;
+    }
 
     &__content {
         width: 100%;
-        max-width: 658px;
-        margin-left: 15px;
+        max-width: 65.8rem;
+        margin-left: 2.5rem;
 
         @include respond-above(md) {
-            margin-left: 20px;
+            margin-left: 2rem;
         }
     }
 
-    &__title {
-        font-weight: $font-weight-bold;
-    }
-
-    &__author {
-        margin: 10px 0;
-        font-size: 1.2rem;
-        line-height: 1.6rem;
+    &__details {
+        margin: 1rem 0;
+        font-size: 2rem;
+        line-height: 2.4rem;
+        text-transform: uppercase;
     }
 
     &__description {
-        font-size: 1.6rem;
-        line-height: 1.8rem;
-        padding-bottom: 20px;
+        font-size: 2rem;
+        line-height: 2.4rem;
+        padding-bottom: 2rem;
     }
 }

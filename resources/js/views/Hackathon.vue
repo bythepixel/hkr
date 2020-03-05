@@ -1,58 +1,68 @@
 <template>
     <div v-if="!!hackathon" class="hackathon container">
-        <div class="hackathon__tools">
-            <div class="sort">
-                <select name="sortOrder" v-on:change="loadHackathon(true)" v-model.trim="sortOrder">
-                    <option value="created_at">Created At</option>
-                    <option value="title">Title</option>
-                    <option value="votes">Votes</option>
-                </select>
-                <select name="sortDirection" v-on:change="loadHackathon(true)" v-model.trim="sortDirection">
-                    <option value="DESC">DESC</option>
-                    <option value="ASC">ASC</option>
-                </select>
-                <input type="checkbox" name="showArchives" id="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
-                <label dor="showArchives">Show Archives</label>
-            </div>
-            <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
-            <div class="reset">
-                <button role="button" v-on:click="resetHackathon()">Reset Votes</button>
-            </div>
-            <div class="delete-hackathon">
-                <button role="button" v-on:click="deleteHackathon()">Delete Hackathon</button>
-            </div>
-        </div>
         <div class="hackathon__loading" v-if="ideasLoading">loading ideas, some good, some bad...</div>
         <ul v-if="!ideasLoading">
             <li class="idea"
                 v-if="hackathon.ideas && hackathon.ideas.length"
                 v-for="idea in hackathon.ideas"
                 :key="idea.id">
-                <IdeaVote :idea="idea" :hackathon="hackathon" />
-                <div class="idea__content">
-                    <h2 class="idea__title">
-                        <router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }"><span v-if="idea.archived === 1">ARCHIVED: </span>{{ idea.title }}</router-link>
-                    </h2>
-                    <p class="idea__author">By {{ idea.user.name }} on {{ idea.created_at }}, {{ idea.messages.length }} Comments</p>
-                    <p class="idea__description">
-                        {{ idea.description }}
-                    </p>
-                    <div class="delete">
-                        <a role="button" v-on:click="destroy(idea.id)">Delete</a>
-                        <span class="archive" v-if="idea.archived === 0">
-                            <a role="button" v-on:click="archive(idea.id)">Archive</a>
-                        </span>
-                        <span class="restore" v-if="idea.archived === 1">
-                            <a role="button" v-on:click="restore(idea.id)">Restore</a>
-                        </span>
+                <div class="idea__inner">
+                    <IdeaVote :idea="idea" :hackathon="hackathon" />
+                    <div class="idea__content">
+                        <h2 class="idea__title">
+                            <router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }" class="link"><span v-if="idea.archived === 1">ARCHIVED: </span>{{ idea.title }}</router-link>
+                        </h2>
+                        <p class="idea__details">
+                            {{ idea.created_at  | moment("timezone", "America/Denver") | moment("from", "now") }} | {{ idea.user.name }} | {{ idea.messages.length }} Comment<span v-if="idea.messages.length !== 1">s</span>
+                        </p>
+                        <p class="idea__description">
+                            {{ idea.description }}
+                        </p>
+                        <a role="button" @click="destroy(idea.id)" class="delete button">Delete</a>
+                        <a role="button" v-on:click="archive(idea.id)" v-if="idea.archived === 0" class="archive button">Archive</a>
+                        <a role="button" v-on:click="restore(idea.id)" v-if="idea.archived === 1" class="restore button">Restore</a>
                     </div>
                 </div>
             </li>
         </ul>
+        <div class="footer">
+            <div class="container">
+                <div class="footer__tools">
+                    <div class="footer__buttons">
+                        <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">
+                            New Idea ""
+                        </router-link>
+                        <button role="button" @click="reset()" class="button">Reset Votes</button>
+                    </div>
+                    <div class="footer__sort">
+                        <select name="sortOrder" @change="loadHackathon(true)" v-model.trim="sortOrder">
+                            <option value="created_at">Created At</option>
+                            <option value="title">Title</option>
+                            <option value="votes">Votes</option>
+                        </select>
+                        <select name="sortDirection" @change="loadHackathon(true)" v-model.trim="sortDirection">
+                            <option value="DESC">Desc</option>
+                            <option value="ASC">Asc</option>
+                        </select>
+                        <input type="checkbox" name="showArchives" id="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
+                        <label dor="showArchives">Show Archives</label>
+                        <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">Add an Idea</router-link>
+                        <div class="reset">
+                            <button role="button" v-on:click="resetHackathon()">Reset Votes</button>
+                        </div>
+                        <div class="delete-hackathon">
+                            <button role="button" v-on:click="deleteHackathon()">Delete Hackathon</button>
+                        </div>
+                    </div>
+                </div>
+                <Copyright/>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import Copyright from '../components/Copyright';
 	import store from '../data/store.js';
 
 	import SocketService from '../services/SocketService.js'
@@ -75,6 +85,7 @@
 		props: ['hackathon'],
 		components: {
 			IdeaVote,
+            Copyright,
 		},
 		data() {
 			return {

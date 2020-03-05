@@ -2,49 +2,24 @@
     position: relative;
     cursor: pointer;
     border-radius: 10px;
+    font-size: 2rem;
+    width: 17%;
 
-    &__icon {
-        width: 40px;
-        height: auto;
+    &.voted {
+        .vote__link {
+            background-color: transparent;
+            color: $color-primary;
+            border: 1px solid $color-primary;
 
-        @include respond-above(md) {
-            width: 51px;
-        }
-
-        .a,
-        .b {
-            fill: none;
-        }
-
-        .b {
-            stroke: #000;
-            stroke-width: 2px;
+            &:before {
+                content: 'UN';
+            }
         }
     }
 
     &__count {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        font-size: 1.3rem;
-    }
-
-    &.voted {
-
-        .vote__icon {
-
-            .b {
-                fill: $color-primary;
-            }
-        }
-
-        .vote__count {
-            color: $color-secondary;
-        }
-    }
-
-    &:hover  {
-        background-color: lighten($color-primary, 95%);
+        margin-bottom: 1rem;
+        text-transform: uppercase;
     }
 }
 

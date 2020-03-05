@@ -1,14 +1,25 @@
 <template>
-    <ul class="hackathons container">
-        <li class="hackathons__item" v-for="hackathon in hackathons" :key="hackathon.id">
-            <p class="hackathons__summary">
-                <router-link :to="{ name: hackathonRouteName, params: { hackathonId: hackathon.id } }">{{ hackathon.title }}</router-link>
-            </p>
-        </li>
-    </ul>
+    <div class="hackathons">
+        <ul class="container">
+            <li class="hackathons__item" v-for="hackathon in hackathons" :key="hackathon.id">
+                <p class="hackathons__summary">
+                    <router-link :to="{ name: hackathonRouteName, params: { hackathonId: hackathon.id } }" class="link">{{ hackathon.title }}</router-link>
+                </p>
+            </li>
+        </ul>
+        <div class="footer">
+            <div class="container">
+                <div class="footer__tools">
+                    <router-link :to="{ name: newHackathonRouteName }" class="button">New Hackathon ""</router-link>
+                </div>
+                <Copyright/>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
+import Copyright from '../components/Copyright';
 import HttpService from 'axios';
 
 import store from '../data/store.js';
@@ -23,6 +34,9 @@ import { getHackathonsEndpoint } from '../config/endpoints.js';
 export default {
     name: "HackathonsView",
     props: ['hackathons'],
+    components: {
+    	Copyright,
+    },
     data() {
         return {
             newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,

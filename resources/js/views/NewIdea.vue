@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <p v-if="errorMessage">{{ errorMessage }}</p>
-        <form v-on:submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit">
             <div class="field-wrapper">
                 <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}">
                 <label for="title">Title</label>

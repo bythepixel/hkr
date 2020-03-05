@@ -1,13 +1,16 @@
 @import 'abstracts/reset';
+@import 'abstracts/fonts';
 @import 'abstracts/variables';
 @import 'abstracts/media-queries';
 @import 'breadcrumbs';
 @import 'button';
+@import 'footer';
 @import 'form';
 @import 'hackathon';
 @import 'hackathons';
 @import 'header';
 @import 'idea';
+@import 'link';
 @import 'messages';
 @import 'rendered-markdown';
 @import 'vote';
@@ -23,6 +26,7 @@ html {
 body {
     background-color: $body-bg;
     font-family: $font-family-primary;
+    color: $color-primary;
 }
 
 h1 {

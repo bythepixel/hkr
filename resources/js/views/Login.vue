@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <form v-on:submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit">
             <h1>Login</h1>
             <h1 class="error">{{ loginErrorMessage }}</h1>
             <div class="field-wrapper">
