@@ -8,7 +8,7 @@
                 {{ idea.favorites.length }} fave<span v-if="idea.favorites.length !== 1">s</span>
             </div>
         </div>
-        <div class="vote-favorite__link-wrapper">
+        <div class="vote-favorite__link-wrapper" v-if="hackathon.locked === 0">
             <div
                 class="vote-favorite__link link"
                 :class="{'interacted': hasUserVoted(idea.votes)}"
@@ -20,18 +20,6 @@
                 @click="handleFavorite(idea)"
             >Fave</div>
         </div>
-
-
-
-
-<!--        <div class="vote" :class="{'voted': hasUserVoted(idea.votes)}">-->
-<!--            <div class="vote__count">{{ idea.votes.length }} like<span v-if="idea.votes.length !== 1">s</span></div>-->
-<!--            <div class="vote__link link" @click="handleVote(idea)">Like</div>-->
-<!--        </div>-->
-<!--        <div class="favorite" :class="{'favorited': hasUserFavorited(idea.favorites)}">-->
-<!--            <div class="favorite__count">{{ idea.favorites.length }} fave<span v-if="idea.favorites.length !== 1">s</span></div>-->
-<!--            <div class="favorite__link link" @click="handleFavorite(idea)">Fave</div>-->
-<!--        </div>-->
     </div>
 </template>
 

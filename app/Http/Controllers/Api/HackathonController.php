@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Events\HackathonDeleted;
+use App\Events\HackathonLocked;
+use App\Events\HackathonUnlocked;
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
 use App\Models\FeatureMessage;
@@ -91,6 +93,34 @@ class HackathonController extends Controller
     public function reset($hackathonId) {
         $ideas = Idea::where('hackathon_id', $hackathonId)->get();
         IdeaVote::whereIn('idea_id', $ideas->pluck('id'))->delete();
+
+        return $this->show($hackathonId);
+    }
+
+    /**
+     * @param $hackathonId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function lock($hackathonId) {
+        $hackathon = Hackathon::findOrFail($hackathonId);
+        $hackathon->locked = true;
+        $hackathon->save();
+
+        broadcast(new HackathonLocked($hackathon));
+
+        return $this->show($hackathonId);
+    }
+
+    /**
+     * @param $hackathonId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unlock($hackathonId) {
+        $hackathon = Hackathon::findOrFail($hackathonId);
+        $hackathon->locked = false;
+        $hackathon->save();
+
+        broadcast(new HackathonUnlocked($hackathon));
 
         return $this->show($hackathonId);
     }
