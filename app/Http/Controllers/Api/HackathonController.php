@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Events\HackathonDeleted;
+use App\Events\HackathonLocked;
+use App\Events\HackathonUnlocked;
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
 use App\Models\FeatureMessage;
@@ -104,6 +106,8 @@ class HackathonController extends Controller
         $hackathon->locked = true;
         $hackathon->save();
 
+        broadcast(new HackathonLocked($hackathon));
+
         return $this->show($hackathonId);
     }
 
@@ -115,6 +119,8 @@ class HackathonController extends Controller
         $hackathon = Hackathon::findOrFail($hackathonId);
         $hackathon->locked = false;
         $hackathon->save();
+
+        broadcast(new HackathonUnlocked($hackathon));
 
         return $this->show($hackathonId);
     }

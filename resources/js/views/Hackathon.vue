@@ -118,6 +118,12 @@
                 this.channel.bind('App\\Events\\IdeaRestored', (data) => {
                     this.loadHackathon();
                 });
+                this.channel.bind('App\\Events\\HackathonLocked', (data) => {
+                    this.loadHackathon();
+                });
+                this.channel.bind('App\\Events\\HackathonUnlocked', (data) => {
+                    this.loadHackathon();
+                });
 			},
             loadHackathon(showLoader) {
 			    this.ideasLoading = showLoader;
