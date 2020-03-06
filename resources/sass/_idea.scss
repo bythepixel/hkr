@@ -6,7 +6,7 @@
     position: relative;
 
     &__inner {
-        padding: 2rem;
+        padding: 3rem;
         border: 1px solid $color-primary;
         display: flex;
         align-items: flex-start;
@@ -74,6 +74,20 @@
 
         &:last-of-type::after {
             content: "";
+        }
+    }
+
+    &__copy {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.user {
+    .idea {
+        &__content {
+            max-width: unset;
+            margin-left: 0;
         }
     }
 }

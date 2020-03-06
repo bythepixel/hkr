@@ -66,17 +66,6 @@
                 this.getPageTitle();
             }
         },
-        computed: {
-	        isIdeaPage() {
-		        return this.$route.name === this.ideaRouteName;
-	        },
-            isIdeaAddPage() {
-                return this.$route.name === this.newIdeaRouteName;
-            },
-            isHackathonAddPage() {
-                return this.$route.name === this.newHackathonRouteName;
-            }
-        },
         methods: {
             handleUserLogout() {
 	            this.$emit('userLogoutRetrieved');
@@ -88,6 +77,8 @@
                     this.title = 'New Idea';
                 } else if (this.$route.name === this.newHackathonRouteName) {
                     this.title = 'New Hackathon';
+                } else if (this.$route.name === this.userRouteName) {
+                  this.title = 'My Ideas';
                 }
             },
             clearPageTitle() {

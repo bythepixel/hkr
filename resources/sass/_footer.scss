@@ -5,6 +5,7 @@
     right: 0;
     background-color: $color-secondary;
     width: 100%;
+    height: 10.7rem;
 
     &__inner {
         @include respond-above(md) {
