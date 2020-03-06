@@ -57,18 +57,22 @@
                 </router-link>
             </div>
             <div class="footer__selects">
-                <label for="sort">Sort:</label>
-                <select id="sort" name="sort" @change="loadHackathon(true)" v-model.trim="sort">
-                    <option value="most_recent">Most Recent</option>
-                    <option value="most_voted">Most Voted</option>
-                    <option value="a_z">A-Z</option>
-                </select>
-                <label for="filter">Show:</label>
-                <select id="filter" name="filter" @change="loadHackathon(true)" v-model.trim="filter">
-                    <option value="unarchived">Unarchived</option>
-                    <option value="archived">Archived</option>
-                    <option value="all">All</option>
-                </select>
+                <div class="field-wrapper">
+                    <label for="sort">Sort</label>
+                    <select id="sort" name="sort" @change="loadHackathon(true)" v-model.trim="sort">
+                        <option value="most_recent">Most Recent</option>
+                        <option value="most_voted">Most Voted</option>
+                        <option value="a_z">A-Z</option>
+                    </select>
+                </div>
+                <div class="field-wrapper">
+                    <label for="filter">Show</label>
+                    <select id="filter" name="filter" @change="loadHackathon(true)" v-model.trim="filter">
+                        <option value="unarchived">Unarchived</option>
+                        <option value="archived">Archived</option>
+                        <option value="all">All</option>
+                    </select>
+                </div>
             </div>
             <div class="footer__links">
                 <a role="button" @click="handleHackathonLock()" class="link link--underline"><span v-if="hackathon.locked">Un</span>lock</a>

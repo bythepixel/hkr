@@ -23,8 +23,13 @@ textarea {
 }
 
 select {
-    text-transform: uppercase;
     border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    &::-ms-expand {
+        display: none;
+    }
 }
 
 textarea {
