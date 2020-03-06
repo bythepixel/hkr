@@ -19,6 +19,28 @@
                         <p class="idea__description">
                             {{ idea.description }}
                         </p>
+                        <div class="idea__votes" v-if="votesVisible === true">
+                            <h3>Likes</h3>
+                            <ul class="idea__votes-list" v-if="idea.votes.length > 0">
+                                <li class="idea__vote" v-for="vote in idea.votes">
+                                    {{ vote.user.email }}
+                                </li>
+                            </ul>
+                            <p class="idea__votes-list" v-if="idea.votes.length === 0">
+                                No Likes Yet!
+                            </p>
+                        </div>
+                        <div class="idea__favorites" v-if="votesVisible === true">
+                            <h3>Faves</h3>
+                            <ul class="idea__favorites-list" v-if="idea.favorites.length > 0">
+                                <li class="idea__favorite" v-for="favorite in idea.favorites">
+                                    {{ favorite.user.email }}
+                                </li>
+                            </ul>
+                            <p class="idea__votes-list" v-if="idea.favorites.length === 0">
+                                No Faves Yet!
+                            </p>
+                        </div>
                         <a role="button" v-on:click="archive(idea.id)" v-if="idea.archived === 0" class="link link--reverse">Archive</a>
                         <a role="button" v-on:click="restore(idea.id)" v-if="idea.archived === 1" class="link link--reverse">Restore</a>
                         <a role="button" @click="destroy(idea.id)" class="link link--reverse">Delete</a>
@@ -36,6 +58,8 @@
                         <button role="button" @click="reset()" class="button">Reset Votes</button>
                         <button role="button" v-if="hackathon.locked === 0" v-on:click="lockHackathon()" class="button">Lock Hackathon</button>
                         <button role="button" v-if="hackathon.locked === 1" v-on:click="unlockHackathon()" class="button">Unlock Hackathon</button>
+                        <button role="button" v-if="votesVisible === false" v-on:click="showVotes()" class="button">Reveal Votes</button>
+                        <button role="button" v-if="votesVisible === true" v-on:click="hideVotes()" class="button">Hide Votes</button>
                         <button role="button" v-on:click="deleteHackathon()" class="button">Delete Hackathon</button>
                         <input type="checkbox" name="showArchives" id="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
                         <label dor="showArchives">Show Archives</label>
@@ -92,7 +116,8 @@
 				sortOrder: "created_at",
 				sortDirection: "DESC",
                 showArchives: false,
-                ideasLoading: true
+                ideasLoading: true,
+                votesVisible: false,
 			}
 		},
 		created() {
@@ -125,6 +150,12 @@
                     this.loadHackathon();
                 });
 			},
+            showVotes() {
+			    this.votesVisible = true;
+            },
+            hideVotes() {
+                this.votesVisible = false;
+            },
             loadHackathon(showLoader) {
 			    this.ideasLoading = showLoader;
                 HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection, this.showArchives)).then(response => {
