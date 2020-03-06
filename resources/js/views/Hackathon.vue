@@ -21,27 +21,13 @@
                         <p class="idea__description">
                             {{ idea.description }}
                         </p>
-                        <div class="idea__votes" v-if="votesVisible === true">
-                            <h3>Likes</h3>
-                            <ul class="idea__votes-list" v-if="idea.votes.length > 0">
-                                <li class="idea__vote" v-for="vote in idea.votes">
-                                    {{ vote.user.email }}
-                                </li>
-                            </ul>
-                            <p class="idea__votes-list" v-if="idea.votes.length === 0">
-                                No Likes Yet!
-                            </p>
-                        </div>
-                        <div class="idea__favorites" v-if="votesVisible === true">
-                            <h3>Faves</h3>
-                            <ul class="idea__favorites-list" v-if="idea.favorites.length > 0">
-                                <li class="idea__favorite" v-for="favorite in idea.favorites">
-                                    {{ favorite.user.email }}
-                                </li>
-                            </ul>
-                            <p class="idea__votes-list" v-if="idea.favorites.length === 0">
-                                No Faves Yet!
-                            </p>
+                        <div class="idea__votes-favorites" v-if="votesVisible">
+                            <div class="idea__votes">
+                                <p>Liked: <span v-if="idea.votes.length === 0">No likes yet!</span><span v-else v-for="vote in idea.votes" class="idea__interacted-user">{{ vote.user.email }}</span></p>
+                            </div>
+                            <div class="idea__favorites">
+                                <p>Faved: <span v-if="idea.favorites.length === 0">No faves yet!</span><span v-else v-for="favorite in idea.favorites" class="idea__interacted-user">{{ favorite.user.email }}</span></p>
+                            </div>
                         </div>
                         <a role="button" @click="archiveIdea(idea.id)" v-if="idea.archived === 0" class="link link--underline">Archive</a>
                         <a role="button" @click="restoreIdea(idea.id)" v-if="idea.archived === 1" class="link link--underline">Restore</a>

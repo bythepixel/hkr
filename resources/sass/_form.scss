@@ -66,3 +66,9 @@ textarea {
         }
     }
 }
+
+input,
+input:-internal-autofill-selected {
+    background-color: $color-secondary !important;
+    color: $color-primary !important;
+}

@@ -57,4 +57,23 @@
         line-height: 2.4rem;
         padding-bottom: 2rem;
     }
+
+    &__votes-favorites {
+        text-transform: uppercase;
+    }
+
+    &__votes,
+    &__favorites {
+        margin-bottom: 2rem;
+    }
+
+    &__interacted-user {
+        &::after {
+            content: ", ";
+        }
+
+        &:last-of-type::after {
+            content: "";
+        }
+    }
 }

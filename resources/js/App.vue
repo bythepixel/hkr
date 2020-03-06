@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded">
+    <div v-if="loaded" class="content-wrapper">
         <Header
             :hackathon="hackathon"
             :idea="idea"

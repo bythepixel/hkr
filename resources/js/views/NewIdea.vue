@@ -2,7 +2,7 @@
     <div>
         <div class="container">
             <p v-if="errorMessage">{{ errorMessage }}</p>
-            <form>
+            <form id="new-idea" @submit.prevent="onSubmit()">
                 <div class="field-wrapper">
                     <label for="title">Title</label>
                     <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}">
@@ -18,7 +18,7 @@
             </form>
         </div>
         <Footer>
-            <button role="button" @click="onSubmit()">Add</button>
+            <button role="button" form="new-idea">Add</button>
         </Footer>
     </div>
 </template>
@@ -61,7 +61,7 @@
                     });
                 }
             },
-			onSubmit(event) {
+			onSubmit() {
 				this.errorMessage = null;
 
 				if (!this.title) {

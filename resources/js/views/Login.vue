@@ -1,18 +1,21 @@
 <template>
-    <div class="container">
-        <form @submit.prevent="onSubmit">
-            <h1>Login</h1>
-            <h1 class="error">{{ loginErrorMessage }}</h1>
-            <div class="field-wrapper">
-                <label for="email">Username</label>
-                <input type="text" v-model.trim="email" id="email" :class="{'has-value': email}">
-            </div>
-            <div class="field-wrapper">
-                <label for="password">Password</label>
-                <input type="password" v-model.trim="password" id="password" :class="{'has-value': password}">
-            </div>
-            <button role="button">Login</button>
-        </form>
+    <div class="login">
+        <div class="container">
+            <form id="login" @submit.prevent="onSubmit">
+                <h1 class="error">{{ loginErrorMessage }}</h1>
+                <div class="field-wrapper">
+                    <label for="email">Username</label>
+                    <input type="email" v-model.trim="email" id="email">
+                </div>
+                <div class="field-wrapper">
+                    <label for="password">Password</label>
+                    <input type="password" v-model.trim="password" id="password">
+                </div>
+            </form>
+        </div>
+        <Footer>
+            <button class="button" form="login">Login</button>
+        </Footer>
     </div>
 </template>
 
@@ -24,8 +27,13 @@
 
 	import { loginEndpoint } from '../config/endpoints.js';
 
+    import Footer from '../components/Footer';
+
 	export default {
 		name: "LoginView",
+        components: {
+            Footer,
+        },
 		data() {
 			return {
 				email: null,
@@ -34,11 +42,7 @@
 			}
 		},
 		methods: {
-			/**
-			 * @param event {Event}
-			 */
-			onSubmit(event) {
-
+			onSubmit() {
 				if (!this.email || !this.password) {
 					this.loginErrorMessage = "Please fill out both fields";
 					return;
