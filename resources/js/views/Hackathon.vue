@@ -116,6 +116,8 @@
                 newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
                 sortOrder: "created_at",
                 sortDirection: "DESC",
+                sort: "most_recent",
+                filter: "unarchived",
                 showArchives: false,
                 ideasLoading: true,
                 votesVisible: false,
