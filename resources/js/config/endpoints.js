@@ -1,6 +1,6 @@
 export const getHackathonsEndpoint = () => `/api/hackathon`,
     newHackathonEndpoint = () => `/api/hackathon`,
-    getHackathonEndpoint = (id, order, direction, showArchives) => `/api/hackathon/${id}/${order}/${direction}/${showArchives}`,
+    getHackathonEndpoint = (id, sort, filter) => `/api/hackathon/${id}/${sort}/${filter}`,
     resetHackathonEndpoint = (id) => `/api/hackathon/reset/${id}`,
     deleteHackathonEndpoint = (id) => `/api/hackathon/delete/${id}`,
     lockHackathonEndpoint = (id) => `/api/hackathon/lock/${id}`,

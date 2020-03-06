@@ -118,8 +118,6 @@
                 ideaRouteName: IDEA_VIEW_NAME,
                 newIdeaRouteName: NEW_IDEA_VIEW_NAME,
                 newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
-                sortOrder: "created_at",
-                sortDirection: "DESC",
                 sort: "most_recent",
                 filter: "unarchived",
                 showArchives: false,
@@ -162,7 +160,7 @@
             },
             loadHackathon(showLoader) {
                 this.ideasLoading = showLoader;
-                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection, this.showArchives)).then(response => {
+                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sort, this.filter)).then(response => {
                     this.ideasLoading = false;
                     store.hackathon = response.data;
                 });

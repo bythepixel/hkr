@@ -26,16 +26,53 @@ class HackathonController extends Controller
 
     /**
      * @param $id
-     * @param string $order
-     * @param string $direction
-     * @param string $showArchives
+     * @param string $sort
+     * @param string $filter
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id, $order="created_at", $direction="DESC", $showArchives="false")
+
+
+    /**
+     *             <div class="footer__selects">
+    <div class="field-wrapper">
+    <label for="sort">Sort</label>
+    <select id="sort" name="sort" @change="loadHackathon(true)" v-model.trim="sort">
+    <option value="most_recent">Most Recent</option>
+    <option value="most_voted">Most Voted</option>
+    <option value="a_z">A-Z</option>
+    </select>
+    </div>
+    <div class="field-wrapper">
+    <label for="filter">Show</label>
+    <select id="filter" name="filter" @change="loadHackathon(true)" v-model.trim="filter">
+    <option value="unarchived">Unarchived</option>
+    <option value="archived">Archived</option>
+    <option value="all">All</option>
+    </select>
+    </div>
+    </div>
+     */
+
+    public function show($id, $sort="most_recent", $filter="unarchived")
     {
-        $showArchives = $showArchives === "true" ? [true, false] : [false];
+        if($filter === "unarchived") {
+            $showArchives = [false];
+        } else if($filter === "archived") {
+            $showArchives = [true];
+        } else if($filter === "all") {
+            $showArchives = [true, false];
+        }
+        if($sort === "most_recent") {
+            $order = "created_at";
+            $direction = "DESC";
+        } else if($sort === "most_voted") {
+            $order = "votes";
+        } else if($sort === "a_z") {
+            $order = "title";
+            $direction = "ASC";
+        }
         if($order != "votes") {
-            $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($order, $direction, $showArchives) {
+            $hackathon = Hackathon::with(['user', 'ideas' => function($query) use($order, $showArchives, $direction) {
                 $query->whereIn('archived', $showArchives)->orderBy($order, $direction);
             }, 'ideas.messages', 'ideas.messages.user', 'ideas.votes', 'ideas.votes.user', 'ideas.favorites', 'ideas.favorites.user', 'ideas.user'])->findOrFail($id);
         } else {
@@ -48,11 +85,7 @@ class HackathonController extends Controller
                 $switchMade = false;
                 foreach($hackathon['ideas'] as $index => $idea) {
                     if(isset($hackathon['ideas'][$index + 1])) {
-                        if($direction === "DESC") {
-                            $comparison = $hackathon['ideas'][$index]->votes_count < $hackathon['ideas'][$index+1]->votes_count;
-                        } else {
-                            $comparison = $hackathon['ideas'][$index]->votes_count > $hackathon['ideas'][$index+1]->votes_count;
-                        }
+                        $comparison = $hackathon['ideas'][$index]->votes_count < $hackathon['ideas'][$index+1]->votes_count;
                         if($comparison) {
                             $temp = $hackathon['ideas'][$index];
                             $hackathon['ideas'][$index] = $hackathon['ideas'][$index+1];
