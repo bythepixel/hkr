@@ -97,9 +97,9 @@
 
 	import HttpService from 'axios';
 
-	import { digestNewVotes, digestNewFavorites } from '../data/digest.js';
+	import { digestNewVotes } from '../data/digest.js';
 
-	import { getHackathonEndpoint, getIdeaVotesEndpoint, getIdeaFavoritesEndpoint, deleteIdeaEndpoint, lockHackathonEndpoint, unlockHackathonEndpoint, resetHackathonEndpoint, deleteHackathonEndpoint, archiveIdeaEndpoint, restoreIdeaEndpoint } from '../config/endpoints.js';
+	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, lockHackathonEndpoint, unlockHackathonEndpoint, resetHackathonEndpoint, deleteHackathonEndpoint, archiveIdeaEndpoint, restoreIdeaEndpoint } from '../config/endpoints.js';
 
 	export default {
 		name: 'IdeasView',
@@ -108,35 +108,32 @@
 			IdeaVote,
             Footer,
 		},
-		data() {
-			return {
-				channel: null,
-				ideaRouteName: IDEA_VIEW_NAME,
-				newIdeaRouteName: NEW_IDEA_VIEW_NAME,
+        data() {
+            return {
+                channel: null,
+                ideaRouteName: IDEA_VIEW_NAME,
+                newIdeaRouteName: NEW_IDEA_VIEW_NAME,
                 newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
-				sort: 'created_at',
-                filter: '',
+                sortOrder: "created_at",
+                sortDirection: "DESC",
                 showArchives: false,
                 ideasLoading: true,
                 votesVisible: false,
-			}
-		},
-		created() {
+            }
+        },
+        created() {
             this.channel = SocketService.subscribe(`hackathon.${this.$route.params.hackathonId}`);
-			this.loadHackathon();
+            this.loadHackathon();
             this.bindEvents();
-		},
-		methods: {
-			bindEvents() {
-				this.channel.unbind();
-				this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
-					HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
-				});
-				this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
-					HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
-				});
-                this.channel.bind('App\\Events\\IdeaFavoriteAdded', (data) => {
-                    HttpService.get(getIdeaFavoritesEndpoint(data.idea_id)).then(response => digestNewFavorites(this.hackathon.ideas, data.idea_id, response.data));
+        },
+        methods: {
+            bindEvents() {
+                this.channel.unbind();
+                this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
+                    HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
+                });
+                this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
+                    HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
                 });
                 this.channel.bind('App\\Events\\IdeaMessageAdded', (data) => {
                     this.loadHackathon();
@@ -153,13 +150,13 @@
                 this.channel.bind('App\\Events\\HackathonUnlocked', (data) => {
                     this.loadHackathon();
                 });
-			},
+            },
             handleVoteVisibility() {
-			    this.votesVisible = !this.votesVisible;
+                this.votesVisible = !this.votesVisible;
             },
             loadHackathon(showLoader) {
-			    this.ideasLoading = showLoader;
-                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sort, this.filter)).then(response => {
+                this.ideasLoading = showLoader;
+                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection, this.showArchives)).then(response => {
                     this.ideasLoading = false;
                     store.hackathon = response.data;
                 });

@@ -1,6 +1,6 @@
 export const getHackathonsEndpoint = () => `/api/hackathon`,
     newHackathonEndpoint = () => `/api/hackathon`,
-    getHackathonEndpoint = (id, sort, filter) => `/api/hackathon/${id}/${sort}/${filter}`,
+    getHackathonEndpoint = (id, order, direction, showArchives) => `/api/hackathon/${id}/${order}/${direction}/${showArchives}`,
     resetHackathonEndpoint = (id) => `/api/hackathon/reset/${id}`,
     deleteHackathonEndpoint = (id) => `/api/hackathon/delete/${id}`,
     lockHackathonEndpoint = (id) => `/api/hackathon/lock/${id}`,
@@ -17,7 +17,6 @@ export const getHackathonsEndpoint = () => `/api/hackathon`,
     addIdeaChildMessageEndpoint = (id, messageId) => `/api/idea/${id}/message/${messageId}`,
 
     getIdeaVotesEndpoint= (id) => `/api/idea/${id}/votes`,
-    getIdeaFavoritesEndpoint= (id) => `/api/idea/${id}/favorites`,
     getIdeaEndpoint = (id) => `/api/idea/${id}`,
 
     getUserEndpoint = () => `/api/user`,

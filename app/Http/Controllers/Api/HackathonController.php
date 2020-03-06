@@ -31,7 +31,7 @@ class HackathonController extends Controller
      * @param string $showArchives
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id, $sort="most_recent", $filter="unarchived")
+    public function show($id, $order="created_at", $direction="DESC", $showArchives="false")
     {
         $showArchives = $showArchives === "true" ? [true, false] : [false];
         if($order != "votes") {
