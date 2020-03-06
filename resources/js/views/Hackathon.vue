@@ -1,6 +1,5 @@
 <template>
     <div v-if="!!hackathon" class="hackathon container">
-        <h1>{{ hackathon.title }}{{ hackathon.locked ? " - LOCKED" : "" }}</h1>
         <div class="hackathon__loading" v-if="ideasLoading">loading ideas, some good, some bad...</div>
         <ul v-if="!ideasLoading">
             <li class="idea"
@@ -44,9 +43,9 @@
                                 No Faves Yet!
                             </p>
                         </div>
-                        <a role="button" @click="archive(idea.id)" v-if="idea.archived === 0" class="link link--underline">Archive</a>
-                        <a role="button" @click="restore(idea.id)" v-if="idea.archived === 1" class="link link--underline">Restore</a>
-                        <a role="button" @click="destroy(idea.id)" class="link link--underline">Delete</a>
+                        <a role="button" @click="archiveIdea(idea.id)" v-if="idea.archived === 0" class="link link--underline">Archive</a>
+                        <a role="button" @click="restoreIdea(idea.id)" v-if="idea.archived === 1" class="link link--underline">Restore</a>
+                        <a role="button" @click="destroyIdea(idea.id)" class="link link--underline">Delete</a>
                     </div>
                 </div>
             </li>
@@ -56,26 +55,27 @@
                 <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">
                     New Idea ""
                 </router-link>
-                <button role="button" @click="reset()" class="button">Reset Votes</button>
-                <button role="button" v-if="hackathon.locked === 0" @click="lockHackathon()" class="button">Lock Hackathon</button>
-                <button role="button" v-if="hackathon.locked === 1" @click="unlockHackathon()" class="button">Unlock Hackathon</button>
-                <button role="button" v-if="votesVisible === false" v-on:click="showVotes()" class="button">Reveal Votes</button>
-                <button role="button" v-if="votesVisible === true" v-on:click="hideVotes()" class="button">Hide Votes</button>
-                <button role="button" @click="deleteHackathon()" class="button">Delete Hackathon</button>
-                <input type="checkbox" name="showArchives" id="showArchives" @change="loadHackathon(true)" v-model.trim="showArchives" />
-                <label dor="showArchives">Show Archives</label>
-                <router-link :to="{ name: newHackathonRouteName, params: { hackathonId: hackathon.id } }" class="link link--underline">Edit</router-link>
             </div>
-            <div class="footer__sort">
-                <select name="sortOrder" @change="loadHackathon(true)" v-model.trim="sortOrder">
-                    <option value="created_at">Created At</option>
-                    <option value="title">Title</option>
-                    <option value="votes">Votes</option>
+            <div class="footer__selects">
+                <label for="sort">Sort:</label>
+                <select id="sort" name="sort" @change="loadHackathon(true)" v-model.trim="sort">
+                    <option value="most_recent">Most Recent</option>
+                    <option value="most_voted">Most Voted</option>
+                    <option value="a_z">A-Z</option>
                 </select>
-                <select name="sortDirection" @change="loadHackathon(true)" v-model.trim="sortDirection">
-                    <option value="DESC">Desc</option>
-                    <option value="ASC">Asc</option>
+                <label for="filter">Show:</label>
+                <select id="filter" name="filter" @change="loadHackathon(true)" v-model.trim="filter">
+                    <option value="unarchived">Unarchived</option>
+                    <option value="archived">Archived</option>
+                    <option value="all">All</option>
                 </select>
+            </div>
+            <div class="footer__links">
+                <a role="button" @click="handleHackathonLock()" class="link link--underline"><span v-if="hackathon.locked">Un</span>lock</a>
+                <a role="button" @click="handleVoteVisibility()" class="link link--underline"><span v-if="!votesVisible">Reveal</span><span v-else>Hide</span></a>
+                <a role="button" @click="resetHackathon()" class="link link--underline">Reset</a>
+                <router-link :to="{ name: newHackathonRouteName, params: { hackathonId: hackathon.id } }" class="link link--underline">Edit</router-link>
+                <a role="button" @click="deleteHackathon()" class="link link--underline">Delete</a>
             </div>
         </Footer>
     </div>
@@ -114,8 +114,8 @@
 				ideaRouteName: IDEA_VIEW_NAME,
 				newIdeaRouteName: NEW_IDEA_VIEW_NAME,
                 newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
-				sortOrder: "created_at",
-				sortDirection: "DESC",
+				sort: 'created_at',
+                filter: '',
                 showArchives: false,
                 ideasLoading: true,
                 votesVisible: false,
@@ -154,15 +154,12 @@
                     this.loadHackathon();
                 });
 			},
-            showVotes() {
-			    this.votesVisible = true;
-            },
-            hideVotes() {
-                this.votesVisible = false;
+            handleVoteVisibility() {
+			    this.votesVisible = !this.votesVisible;
             },
             loadHackathon(showLoader) {
 			    this.ideasLoading = showLoader;
-                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sortOrder, this.sortDirection, this.showArchives)).then(response => {
+                HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, this.sort, this.filter)).then(response => {
                     this.ideasLoading = false;
                     store.hackathon = response.data;
                 });
@@ -181,30 +178,31 @@
                     });
                 }
             },
-            lockHackathon() {
+            handleHackathonLock() {
+			  if (!store.hackathon.locked) {
                 HttpService.get(lockHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
-                  store.hackathon.locked = 1;
-                });;
-            },
-            unlockHackathon() {
+                  store.hackathon.locked = true;
+                });
+              } else {
                 HttpService.get(unlockHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
-                  store.hackathon.locked = 0;
-                });;
+                  store.hackathon.locked = false;
+                });
+              }
             },
-            destroy(id) {
+            destroyIdea(id) {
                 if (confirm("Are you sure you want to delete this idea, its votes and its comments?")) {
                     store.hackathon.ideas = store.hackathon.ideas.filter((idea) => {
                         return idea.id !== id;
                     });
                     HttpService.get(deleteIdeaEndpoint(id)).then(response => {
                       this.loadHackathon();
-                    });;
+                    });
                 }
             },
-            archive(id) {
+            archiveIdea(id) {
               HttpService.get(archiveIdeaEndpoint(id));
             },
-            restore(id) {
+            restoreIdea(id) {
               HttpService.get(restoreIdeaEndpoint(id));
             }
 		}
