@@ -13,7 +13,7 @@
 @import 'link';
 @import 'messages';
 @import 'rendered-markdown';
-@import 'vote';
+@import 'vote-favorite';
 
 html {
     font-size: $font-size-mobile;
@@ -23,22 +23,16 @@ html {
     }
 }
 
+html * {
+    font-size: 2rem;
+    line-height: 2rem;
+}
+
 body {
     background-color: $body-bg;
     font-family: $font-family-primary;
     color: $color-primary;
 }
-
-h1 {
-    font-size: 2rem;
-    line-height: 2.8rem;
-    margin-bottom: 2.7rem;
-}
-
-h2 {
-    font-size: 2.6rem;
-    line-height: 4rem;
-    margin-bottom: 0.1rem;}
 
 a {
     text-decoration: underline;
@@ -57,4 +51,11 @@ a {
     position: absolute;
     top: 20px;
     right: 20px;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid $color-primary;
+    width: 2rem;
+    margin: 3rem auto 3rem 0;
 }

@@ -23,13 +23,6 @@
         color: $color-primary;
     }
 
-    .small-text {
-        opacity: 0.5;
-        font-size: 1.2rem;
-        line-height: 1.8rem;
-        font-weight: $font-weight-default;
-    }
-
     &__enter-text {
         margin-left: 3rem;
     }
@@ -44,13 +37,11 @@
         margin-bottom: 3.3rem;
     }
     &__name {
-        font-size: 1.6rem;
         line-height: 2.3rem;
         font-weight: $font-weight-bold;
     }
 
     &__content {
-        font-size: 1.6rem;
         line-height: 2.4rem;
         margin-top: 0.4rem;
     }

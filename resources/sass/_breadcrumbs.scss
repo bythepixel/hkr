@@ -1,22 +1,35 @@
 .breadcrumbs {
+    flex: 1;
+
     @include respond-above(md) {
         display: flex;
     }
+
     &__item {
         display: block;
-        margin: 0 2rem 0 0;
-        font-size: 2rem;
+        margin: 0 1rem 0 0;
         text-transform: uppercase;
+        line-height: 2.8rem;
+        height: 2.8rem;
 
-        span, a {
+        span,
+        a {
             display: inline-block;
             max-width: 35rem;
-            overflow: hidden;
+            overflow-x: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            line-height: 2.8rem;
-            height: 2.8rem;
-            text-decoration: none;
+            vertical-align: middle;
+        }
+
+        &:last-of-type::before {
+            content: "/";
+            vertical-align: middle;
+            margin: 0 1rem 0 0;
+        }
+
+        &:first-of-type::before {
+            display: none;
         }
     }
 }

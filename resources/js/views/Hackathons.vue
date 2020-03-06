@@ -1,25 +1,22 @@
 <template>
     <div class="hackathons">
-        <ul class="container">
-            <li class="hackathons__item" v-for="hackathon in hackathons" :key="hackathon.id">
-                <p class="hackathons__summary">
-                    <router-link :to="{ name: hackathonRouteName, params: { hackathonId: hackathon.id } }" class="link">{{ hackathon.title }}</router-link>
-                </p>
-            </li>
-        </ul>
-        <div class="footer">
-            <div class="container">
-                <div class="footer__tools">
-                    <router-link :to="{ name: newHackathonRouteName }" class="button">New Hackathon ""</router-link>
-                </div>
-                <Copyright/>
-            </div>
+        <div class="container">
+            <ul class="hackathons__list">
+                <li class="hackathons__item" v-for="hackathon in hackathons" :key="hackathon.id">
+                    <p class="hackathons__summary">
+                        <router-link :to="{ name: hackathonRouteName, params: { hackathonId: hackathon.id } }" class="link">{{ hackathon.title }}</router-link>
+                    </p>
+                </li>
+            </ul>
         </div>
+        <Footer>
+            <router-link :to="{ name: newHackathonRouteName }" class="button">New Hackathon ""</router-link>
+        </Footer>
     </div>
 </template>
 
 <script>
-import Copyright from '../components/Copyright';
+import Footer from '../components/Footer';
 import HttpService from 'axios';
 
 import store from '../data/store.js';
@@ -35,7 +32,7 @@ export default {
     name: "HackathonsView",
     props: ['hackathons'],
     components: {
-    	Copyright,
+    	Footer,
     },
     data() {
         return {
@@ -53,12 +50,9 @@ export default {
         store.showCreateHackathonButton = false;
     },
     methods: {
-        /**
-         * @returns {Promise<AxiosResponse<any>>}
-         */
         getHackathons() {
             HttpService.get(getHackathonsEndpoint()).then(response => store.hackathons = response.data);
-        },
+        }
     }
 }
 </script>
