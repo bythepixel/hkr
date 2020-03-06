@@ -97,9 +97,9 @@
 
 	import HttpService from 'axios';
 
-	import { digestNewVotes } from '../data/digest.js';
+	import { digestNewVotes, digestNewFavorites } from '../data/digest.js';
 
-	import { getHackathonEndpoint, getIdeaVotesEndpoint, deleteIdeaEndpoint, lockHackathonEndpoint, unlockHackathonEndpoint, resetHackathonEndpoint, deleteHackathonEndpoint, archiveIdeaEndpoint, restoreIdeaEndpoint } from '../config/endpoints.js';
+	import { getHackathonEndpoint, getIdeaVotesEndpoint, getIdeaFavoritesEndpoint, deleteIdeaEndpoint, lockHackathonEndpoint, unlockHackathonEndpoint, resetHackathonEndpoint, deleteHackathonEndpoint, archiveIdeaEndpoint, restoreIdeaEndpoint } from '../config/endpoints.js';
 
 	export default {
 		name: 'IdeasView',
@@ -135,6 +135,9 @@
 				this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
 					HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data));
 				});
+                this.channel.bind('App\\Events\\IdeaFavoriteAdded', (data) => {
+                    HttpService.get(getIdeaFavoritesEndpoint(data.idea_id)).then(response => digestNewFavorites(this.hackathon.ideas, data.idea_id, response.data));
+                });
                 this.channel.bind('App\\Events\\IdeaMessageAdded', (data) => {
                     this.loadHackathon();
                 });

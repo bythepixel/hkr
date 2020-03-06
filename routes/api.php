@@ -24,6 +24,7 @@ Route::get('hackathon/unlock/{id}', 'Api\HackathonController@unlock')->middlewar
 
 Route::post('idea', 'Api\IdeaController@create')->middleware('auth:api');
 Route::get('idea/{id}/votes', 'Api\IdeaController@getVotes')->middleware('auth:api');
+Route::get('idea/{id}/favorites', 'Api\IdeaController@getFavorites')->middleware('auth:api');
 Route::get('idea/{id}', 'Api\IdeaController@show')->middleware('auth:api');
 Route::get('idea/{id}/delete', 'Api\IdeaController@destroy')->middleware('auth:api');
 Route::get('idea/{id}/archive', 'Api\IdeaController@archive')->middleware('auth:api');

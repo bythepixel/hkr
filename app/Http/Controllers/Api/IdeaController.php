@@ -9,6 +9,7 @@ use App\Models\FeatureMessage;
 use App\Models\FeatureVote;
 use App\Models\Hackathon;
 use App\Models\Idea;
+use App\Models\IdeaFavorite;
 use App\Models\IdeaMessage;
 use App\Models\IdeaVote;
 use Illuminate\Http\Request;
@@ -57,6 +58,17 @@ class IdeaController extends Controller
         $ideaVotes = IdeaVote::with(['user'])->where(['idea_id' => $ideaId])->get();
 
         return response()->json($ideaVotes);
+    }
+
+    /**
+     * @param $ideaId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getFavorites($ideaId)
+    {
+        $ideaFavorites = IdeaFavorite::with(['user'])->where(['idea_id' => $ideaId])->get();
+
+        return response()->json($ideaFavorites);
     }
 
     /**
