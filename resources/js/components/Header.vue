@@ -60,6 +60,9 @@
                 title: '',
             }
         },
+        created() {
+            this.getPageTitle();
+        },
         watch: {
             $route (to, from) {
                 this.clearPageTitle();

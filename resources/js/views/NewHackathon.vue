@@ -60,7 +60,7 @@
             },
             loadHackathon() {
                 const hackathonId = this.$route.params.hackathonId ? this.$route.params.hackathonId : store.hackathon.id;
-                HttpService.get(getHackathonEndpoint(hackathonId, "votes", "DESC")).then(response => {
+                HttpService.get(getHackathonEndpoint(hackathonId, "most_recent", "unarchived")).then(response => {
                     store.hackathon = response.data;
                     this.title = response.data.title;
                 });
