@@ -6,13 +6,16 @@
             <li class="idea"
                 v-if="hackathon.ideas && hackathon.ideas.length"
                 v-for="idea in hackathon.ideas"
-                :key="idea.id">
+                :key="idea.id"
+                :class="{'archived': idea.archived === 1}"
+            >
                 <div class="idea__inner">
                     <IdeaVote :idea="idea" :hackathon="hackathon" />
                     <div class="idea__content">
                         <h2 class="idea__title">
-                            <router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }" class="link"><span v-if="idea.archived === 1">ARCHIVED: </span>{{ idea.title }}</router-link>
+                            <router-link :to="{ name: ideaRouteName, params: { ideaId: idea.id } }" class="link">{{ idea.title }}</router-link>
                         </h2>
+                        <div class="idea__archived" v-if="idea.archived === 1">Archived</div>
                         <p class="idea__details">
                             {{ idea.created_at }} | {{ idea.user.name }} | {{ idea.messages.length }} Comment<span v-if="idea.messages.length !== 1">s</span>
                         </p>
@@ -41,49 +44,45 @@
                                 No Faves Yet!
                             </p>
                         </div>
-                        <a role="button" v-on:click="archive(idea.id)" v-if="idea.archived === 0" class="link link--reverse">Archive</a>
-                        <a role="button" v-on:click="restore(idea.id)" v-if="idea.archived === 1" class="link link--reverse">Restore</a>
-                        <a role="button" @click="destroy(idea.id)" class="link link--reverse">Delete</a>
+                        <a role="button" @click="archive(idea.id)" v-if="idea.archived === 0" class="link link--underline">Archive</a>
+                        <a role="button" @click="restore(idea.id)" v-if="idea.archived === 1" class="link link--underline">Restore</a>
+                        <a role="button" @click="destroy(idea.id)" class="link link--underline">Delete</a>
                     </div>
                 </div>
             </li>
         </ul>
-        <div class="footer">
-            <div class="container">
-                <div class="footer__tools">
-                    <div class="footer__buttons">
-                        <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">
-                            New Idea ""
-                        </router-link>
-                        <button role="button" @click="reset()" class="button">Reset Votes</button>
-                        <button role="button" v-if="hackathon.locked === 0" v-on:click="lockHackathon()" class="button">Lock Hackathon</button>
-                        <button role="button" v-if="hackathon.locked === 1" v-on:click="unlockHackathon()" class="button">Unlock Hackathon</button>
-                        <button role="button" v-if="votesVisible === false" v-on:click="showVotes()" class="button">Reveal Votes</button>
-                        <button role="button" v-if="votesVisible === true" v-on:click="hideVotes()" class="button">Hide Votes</button>
-                        <button role="button" v-on:click="deleteHackathon()" class="button">Delete Hackathon</button>
-                        <input type="checkbox" name="showArchives" id="showArchives" v-on:change="loadHackathon(true)" v-model.trim="showArchives" />
-                        <label dor="showArchives">Show Archives</label>
-                    </div>
-                    <div class="footer__sort">
-                        <select name="sortOrder" @change="loadHackathon(true)" v-model.trim="sortOrder">
-                            <option value="created_at">Created At</option>
-                            <option value="title">Title</option>
-                            <option value="votes">Votes</option>
-                        </select>
-                        <select name="sortDirection" @change="loadHackathon(true)" v-model.trim="sortDirection">
-                            <option value="DESC">Desc</option>
-                            <option value="ASC">Asc</option>
-                        </select>
-                    </div>
-                </div>
-                <Copyright/>
+        <Footer>
+            <div class="footer__buttons">
+                <router-link :to="{ name: newIdeaRouteName, params: { hackathonId: hackathon.id } }" class="button">
+                    New Idea ""
+                </router-link>
+                <button role="button" @click="reset()" class="button">Reset Votes</button>
+                <button role="button" v-if="hackathon.locked === 0" @click="lockHackathon()" class="button">Lock Hackathon</button>
+                <button role="button" v-if="hackathon.locked === 1" @click="unlockHackathon()" class="button">Unlock Hackathon</button>
+                <button role="button" v-if="votesVisible === false" v-on:click="showVotes()" class="button">Reveal Votes</button>
+                <button role="button" v-if="votesVisible === true" v-on:click="hideVotes()" class="button">Hide Votes</button>
+                <button role="button" @click="deleteHackathon()" class="button">Delete Hackathon</button>
+                <input type="checkbox" name="showArchives" id="showArchives" @change="loadHackathon(true)" v-model.trim="showArchives" />
+                <label dor="showArchives">Show Archives</label>
+                <router-link :to="{ name: newHackathonRouteName, params: { hackathonId: hackathon.id } }" class="link link--underline">Edit</router-link>
             </div>
-        </div>
+            <div class="footer__sort">
+                <select name="sortOrder" @change="loadHackathon(true)" v-model.trim="sortOrder">
+                    <option value="created_at">Created At</option>
+                    <option value="title">Title</option>
+                    <option value="votes">Votes</option>
+                </select>
+                <select name="sortDirection" @change="loadHackathon(true)" v-model.trim="sortDirection">
+                    <option value="DESC">Desc</option>
+                    <option value="ASC">Asc</option>
+                </select>
+            </div>
+        </Footer>
     </div>
 </template>
 
 <script>
-    import Copyright from '../components/Copyright';
+    import Footer from '../components/Footer';
 	import store from '../data/store.js';
 
 	import SocketService from '../services/SocketService.js'
@@ -91,6 +90,7 @@
 	import {
 		NEW_IDEA_VIEW_NAME,
 		IDEA_VIEW_NAME,
+        NEW_HACKATHON_VIEW_NAME,
 	} from '../config/routes.js';
 
 	import IdeaVote from '../components/IdeaVote.vue';
@@ -106,13 +106,14 @@
 		props: ['hackathon'],
 		components: {
 			IdeaVote,
-            Copyright,
+            Footer,
 		},
 		data() {
 			return {
 				channel: null,
 				ideaRouteName: IDEA_VIEW_NAME,
 				newIdeaRouteName: NEW_IDEA_VIEW_NAME,
+                newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
 				sortOrder: "created_at",
 				sortDirection: "DESC",
                 showArchives: false,

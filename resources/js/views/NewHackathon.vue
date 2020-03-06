@@ -1,38 +1,70 @@
 <template>
-    <div class="container">
-        <p v-if="errorMessage">{{ errorMessage }}</p>
-        <form @submit.prevent="onSubmit">
-            <div class="field-wrapper">
-                <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}">
-                <label for="title">Name of Hackathon</label>
-            </div>
-            <button role="button">Create</button>
-        </form>
+    <div>
+        <div class="container">
+            <p v-if="errorMessage">{{ errorMessage }}</p>
+            <form>
+                <div class="field-wrapper">
+                    <label for="title">Name of Hackathon</label>
+                    <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}">
+                </div>
+            </form>
+        </div>
+        <Footer>
+            <button role="button" @click="onSubmit()">
+                <span v-if="!editMode">
+                    Create
+                </span>
+                <span v-else>
+                    Update
+                </span>
+            </button>
+        </Footer>
     </div>
 </template>
 
 <script>
 	import HttpService from 'axios';
 
-	import { newHackathonEndpoint } from '../config/endpoints';
+	import { newHackathonEndpoint, getHackathonEndpoint } from '../config/endpoints';
 
 	import { HACKATHON_VIEW_NAME, HACKATHONS_VIEW_NAME } from '../config/routes.js';
 
 	import store from '../data/store.js';
 
+    import Footer from '../components/Footer';
+
 	export default {
 		name: "NewHackathonView",
 		props: ['user'],
+        components: {
+            Footer,
+        },
 		data() {
 			return {
 				errorMessage: null,
 				title: null,
+                editMode: false,
 			}
 		},
 		created() {
 			store.idea = null;
-		},
+			// TODO: Get this to work on refresh
+			if (this.$route.params.hackathonId || store.hackathon) {
+			  this.editMode = true;
+              this.activateEditMode();
+            }
+        },
 		methods: {
+            activateEditMode() {
+              this.loadHackathon();
+            },
+            loadHackathon() {
+                const hackathonId = this.$route.params.hackathonId ? this.$route.params.hackathonId : store.hackathon.id;
+                HttpService.get(getHackathonEndpoint(hackathonId, "votes", "DESC")).then(response => {
+                    store.hackathon = response.data;
+                    this.title = response.data.title;
+                });
+            },
 			onSubmit() {
 				this.errorMessage = null;
 

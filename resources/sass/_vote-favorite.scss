@@ -1,6 +1,5 @@
 .vote-favorite {
     position: relative;
-    font-size: 2rem;
     width: 25%;
 
     &__count {
@@ -9,8 +8,6 @@
     }
 
     &__link {
-        margin-bottom: 0.3rem;
-
         &.interacted {
             background-color: transparent;
             color: $color-primary;

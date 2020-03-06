@@ -1,21 +1,25 @@
 <template>
-    <div class="container">
-        <p v-if="errorMessage">{{ errorMessage }}</p>
-        <form @submit.prevent="onSubmit">
-            <div class="field-wrapper">
-                <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}">
-                <label for="title">Title</label>
-            </div>
-            <div class="field-wrapper">
-                <textarea rows="4" cols="50" v-model.trim="description" id="description" required="" :class="{'has-value': description}"></textarea>
-                <label for="description">Description</label>
-            </div>
-            <div class="field-wrapper">
-                <textarea rows="4" cols="50" v-model.trim="long_description" id="long_description" :class="{'has-value': long_description}"></textarea>
-                <label for="long_description">Long Description</label>
-            </div>
-            <button role="button">Add</button>
-        </form>
+    <div>
+        <div class="container">
+            <p v-if="errorMessage">{{ errorMessage }}</p>
+            <form>
+                <div class="field-wrapper">
+                    <label for="title">Title</label>
+                    <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}">
+                </div>
+                <div class="field-wrapper">
+                    <label for="description">Short Description</label>
+                    <textarea rows="4" cols="50" v-model.trim="description" id="description" required="" :class="{'has-value': description}"></textarea>
+                </div>
+                <div class="field-wrapper">
+                    <label for="long_description">Long Description</label>
+                    <textarea rows="4" cols="50" v-model.trim="long_description" id="long_description" :class="{'has-value': long_description}"></textarea>
+                </div>
+            </form>
+        </div>
+        <Footer>
+            <button role="button" @click="onSubmit()">Add</button>
+        </Footer>
     </div>
 </template>
 
@@ -28,9 +32,14 @@
 
 	import store from '../data/store.js';
 
+    import Footer from '../components/Footer';
+
 	export default {
 		name: "NewIdeaView",
 		props: [],
+        components: {
+            Footer,
+        },
 		data() {
 			return {
 				errorMessage: null,

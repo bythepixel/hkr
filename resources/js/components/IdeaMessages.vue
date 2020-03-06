@@ -5,6 +5,7 @@
                 <div class="field-wrapper">
                     <p v-if="errorMessage">{{ errorMessage }}</p>
                     <form @submit.prevent="onSubmit">
+                        <label>Join the conversation...</label>
                         <input
                             type="text"
                             name="comment"
@@ -13,7 +14,6 @@
                             v-model.trim="messageContent"
                             :class="{'has-value': messageContent}"
                         >
-                        <label>Join the conversation...</label>
                     </form>
                 </div>
                 <p class="messages__enter-text small-text">Press "Enter" to Add</p>

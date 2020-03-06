@@ -3,12 +3,29 @@
     border: 1px solid $color-primary;
     padding: 0.5rem;
     max-width: 80rem;
+    position: relative;
 
     &__inner {
         padding: 2rem;
         border: 1px solid $color-primary;
         display: flex;
         align-items: flex-start;
+    }
+
+    &.archived {
+        .idea__inner {
+            border: none;
+        }
+    }
+
+    &__archived {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-left: 1px solid $color-primary;
+        border-bottom: 1px solid $color-primary;
+        padding: .5rem 1rem;
+        text-transform: uppercase;
     }
 
     &__content {
@@ -25,15 +42,18 @@
         }
     }
 
+    &__title {
+        width: 100%;
+        max-width: 50rem;
+    }
+
     &__details {
         margin: 1rem 0;
-        font-size: 2rem;
         line-height: 2.4rem;
         text-transform: uppercase;
     }
 
     &__description {
-        font-size: 2rem;
         line-height: 2.4rem;
         padding-bottom: 2rem;
     }

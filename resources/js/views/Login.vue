@@ -4,12 +4,12 @@
             <h1>Login</h1>
             <h1 class="error">{{ loginErrorMessage }}</h1>
             <div class="field-wrapper">
-                <input type="text" v-model.trim="email" id="email" :class="{'has-value': email}">
                 <label for="email">Username</label>
+                <input type="text" v-model.trim="email" id="email" :class="{'has-value': email}">
             </div>
             <div class="field-wrapper">
-                <input type="password" v-model.trim="password" id="password" :class="{'has-value': password}">
                 <label for="password">Password</label>
+                <input type="password" v-model.trim="password" id="password" :class="{'has-value': password}">
             </div>
             <button role="button">Login</button>
         </form>
