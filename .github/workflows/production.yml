@@ -1,0 +1,131 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - deploy-provision
+
+env:
+  PRIVATE_KEY: ${{ secrets.SERVER_SSH_PRIV }}
+  PUSHER_APP_SECRET: ${{ secrets.PUSHER_APP_SECRET }}
+  SERVER_IP: '34.232.76.159'
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Git checkout Core
+        uses: actions/checkout@v2
+
+      - name: Use node v10
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+
+      - name: Install node dependencies for frontend
+        uses: bahmutov/npm-install@v1
+
+      - name: Handle production specific tasks
+        run: |
+          mv .env.production .env
+          sudo sed -i -r "s/\[PUSHER_APP_SECRET\]/${{ env.PUSHER_APP_SECRET }}/" .env > /dev/null
+
+      - name: Build frontend
+        run: npm run prod
+
+      - name: Save frontend build
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend
+          path: public/
+
+  build-backend:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Git checkout Core
+        uses: actions/checkout@v2
+
+      - name: Use php 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install php dependencies
+        run: composer install --no-dev --optimize-autoloader --prefer-dist
+
+      - name: Create artifact
+        run: tar -zcf /tmp/backend.tar.gz ./
+
+      - name: Save backend build
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend
+          path: /tmp/backend.tar.gz
+
+  deploy-production:
+    needs: [build-frontend, build-backend]
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Download and combine frontend, faceted-search and backend
+        uses: actions/download-artifact@v2
+
+      - name: Extract and move artifacts into release folder
+        run: |
+          mkdir release
+          tar -zxf backend/backend.tar.gz -C release
+          cp -r frontend/* release/public
+
+      - name: Remove files not necesarry for release
+        working-directory: release
+        run: |
+          rm -rf .github
+          rm -rf tests
+
+      - name: Create final release artifact
+        run: tar -zcvf /tmp/${{ github.sha }}.tar.gz -C release .
+
+      - name: Handle production specific tasks
+        working-directory: release
+        run: |
+          mv .env.production .env
+          sudo sed -i -r "s/\[PUSHER_APP_SECRET\]/${{ env.PUSHER_APP_SECRET }}/" .env > /dev/null
+          php artisan key:generate
+
+      - name: Copy release to production servers using scp
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ env.SERVER_IP }}
+          USERNAME: app-user
+          KEY: ${{ env.PRIVATE_KEY }}
+        with:
+          source: 'release/*'
+          target: ~/releases/${{ github.sha }}
+          strip_components: 1
+
+      - name: Flip to new release and migrate database on production servers
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.SERVER_IP }}
+          key: ${{ env.PRIVATE_KEY }}
+          username: app-user
+          script_stop: true
+          script: |
+            sudo rm -f /srv/www
+            sudo ln -s ~/releases/${{ github.sha }} /srv/www
+            cd releases && ls -1t | tail -n +5 | xargs rm -rf
+            cd /srv/www
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
