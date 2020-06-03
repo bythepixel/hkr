@@ -7,6 +7,7 @@ import store from './data/store.js';
 import moment from "moment-timezone";
 import VueMoment from 'vue-moment'
 import LocalStorageService from './services/LocalStorageService';
+import VueShowdown from 'vue-showdown'
 
 HttpService.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -23,7 +24,14 @@ HttpService.defaults.headers.common['Authorization'] = `Bearer ${LocalStorageSer
 
 Vue.use(VueRouter);
 Vue.use(VueMoment, {moment});
+
 moment.tz.setDefault('UTC');
+
+Vue.use(VueShowdown, {
+    options: {
+        emoji: true
+    }
+});
 
 const router = new VueRouter({
     mode: 'history',

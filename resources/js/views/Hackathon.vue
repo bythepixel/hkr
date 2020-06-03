@@ -166,15 +166,15 @@
                 }
             },
             handleHackathonLock() {
-			  if (!store.hackathon.locked) {
-                HttpService.get(lockHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
-                  store.hackathon.locked = true;
-                });
-              } else {
-                HttpService.get(unlockHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
-                  store.hackathon.locked = false;
-                });
-              }
+			          if (!store.hackathon.locked) {
+                    HttpService.get(lockHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+                        store.hackathon.locked = true;
+                    });
+                } else {
+                    HttpService.get(unlockHackathonEndpoint(this.$route.params.hackathonId)).then(response => {
+                      store.hackathon.locked = false;
+                    });
+                }
             },
             destroyIdea(id) {
                 if (confirm("Are you sure you want to delete this idea, its votes and its comments?")) {

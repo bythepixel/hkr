@@ -32,7 +32,7 @@
 			    channel: null,
 			    idea: null,
 			    hackathon: null,
-                loaded: false,
+          loaded: false,
 		    }
 	    },
 	    created() {
