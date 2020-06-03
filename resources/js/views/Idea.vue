@@ -90,7 +90,7 @@
             },
             loadHackathon() {
 	            if (!store.hackathon) {
-		            HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, "votes", "DESC")).then(response => {
+		            HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, "most_recent", "unarchived")).then(response => {
 			            store.hackathon = response.data;
 		            });
 	            }
