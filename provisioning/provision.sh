@@ -25,8 +25,8 @@ echo "Update ubuntu"
 sudo apt-get update -y > /dev/null
 sudo DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade -y > /dev/null
 
-echo "Install NodeJS 12.x"
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - > /dev/null
+echo "Install NodeJS 10.x"
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - > /dev/null
 sudo DEBIAN_FRONTEND=noninteractive apt-get install nodejs -y > /dev/null
 
 echo "Install Apache"
@@ -91,10 +91,15 @@ echo "mysql-server mysql-server/root_password password hkr" | sudo debconf-set-s
 echo "mysql-server mysql-server/root_password_again password hkr" | sudo debconf-set-selections
 sudo DEBIAN_FRONTEND=noninteractive apt-get install mysql-server -y > /dev/null
 sudo cp ${PROVISION_FILES_PATH}/mysql/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf > /dev/null
-sudo mysql -uroot -proot --execute="CREATE DATABASE hkr" > /dev/null
-sudo mysql -uroot -proot --execute="UPDATE mysql.user SET Host='%' WHERE User='hkr';" > /dev/null
+sudo mysql -uroot -phkr --execute="CREATE DATABASE hkr" > /dev/null
 
-if [ ${ENVIRONMENT} != 'local' ]
+if [ ${ENVIRONMENT} == 'local' ]
+then
+    echo "Allow mysql access from host"
+    sudo mysql -uroot -phkr --execute="UPDATE mysql.user SET Host='%' WHERE User='root';" > /dev/null
+fi
+
+if [ ${ENVIRONMENT} == 'production' ]
 then
     echo "Ensure read/write permissions are owned by app user"
     sudo chown -R ${USER}:${USER} /srv/www > /dev/null
