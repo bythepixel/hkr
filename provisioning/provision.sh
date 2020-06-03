@@ -12,11 +12,11 @@ if [ ${ENVIRONMENT} == 'production' ]
 then
     PROVISION_FILES_PATH="/home/ubuntu/provisioning"
     USER="app-user"
-    APP_DOMAIN="hkr.local"
+    APP_DOMAIN="hkr.bythepixel.com"
 else
     PROVISION_FILES_PATH="/srv/www/provisioning"
     USER="vagrant"
-    APP_DOMAIN="hkr.bythepixel.com"
+    APP_DOMAIN="hkr.local"
 fi
 
 export DEBIAN_FRONTEND=noninteractive

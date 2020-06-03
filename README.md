@@ -49,6 +49,7 @@ All commands can be run from host as long as you have the requirements outlined 
 - `ssh ubuntu@<public_ip>`
 - `cd /home/ubuntu/provisioning`
 - Run the provisioning script by `./provision.sh [env]` (local, production) 
+- Manually execute the following steps to enable SSL: https://certbot.eff.org/lets-encrypt/ubuntubionic-apache.html  t
 
 ## Deploying to Production
 - Any commit to master will trigger a github action (`.github/workflows/production.yml`)
