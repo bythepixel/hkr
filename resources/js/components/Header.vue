@@ -80,7 +80,6 @@
       getPageTitle () {
         if (this.$route.name === this.ideaRouteName) {
           this.title = this.idea.title
-          console.log('here');
         } else if (this.$route.name === this.newIdeaRouteName) {
           this.title = 'New Idea'
         } else if (this.$route.name === this.newHackathonRouteName) {
