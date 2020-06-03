@@ -7,12 +7,11 @@
             <router-link v-if="breadcrumbs.linkToIndex" :to="{ name: hackathonsRouteName }" class="link link--outline">
               {{ breadcrumbs.text }}
             </router-link>
-            <span v-if="!breadcrumbs.linkToIndex">{{ breadcrumbs.text }}</span>
+            <span v-else>{{ breadcrumbs.text }}</span>
           </li>
           <li v-if="hackathon" class="breadcrumbs__item">
             <span v-if="!title">{{ hackathon.title }}</span>
-            <router-link v-if="title" :to="{ name: hackathonRouteName }" class="link link--underline">{{ hackathon.title
-              }}
+            <router-link v-else :to="{ name: hackathonRouteName }" class="link link--underline">{{ hackathon.title }}
             </router-link>
           </li>
           <li v-if="title" class="breadcrumbs__item">
@@ -64,12 +63,14 @@
         title: '',
       }
     },
-    created () {
-      this.getPageTitle()
+    created() {
+        this.getPageTitle()
     },
     watch: {
       $route (to, from) {
-        this.clearPageTitle()
+        this.getPageTitle()
+      },
+      idea() {
         this.getPageTitle()
       }
     },
@@ -78,6 +79,8 @@
         this.$emit('userLogoutRetrieved')
       },
       getPageTitle () {
+        this.clearPageTitle()
+
         if (this.$route.name === this.ideaRouteName) {
           this.title = this.idea.title
         } else if (this.$route.name === this.newIdeaRouteName) {

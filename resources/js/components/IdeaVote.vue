@@ -41,7 +41,7 @@
         name: 'IdeaVote',
         props: [
         	'idea',
-            'hackathon'
+          'hackathon'
         ],
         methods: {
             handleVote(idea) {
