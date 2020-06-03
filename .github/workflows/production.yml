@@ -25,6 +25,11 @@ jobs:
       - name: Install node dependencies for frontend
         uses: bahmutov/npm-install@v1
 
+      - name: Handle production specific tasks
+        run: |
+          mv .env.production .env
+          sudo sed -i -r "s/\[PUSHER_APP_SECRET\]/${{ env.PUSHER_APP_SECRET }}/" .env > /dev/null
+
       - name: Build frontend
         run: npm run prod
 
