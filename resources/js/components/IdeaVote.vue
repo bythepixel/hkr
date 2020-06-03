@@ -2,10 +2,20 @@
     <div class="vote-favorite">
         <div class="vote-favorite__count-wrapper">
             <div class="vote-favorite__count">
-                {{ idea.votes.length }} like<span v-if="idea.votes.length !== 1">s</span>
+                <span v-if="idea.votes">
+                    {{ idea.votes.length }} like<span v-if="idea.votes.length !== 1">s</span>
+                </span>
+                <span v-else>
+                    0 likes
+                </span>
             </div>
             <div class="vote-favorite__count">
-                {{ idea.favorites.length }} fave<span v-if="idea.favorites.length !== 1">s</span>
+                <span v-if="idea.favorites">
+                    {{ idea.favorites.length }} like<span v-if="idea.favorites.length !== 1">s</span>
+                </span>
+                <span v-else>
+                    0 likes
+                </span>
             </div>
         </div>
         <div class="vote-favorite__link-wrapper" v-if="hackathon.locked === 0">
