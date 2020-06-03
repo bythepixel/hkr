@@ -11,10 +11,10 @@
             </div>
             <div class="vote-favorite__count">
                 <span v-if="idea.favorites">
-                    {{ idea.favorites.length }} like<span v-if="idea.favorites.length !== 1">s</span>
+                    {{ idea.favorites.length }} fave<span v-if="idea.favorites.length !== 1">s</span>
                 </span>
                 <span v-else>
-                    0 likes
+                    0 faves
                 </span>
             </div>
         </div>
