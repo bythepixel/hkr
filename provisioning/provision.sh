@@ -102,6 +102,7 @@ fi
 if [ ${ENVIRONMENT} == 'production' ]
 then
     echo "Ensure read/write permissions are owned by app user"
+    sudo mkdir /srv/www
     sudo chown -R ${USER}:${USER} /srv/www > /dev/null
 fi
 

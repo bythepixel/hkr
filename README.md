@@ -30,7 +30,7 @@ All commands can be run from host as long as you have the requirements outlined 
 
 ### Access the Database
 - Ssh into Vagrant: `vagrant ssh`
-- Access database via mysql client: `mysql -h192.168.99.100 -uroot -proot`
+- Access database via mysql client: `mysql -h192.168.99.100 -uroot -phkr`
 
 ## Production 
 
@@ -40,7 +40,7 @@ All commands can be run from host as long as you have the requirements outlined 
 - AMI: Ubuntu 18.04
 - Size: T2.Micro
 - Protect against accidental termination
-- Security Groups: Basic Load Balanced Webserver && Github Actions
+- Security Groups: Basic Webserver && Github Actions
 - Click Launch > Choose an existing key pair. Select yours.
 
 ### SSHing into Server and Provisioning
