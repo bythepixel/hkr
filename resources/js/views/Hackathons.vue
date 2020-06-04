@@ -1,7 +1,8 @@
 <template>
     <div class="hackathons">
         <div class="container">
-            <ul class="hackathons__list">
+            <div v-if="!loaded">{{ loaderText }}</div>
+            <ul v-else class="hackathons__list">
                 <li class="hackathons__item" v-for="hackathon in hackathons" :key="hackathon.id">
                     <p class="hackathons__summary">
                         <router-link :to="{ name: hackathonRouteName, params: { hackathonId: hackathon.id } }" class="link">{{ hackathon.title }}</router-link>
@@ -38,6 +39,8 @@ export default {
         return {
             newHackathonRouteName: NEW_HACKATHON_VIEW_NAME,
             hackathonRouteName: HACKATHON_VIEW_NAME,
+            loaded: false,
+            loaderText: 'Loading hackathons...'
         }
     },
     created() {
@@ -52,6 +55,7 @@ export default {
     methods: {
         getHackathons() {
             HttpService.get(getHackathonsEndpoint()).then(response => store.hackathons = response.data);
+            this.loaded = true
         }
     }
 }

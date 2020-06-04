@@ -1,26 +1,32 @@
 <template>
-  <div v-if="loaded" class="idea-view">
+  <div class="idea-view">
     <div class="container">
-      <div class="idea">
-        <div class="idea__inner">
-          <IdeaVote :idea="idea" :hackathon="hackathon"/>
-          <div class="idea__content">
-            <h2 class="idea__title">
-              {{ idea.title }}
-            </h2>
-            <div class="idea__archived" v-if="idea.archived === 1">Archived</div>
-            <p class="idea__details">
-              {{ idea.created_at }} | {{ idea.user.name }} | {{ idea.messages.length }} Comment<span
-                v-if="idea.messages.length !== 1">s</span>
-            </p>
-            <p class="idea__description">
-              {{ idea.description }}
-            </p>
+      <div v-if="!loaded">{{ loaderText }}</div>
+      <div v-else>
+        <div class="idea">
+          <div class="idea__inner">
+            <IdeaVote :idea="idea" :hackathon="hackathon"/>
+            <div class="idea__content">
+              <h2 class="idea__title">
+                {{ idea.title }}
+              </h2>
+              <div class="idea__archived" v-if="idea.archived === 1">Archived</div>
+              <p class="idea__details">
+                {{ idea.created_at }} | {{ idea.user.name }} | {{ idea.messages.length }} Comment<span
+                  v-if="idea.messages.length !== 1">s</span>
+              </p>
+              <p class="idea__description">
+                {{ idea.description }}
+              </p>
+              <p v-if="idea.long_description" class="idea__long-description">
+                {{ idea.long_description }}
+              </p>
+            </div>
           </div>
         </div>
+        <IdeaMessages :idea="idea"/>
       </div>
     </div>
-    <IdeaMessages :idea="idea"/>
   </div>
 </template>
 
@@ -50,6 +56,7 @@
         idea: null,
         loaded: false,
         hackathon: null,
+        loaderText: 'Loading idea...'
       }
     },
     created () {

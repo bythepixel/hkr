@@ -85,7 +85,7 @@
       addVote (idea) {
         let vote = {
           idea_id: idea.id,
-          user_id: store.user.id
+          user_id: store.user.id,
         }
         idea.votes.push(vote)
         HttpService.post(addIdeaVoteEndpoint(), { idea_id: idea.id })

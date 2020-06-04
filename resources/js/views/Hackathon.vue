@@ -29,7 +29,7 @@
                   <p>Liked: <span v-if="idea.votes.length === 0">No likes yet!</span>
                     <span v-else
                        v-for="vote in idea.votes"
-                       class="idea__interacted-user">{{ getUserNames(idea.votes.user_id) }}</span>
+                       class="idea__interacted-user">{{ vote.user.name }}</span>
                   </p>
                 </div>
                 <div class="idea__favorites">
