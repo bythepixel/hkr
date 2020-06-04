@@ -13,6 +13,7 @@ export const getHackathonsEndpoint = () => `/api/hackathon`,
     addIdeaVoteEndpoint = () => `/api/ideaVote`,
     addIdeaFavoriteEndpoint = () => `/api/ideaFavorite`,
     deleteIdeaVoteEndpoint = (ideaId) => `/api/ideaVote/deleteByUserAndIdea/${ideaId}`,
+    deleteIdeaFavoriteEndpoint = (ideaId) => `/api/ideaFavorite/deleteByUserAndIdea/${ideaId}`,
     addIdeaMessageEndpoint = () => `/api/ideaMessage`,
     addIdeaChildMessageEndpoint = (id, messageId) => `/api/idea/${id}/message/${messageId}`,
 

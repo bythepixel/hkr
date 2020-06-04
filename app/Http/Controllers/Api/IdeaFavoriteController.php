@@ -47,7 +47,7 @@ class IdeaFavoriteController extends Controller
 
         $ideaVote->delete();
 
-        broadcast(new IdeaVoteDeleted($ideaVote));
+        broadcast(new IdeaFavoriteDeleted($ideaVote));
     }
 
     /**
