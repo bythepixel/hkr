@@ -28,18 +28,14 @@
                 <p>Liked: <span v-if="idea.votes.length === 0">No likes yet!</span>
                   <span v-else
                      v-for="vote in idea.votes"
-                     class="idea__interacted-user">
-                    {{ vote.user.email }}
-                  </span>
+                     class="idea__interacted-user">{{ vote.user.name }}</span>
                 </p>
               </div>
               <div class="idea__favorites">
                 <p>Faved: <span v-if="idea.favorites.length === 0">No faves yet!</span>
                   <span v-else
                     v-for="favorite in idea.favorites"
-                    class="idea__interacted-user">
-                    {{ favorite.user.email }}
-                  </span>
+                    class="idea__interacted-user">{{ favorite.user.name }}</span>
                 </p>
               </div>
             </div>
@@ -81,8 +77,7 @@
             v-if="!votesVisible">Reveal</span><span v-else>Hide</span></a>
         <a role="button" @click="resetHackathon()" class="link link--underline">Reset</a>
         <router-link :to="{ name: newHackathonRouteName, params: { hackathonId: hackathon.id } }"
-            class="link link--underline">Edit
-        </router-link>
+            class="link link--underline">Edit</router-link>
         <a role="button" @click="deleteHackathon()" class="link link--underline">Delete</a>
       </div>
     </Footer>
@@ -104,11 +99,8 @@
 
   import HttpService from 'axios'
 
-  import { digestNewVotes } from '../data/digest.js'
-
   import {
     getHackathonEndpoint,
-    getIdeaVotesEndpoint,
     deleteIdeaEndpoint,
     lockHackathonEndpoint,
     unlockHackathonEndpoint,
@@ -146,12 +138,6 @@
     methods: {
       bindEvents () {
         this.channel.unbind()
-        this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
-          HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data))
-        })
-        this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
-          HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(this.hackathon.ideas, data.idea_id, response.data))
-        })
         this.channel.bind('App\\Events\\IdeaMessageAdded', (data) => {
           this.loadHackathon()
         })

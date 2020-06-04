@@ -39,6 +39,12 @@
   import store from '../data/store.js'
   import HttpService from 'axios'
   import { addIdeaVoteEndpoint, deleteIdeaVoteEndpoint, addIdeaFavoriteEndpoint } from '../config/endpoints.js'
+  import { digestNewVotes } from '../data/digest.js'
+  import SocketService from '../services/SocketService.js'
+
+  import {
+    getIdeaVotesEndpoint,
+  } from '../config/endpoints.js'
 
   export default {
     name: 'IdeaVote',
@@ -46,7 +52,20 @@
       'idea',
       'hackathon',
     ],
+    created() {
+      this.channel = SocketService.subscribe(`hackathon.${this.$route.params.hackathonId}`)
+      this.bindEvents()
+    },
     methods: {
+      bindEvents () {
+        this.channel.unbind()
+        this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
+          HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(store.hackathon.ideas, data.idea_id, response.data))
+        })
+        this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
+          HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(store.hackathon.ideas, data.idea_id, response.data))
+        })
+      },
       handleVote (idea) {
         let storeIdea = store.hackathon.ideas.find((innerIdea) => { return innerIdea.id === idea.id })
         this.hasUserVoted(storeIdea.votes) ? this.deleteVote(storeIdea) : this.addVote(storeIdea)

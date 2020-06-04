@@ -33,11 +33,9 @@
   import {
     getIdeaEndpoint,
     getHackathonEndpoint,
-    getIdeaVotesEndpoint
   } from '../config/endpoints.js'
 
   import store from '../data/store.js'
-  import { digestNewVotes } from '../data/digest.js'
 
   export default {
     name: 'IdeaView',
@@ -62,12 +60,6 @@
     methods: {
       bindEvents () {
         this.channel.unbind()
-        this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
-          HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(store.hackathon.ideas, data.idea_id, response.data))
-        })
-        this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
-          HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(store.hackathon.ideas, data.idea_id, response.data))
-        })
         this.channel.bind('App\\Events\\IdeaMessageAdded', (data) => {
           this.loadHackathon()
         })

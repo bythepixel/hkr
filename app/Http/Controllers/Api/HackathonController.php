@@ -9,6 +9,7 @@ use App\Models\FeatureMessage;
 use App\Models\FeatureVote;
 use App\Models\Hackathon;
 use App\Models\Idea;
+use App\Models\IdeaFavorite;
 use App\Models\IdeaMessage;
 use App\Models\IdeaVote;
 use Illuminate\Http\Request;
@@ -126,6 +127,7 @@ class HackathonController extends Controller
     public function reset($hackathonId) {
         $ideas = Idea::where('hackathon_id', $hackathonId)->get();
         IdeaVote::whereIn('idea_id', $ideas->pluck('id'))->delete();
+        IdeaFavorite::whereIn('idea_id', $ideas->pluck('id'))->delete();
 
         return $this->show($hackathonId);
     }
