@@ -63,6 +63,9 @@
         title: '',
       }
     },
+    created() {
+      this.getPageTitle()
+    },
     watch: {
       $route (to, from) {
         this.getPageTitle()
@@ -86,6 +89,8 @@
           this.title = 'New Hackathon'
         } else if (this.$route.name === this.userRouteName) {
           this.title = 'My Ideas'
+        } else {
+          this.clearPageTitle()
         }
       },
       clearPageTitle () {
