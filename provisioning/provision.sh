@@ -99,13 +99,6 @@ then
     sudo mysql -uroot -phkr --execute="UPDATE mysql.user SET Host='%' WHERE User='root';" > /dev/null
 fi
 
-if [ ${ENVIRONMENT} == 'production' ]
-then
-    echo "Ensure read/write permissions are owned by app user"
-    sudo mkdir /srv/www
-    sudo chown -R ${USER}:${USER} /srv/www > /dev/null
-fi
-
 echo "Enable apache mods"
 sudo a2enmod \
     headers \
