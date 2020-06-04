@@ -67,10 +67,10 @@
       this.getPageTitle()
     },
     watch: {
-      $route (to, from) {
+      idea() {
         this.getPageTitle()
       },
-      idea() {
+      $route (to, from) {
         this.getPageTitle()
       }
     },

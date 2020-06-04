@@ -91,6 +91,7 @@
 
 <script>
   import Footer from '../components/Footer'
+  import IdeaVote from '../components/IdeaVote.vue'
   import store from '../data/store.js'
 
   import SocketService from '../services/SocketService.js'
@@ -100,8 +101,6 @@
     IDEA_VIEW_NAME,
     NEW_HACKATHON_VIEW_NAME,
   } from '../config/routes.js'
-
-  import IdeaVote from '../components/IdeaVote.vue'
 
   import HttpService from 'axios'
 

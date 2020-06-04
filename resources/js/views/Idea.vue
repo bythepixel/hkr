@@ -1,36 +1,50 @@
 <template>
   <div v-if="loaded" class="idea-view">
     <div class="container">
-      <Idea
-          :idea="idea"
-          :hackathon="hackathon"
-      />
+      <div class="idea">
+        <div class="idea__inner">
+          <IdeaVote :idea="idea" :hackathon="hackathon"/>
+          <div class="idea__content">
+            <h2 class="idea__title">
+              {{ idea.title }}
+            </h2>
+            <div class="idea__archived" v-if="idea.archived === 1">Archived</div>
+            <p class="idea__details">
+              {{ idea.created_at }} | {{ idea.user.name }} | {{ idea.messages.length }} Comment<span
+                v-if="idea.messages.length !== 1">s</span>
+            </p>
+            <p class="idea__description">
+              {{ idea.description }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
     <IdeaMessages :idea="idea"/>
   </div>
 </template>
 
 <script>
-  import Idea from '../components/Idea'
   import IdeaMessages from '../components/IdeaMessages'
+  import IdeaVote from '../components/IdeaVote'
 
   import HttpService from 'axios'
   import SocketService from '../services/SocketService.js'
   import {
     getIdeaEndpoint,
     getHackathonEndpoint,
-    addIdeaVoteEndpoint,
-    deleteIdeaVoteEndpoint
+    getIdeaVotesEndpoint
   } from '../config/endpoints.js'
 
   import store from '../data/store.js'
+  import { digestNewVotes } from '../data/digest.js'
 
   export default {
     name: 'IdeaView',
     props: ['ideaTitle'],
     components: {
-      Idea,
-      IdeaMessages
+      IdeaMessages,
+      IdeaVote
     },
     data () {
       return {
@@ -41,20 +55,21 @@
       }
     },
     created () {
+      this.channel = SocketService.subscribe(`hackathon.${this.$route.params.hackathonId}`)
       this.loadHackathon()
-      if (store.hackathon) this.loadIdea()
+      this.loadIdea()
     },
     methods: {
       bindEvents () {
         this.channel.unbind()
         this.channel.bind('App\\Events\\IdeaVoteAdded', (data) => {
-          this.loadIdea()
+          HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(store.hackathon.ideas, data.idea_id, response.data))
         })
         this.channel.bind('App\\Events\\IdeaVoteDeleted', (data) => {
-          this.loadIdea()
+          HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(store.hackathon.ideas, data.idea_id, response.data))
         })
         this.channel.bind('App\\Events\\IdeaMessageAdded', (data) => {
-          this.loadIdea()
+          this.loadHackathon()
         })
       },
       handleIdeaEvent (idea) {
@@ -63,43 +78,20 @@
       subscribe (id) {
         this.channel = SocketService.subscribe(`idea.${id}`)
       },
-      handleVote (idea) {
-        let storeIdea = store.hackathon.ideas.find((innerIdea) => { return innerIdea.id === idea.id })
-        this.hasUserVoted(storeIdea.votes) ? this.deleteVote(storeIdea) : this.addVote(storeIdea)
-      },
-      deleteVote (idea) {
-        idea.votes = idea.votes.filter((vote) => {
-          return vote.user_id !== store.user.id
-        })
-        HttpService.delete(deleteIdeaVoteEndpoint(idea.id))
-      },
-      addVote (idea) {
-        let vote = {
-          idea_id: idea.id,
-          user_id: store.user.id
-        }
-        idea.votes.push(vote)
-        HttpService.post(addIdeaVoteEndpoint(), { idea_id: idea.id })
-      },
-      hasUserVoted (votes) {
-        return !!votes.find(vote => { return vote.user_id === store.user.id })
-      },
       loadIdea () {
         HttpService.get(getIdeaEndpoint(this.$route.params.ideaId)).then(response => {
-          this.idea = response.data
+          store.idea = this.idea = response.data
           this.handleIdeaEvent(this.idea)
           this.subscribe(response.data.id)
           this.bindEvents()
-          this.loaded = true
         })
+        this.idea = store.idea
+        this.loaded = true
       },
       loadHackathon () {
-        if (!store.hackathon) {
-          HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, 'most_recent', 'unarchived')).then(response => {
-            store.hackathon = response.data
-          })
-        }
-        this.hackathon = store.hackathon
+        HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, 'most_recent', 'unarchived')).then(response => {
+          store.hackathon = this.hackathon = response.data
+        })
       }
     }
   }

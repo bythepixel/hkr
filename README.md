@@ -27,6 +27,7 @@ All commands can be run from host as long as you have the requirements outlined 
 - Install PHP dependencies: `composer install`
 - Run database migrations: `php artisan migrate`
 - Seed database: `php artisan db:seed`
+- `php artisan key:generate` - create unique laravel app key (inserts into .env)
 
 ### Access the Database
 - Ssh into Vagrant: `vagrant ssh`
