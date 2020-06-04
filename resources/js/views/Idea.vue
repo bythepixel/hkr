@@ -57,6 +57,9 @@
       this.loadHackathon()
       this.loadIdea()
     },
+    destroyed() {
+      this.loaded = false
+    },
     methods: {
       bindEvents () {
         this.channel.unbind()
@@ -76,9 +79,9 @@
           this.handleIdeaEvent(this.idea)
           this.subscribe(response.data.id)
           this.bindEvents()
+          this.loaded = true
         })
         this.idea = store.idea
-        this.loaded = true
       },
       loadHackathon () {
         HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, 'most_recent', 'unarchived')).then(response => {

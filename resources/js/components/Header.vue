@@ -9,7 +9,7 @@
             </router-link>
             <span v-else>{{ breadcrumbs.text }}</span>
           </li>
-          <li v-if="hackathon" class="breadcrumbs__item">
+          <li v-if="hackathon && $route.name !== userRouteName" class="breadcrumbs__item">
             <span v-if="!title">{{ hackathon.title }}</span>
             <router-link v-else :to="{ name: hackathonRouteName }" class="link link--underline">{{ hackathon.title }}
             </router-link>
@@ -62,9 +62,6 @@
         userRouteName: USER_VIEW_NAME,
         title: '',
       }
-    },
-    created() {
-      this.getPageTitle()
     },
     watch: {
       idea() {

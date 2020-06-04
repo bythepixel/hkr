@@ -1,7 +1,8 @@
 <template>
     <div class="user">
         <div class="container">
-            <ul>
+            <div v-if="loader">{{ loaderText }}</div>
+            <ul v-else>
                 <li class="idea"
                     v-if="ideas && ideas.length"
                     v-for="idea in ideas"
@@ -63,7 +64,9 @@
         channel: null,
         ideas: null,
         hackathons: null,
-        copyHackathonId: null
+        copyHackathonId: null,
+        loaded: false,
+        loaderText: 'Loading ideas, some good, some bad...',
       }
     },
     created() {
@@ -74,6 +77,7 @@
         HttpService.get(getUserEndpoint()).then(response => {
           this.ideas = response.data.ideas;
           this.hackathons = response.data.hackathons;
+          this.loaded = true
         });
       },
       copyIdea(idea) {
