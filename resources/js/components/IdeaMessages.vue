@@ -6,14 +6,14 @@
           <p v-if="errorMessage">{{ errorMessage }}</p>
           <form @submit.prevent="onSubmit">
             <label>{{ user.name }}</label>
-            <input
+            <textarea
                 type="text"
                 name="comment"
                 required
                 maxlength="255"
                 v-model.trim="messageContent"
                 :class="{'has-value': messageContent}"
-            >
+            />
           </form>
         </div>
       </div>
