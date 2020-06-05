@@ -5,7 +5,7 @@
       <div v-if="!!idea && loaded">
         <div class="idea">
           <div class="idea__inner">
-            <IdeaVote v-if="hackathon && idea" :idea="idea" :hackathon="hackathon"/>
+            <IdeaVote v-if="hackathon && idea" :idea="idea" :hackathon="hackathon" @ideaRetrieved="handleIdeaChangeEvent"/>
             <div class="idea__content">
               <h2 class="idea__title">
                 {{ idea.title }}
@@ -53,9 +53,9 @@
     data () {
       return {
         channel: null,
-        idea: null,
         loaded: false,
         hackathon: null,
+        idea: null,
         loaderText: 'Loading idea...'
       }
     },
@@ -77,18 +77,20 @@
       handleIdeaEvent (idea) {
         this.$emit('ideaRetrieved', idea)
       },
+      handleIdeaChangeEvent(idea) {
+        this.idea = idea;
+      },
       subscribe (id) {
         this.channel = SocketService.subscribe(`idea.${id}`)
       },
       loadIdea () {
         HttpService.get(getIdeaEndpoint(this.$route.params.ideaId)).then(response => {
           store.idea = this.idea = response.data
-          this.handleIdeaEvent(this.idea)
+          this.handleIdeaEvent(store.idea)
           this.subscribe(response.data.id)
           this.bindEvents()
           this.loaded = true
         })
-        this.idea = store.idea
       },
       loadHackathon () {
         HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, 'most_recent', 'unarchived')).then(response => {

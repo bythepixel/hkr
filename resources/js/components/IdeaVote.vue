@@ -82,6 +82,7 @@
           return vote.user_id !== store.user.id
         })
         HttpService.delete(deleteIdeaVoteEndpoint(idea.id))
+        this.emitIdea(idea)
       },
       addVote (idea) {
         let vote = {
@@ -91,6 +92,7 @@
         }
         idea.votes.push(vote)
         HttpService.post(addIdeaVoteEndpoint(), { idea_id: idea.id })
+        this.emitIdea(idea)
       },
       hasUserVoted (votes) {
         return !!votes.find(vote => { return vote.user_id === store.user.id })
@@ -104,6 +106,7 @@
           return favorite.user_id !== store.user.id
         })
         HttpService.delete(deleteIdeaFavoriteEndpoint(idea.id))
+        this.emitIdea(idea)
       },
       addFavorite (idea) {
         let unFavedIdea = null
@@ -124,9 +127,13 @@
           storeIdea.favorites.push(favorite)
           HttpService.post(addIdeaFavoriteEndpoint(), { idea_id: storeIdea.id, hackathon_id: store.hackathon.id })
         }
+        this.emitIdea(idea)
       },
       hasUserFavorited (favorites) {
         return !!favorites.find(favorite => { return favorite.user_id === store.user.id })
+      },
+      emitIdea(idea) {
+        this.$emit('ideaRetrieved', idea)
       },
     }
   }
