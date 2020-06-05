@@ -2,7 +2,7 @@
   <div class="idea-view">
     <div class="container">
       <div v-if="!loaded">{{ loaderText }}</div>
-      <div v-else>
+      <div v-if="!!idea && loaded">
         <div class="idea">
           <div class="idea__inner">
             <IdeaVote v-if="hackathon && idea" :idea="idea" :hackathon="hackathon"/>
@@ -18,9 +18,9 @@
               <p class="idea__description">
                 {{ idea.description }}
               </p>
-              <p v-if="idea.long_description" class="idea__long-description">
-                {{ idea.long_description }}
-              </p>
+              <div v-if="idea.long_description" class="idea__long_description rendered-markdown">
+                <VueShowdown :markdown="idea.long_description"/>
+              </div>
             </div>
           </div>
         </div>
