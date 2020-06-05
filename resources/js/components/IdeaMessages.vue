@@ -5,7 +5,7 @@
         <div class="field-wrapper">
           <p v-if="errorMessage">{{ errorMessage }}</p>
           <form @submit.prevent="onSubmit">
-            <label>Join the conversation...</label>
+            <label>{{ user.name }}</label>
             <input
                 type="text"
                 name="comment"
@@ -16,7 +16,6 @@
             >
           </form>
         </div>
-        <p class="messages__enter-text small-text">Press "Enter" to Add</p>
       </div>
       <ul class="messages__message message">
         <li
@@ -25,9 +24,9 @@
             :key="message.id"
             class="message__item"
         >
-          <p class="message__name">{{ message.user.name }} <span class="small-text">{{ message.created_at | moment('timezone', 'America/Denver') | moment('from', 'now') }}</span>
-          </p>
-          <p class="message__content">{{ message.content }}</p>
+          <span class="message__name">{{ message.user.name }}</span>
+          <span class="message__time">({{ message.created_at | moment('timezone', 'America/Denver') | moment('from', 'now') }})</span>:
+          <span class="message__content">{{ message.content }}</span>
         </li>
       </ul>
     </div>
@@ -49,8 +48,12 @@
     data () {
       return {
         messageContent: null,
-        errorMessage: null
+        errorMessage: null,
+        user: null
       }
+    },
+    created() {
+      this.user = store.user
     },
     methods: {
       onSubmit () {

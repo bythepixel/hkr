@@ -1,35 +1,35 @@
 .breadcrumbs {
-    flex: 1;
+  flex: 1;
 
-    @include respond-above(md) {
-        display: flex;
+  @include respond-above(md) {
+    display: flex;
+  }
+
+  &__item {
+    display: block;
+    margin: 0 1rem 0 0;
+    text-transform: uppercase;
+    line-height: 2.8rem;
+    height: 2.8rem;
+
+    span,
+    a {
+      display: inline-block;
+      max-width: 35rem;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
     }
 
-    &__item {
-        display: block;
-        margin: 0 1rem 0 0;
-        text-transform: uppercase;
-        line-height: 2.8rem;
-        height: 2.8rem;
-
-        span,
-        a {
-            display: inline-block;
-            max-width: 35rem;
-            overflow-x: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            vertical-align: middle;
-        }
-
-        &:last-of-type::before {
-            content: "/";
-            vertical-align: middle;
-            margin: 0 1rem 0 0;
-        }
-
-        &:first-of-type::before {
-            display: none;
-        }
+    &:last-of-type::before {
+      content: "/";
+      vertical-align: middle;
+      margin: 0 1rem 0 0;
     }
+
+    &:first-of-type::before {
+      display: none;
+    }
+  }
 }

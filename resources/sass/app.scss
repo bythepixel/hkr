@@ -16,50 +16,50 @@
 @import 'vote-favorite';
 
 html {
-    font-size: $font-size-mobile;
+  font-size: $font-size-mobile;
 
-    @include respond-above(md) {
-        font-size: $font-size-default;
-    }
+  @include respond-above(md) {
+    font-size: $font-size-default;
+  }
 }
 
 html * {
-    font-size: 2rem;
-    line-height: 2rem;
+  font-size: 2rem;
+  line-height: 2rem;
 }
 
 body {
-    background-color: $body-bg;
-    font-family: $font-family-primary;
-    color: $color-primary;
+  background-color: $body-bg;
+  font-family: $font-family-primary;
+  color: $color-primary;
 }
 
 a {
-    text-decoration: underline;
-    color: inherit;
+  text-decoration: underline;
+  color: inherit;
 }
 
 .container {
-    padding: 3.4rem 3rem;
+  padding: 3.4rem 3rem;
 
-    @include respond-above(md) {
-        padding: 3.4rem 3.8rem;
-    }
+  @include respond-above(md) {
+    padding: 3.4rem 3.8rem;
+  }
 }
 
 .user-control {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 .content-wrapper {
-    padding-bottom: 10.7rem;
+  padding-bottom: 10.7rem;
 }
 
 hr {
-    border: none;
-    border-top: 2px solid $color-primary;
-    width: 2rem;
-    margin: 3rem auto 3rem 0;
+  border: none;
+  border-top: 2px solid $color-primary;
+  width: 2rem;
+  margin: 3rem auto 3rem 0;
 }

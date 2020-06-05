@@ -1,57 +1,57 @@
 .link {
-    color: $color-secondary;
-    background-color: $color-primary;
-    text-transform: uppercase;
-    padding: 0 .5rem;
-    line-height: 1.2;
-    text-decoration: underline;
-    border: 1px solid transparent;
-    width: fit-content;
-    cursor: pointer;
+  color: $color-secondary;
+  background-color: $color-primary;
+  text-transform: uppercase;
+  padding: 0.2rem;
+  line-height: 1.2;
+  text-decoration: underline;
+  border: 1px solid transparent;
+  width: fit-content;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: darken($color-primary, 10%);
+  }
+
+  &--outline {
+    color: $color-primary;
+    background-color: transparent;
+    border: 1px solid $color-primary;
+    text-decoration: none;
 
     &:hover,
     &:focus {
-        background-color: darken($color-primary, 10%);
+      color: darken($color-primary, 10%);
+      border-color: darken($color-primary, 10%);
+      background-color: transparent;
     }
+  }
 
-    &--outline {
-        color: $color-primary;
-        background-color: transparent;
-        border: 1px solid $color-primary;
-        text-decoration: none;
+  &--outline-underline {
+    color: $color-primary;
+    background-color: transparent;
+    border: 1px solid $color-primary;
+    text-decoration: underline;
 
-        &:hover,
-        &:focus {
-            color: darken($color-primary, 10%);
-            border-color: darken($color-primary, 10%);
-            background-color: transparent;
-        }
+    &:hover,
+    &:focus {
+      color: darken($color-primary, 10%);
+      border-color: darken($color-primary, 10%);
+      background-color: transparent;
     }
+  }
 
-    &--outline-underline {
-        color: $color-primary;
-        background-color: transparent;
-        border: 1px solid $color-primary;
-        text-decoration: underline;
+  &--underline {
+    color: $color-primary;
+    background-color: transparent;
+    text-decoration: underline;
+    padding: 0;
 
-        &:hover,
-        &:focus {
-            color: darken($color-primary, 10%);
-            border-color: darken($color-primary, 10%);
-            background-color: transparent;
-        }
+    &:hover,
+    &:focus {
+      color: darken($color-primary, 10%);
+      background-color: transparent;
     }
-
-    &--underline {
-        color: $color-primary;
-        background-color: transparent;
-        text-decoration: underline;
-        padding: 0;
-
-        &:hover,
-        &:focus {
-            color: darken($color-primary, 10%);
-            background-color: transparent;
-        }
-    }
+  }
 }

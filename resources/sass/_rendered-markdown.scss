@@ -1,31 +1,32 @@
 .rendered-markdown {
-    line-height: 2.2rem;
+  line-height: 2.2rem;
 
-    p {
-        margin: 0 0 2rem 0;
-    }
-    ol,
-    ul {
-        margin: 0 0 2rem 2rem;
-    }
+  p {
+    margin: 0 0 2rem 0;
+  }
 
-    ol {
-        li {
-            list-style-type: decimal;
-        }
-    }
+  ol,
+  ul {
+    margin: 0 0 2rem 2rem;
+  }
 
-    ul {
-        li {
-            list-style-type: circle;
-        }
+  ol {
+    li {
+      list-style-type: decimal;
     }
+  }
 
-    strong {
-        font-weight: 800;
+  ul {
+    li {
+      list-style-type: circle;
     }
+  }
 
-    em {
-        font-style: italic;
-    }
+  strong {
+    font-weight: 800;
+  }
+
+  em {
+    font-style: italic;
+  }
 }

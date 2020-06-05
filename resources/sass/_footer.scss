@@ -1,87 +1,87 @@
 .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: $color-secondary;
-    width: 100%;
-    height: 10.7rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $color-secondary;
+  width: 100%;
+  height: 10.7rem;
 
-    &__inner {
-        @include respond-above(md) {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
+  &__inner {
+    @include respond-above(md) {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  .container {
+    padding-top: 0;
+    padding-bottom: 1.5rem;
+  }
+
+  &__copyright {
+    line-height: 2.5rem;
+    margin-top: 1rem;
+
+    @include respond-above(md) {
+      margin: 0;
+    }
+  }
+
+  &__tools {
+    @include respond-above(md) {
+      display: flex;
+      align-items: flex-start;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    margin-bottom: 1rem;
+
+    @include respond-above(md) {
+      margin-bottom: 0;
+    }
+  }
+
+  .button {
+    margin-bottom: 1rem;
+
+    @include respond-above(md) {
+      margin-bottom: 0;
+    }
+  }
+
+  &__sort {
+    display: flex;
+
+    @include respond-above(md) {
+      display: block;
+    }
+  }
+
+  &__selects {
+    margin: 0 0 1rem;
+
+    @include respond-above(md) {
+      margin: 0 6rem 0 3rem;
     }
 
-    .container {
-        padding-top: 0;
-        padding-bottom: 1.5rem;
+    .field-wrapper:not(:last-of-type) {
+      margin-bottom: 1rem;
     }
+  }
 
-    &__copyright {
-        line-height: 2.5rem;
-        margin-top: 1rem;
+  .link:not(:last-of-type) {
+    margin-right: .5rem;
 
-        @include respond-above(md) {
-            margin: 0;
-        }
+    @include respond-above(md) {
+      margin-right: 1rem;
     }
+  }
 
-    &__tools {
-        @include respond-above(md) {
-            display: flex;
-            align-items: flex-start;
-        }
-    }
-
-    &__buttons {
-        display: flex;
-        margin-bottom: 1rem;
-
-        @include respond-above(md) {
-            margin-bottom: 0;
-        }
-    }
-
-    .button {
-        margin-bottom: 1rem;
-
-        @include respond-above(md) {
-            margin-bottom: 0;
-        }
-    }
-
-    &__sort {
-        display: flex;
-
-        @include respond-above(md) {
-            display: block;
-        }
-    }
-
-    &__selects {
-        margin: 0 0 1rem;
-
-        @include respond-above(md) {
-            margin: 0 6rem 0 3rem;
-        }
-
-        .field-wrapper:not(:last-of-type) {
-            margin-bottom: 1rem;
-        }
-    }
-
-    .link:not(:last-of-type) {
-        margin-right: .5rem;
-
-        @include respond-above(md) {
-            margin-right: 1rem;
-        }
-    }
-
-    hr {
-        margin-top: 0;
-    }
+  hr {
+    margin-top: 0;
+  }
 }

@@ -1,74 +1,74 @@
 input,
 select,
 textarea {
-    font-family: $font-family-primary;
-    box-sizing: border-box;
-    background: $color-secondary;
-    color: $color-primary;
-    border: none;
-    width: 100%;
-    margin-bottom: 2rem;
+  font-family: $font-family-primary;
+  box-sizing: border-box;
+  background: $color-secondary;
+  color: $color-primary;
+  border: none;
+  width: 100%;
+  margin-bottom: 2rem;
 
-    @include respond-above(md) {
-        width: auto;
-        margin-bottom: 0;
-        flex: 1;
-    }
+  @include respond-above(md) {
+    width: auto;
+    margin-bottom: 0;
+    flex: 1;
+  }
 }
 
 input,
 textarea {
-    padding: 1.5rem 0;
-    caret-color: $color-primary;
+  padding: 1.5rem 0;
+  caret-color: $color-primary;
 }
 
 select {
-    border: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 
-    &::-ms-expand {
-        display: none;
-    }
+  &::-ms-expand {
+    display: none;
+  }
 }
 
 textarea {
-    resize: none;
-    width: 100%;
+  resize: none;
+  width: 100%;
 }
 
 .field-wrapper {
-    position: relative;
+  position: relative;
+
+  @include respond-above(md) {
+    display: flex;
+    align-items: baseline;
+  }
+
+  input,
+  select,
+  textarea,
+  label {
+    display: block;
+    padding: 0;
+  }
+
+  label {
+    text-transform: uppercase;
+    white-space: nowrap;
 
     @include respond-above(md) {
-        display: flex;
-        align-items: baseline;
+      margin-right: 2rem;
     }
 
-    input,
-    select,
-    textarea,
-    label {
-        display: block;
-        padding: 0;
+    &:after {
+      content: ':';
     }
-
-    label {
-        text-transform: uppercase;
-        white-space: nowrap;
-
-        @include respond-above(md) {
-            margin-right: 2rem;
-        }
-
-        &:after {
-            content: ':';
-        }
-    }
+  }
 }
 
 input,
 input:-internal-autofill-selected {
-    background-color: $color-secondary !important;
-    color: $color-primary !important;
+  background-color: $color-secondary !important;
+  color: $color-primary !important;
 }

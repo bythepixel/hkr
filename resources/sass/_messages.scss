@@ -1,47 +1,48 @@
 .messages {
+  border: 1px solid $color-primary;
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 824px;
+
+  .container {
+    padding: 3rem 2rem;
+    box-sizing: border-box;
     border: 1px solid $color-primary;
 
-    .container {
-        padding: 5.2rem 3rem 7.6rem 3rem;
-        width: 100%;
-        max-width: 670px;
-        box-sizing: border-box;
-
-        @include respond-above(md) {
-            padding: 7.2rem 3.8rem 9.6rem 11.1rem;
-            box-sizing: content-box;
-        }
+    @include respond-above(md) {
+      box-sizing: content-box;
     }
+  }
 
-    input {
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
+  input {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
 
-    label {
-        color: $color-primary;
-    }
+  label {
+    margin-right: 0.2rem;
+    color: $color-primary;
+  }
 
-    &__enter-text {
-        margin-left: 3rem;
-    }
+  form {
+    display: flex;
+  }
 
-    &__submit {
-        margin-bottom: 5rem;
-    }
+  &__submit {
+    margin-bottom: 1.3rem;
+  }
 }
 
 .message {
-    &__item {
-        margin-bottom: 3.3rem;
-    }
-    &__name {
-        line-height: 2.3rem;
-        font-weight: $font-weight-bold;
-    }
+  &__item {
+    margin-bottom: 2rem;
+  }
 
-    &__content {
-        line-height: 2.4rem;
-        margin-top: 0.4rem;
-    }
+  &__name {
+    text-transform: uppercase;
+  }
+
+  &__content {
+    line-height: 2.4rem;
+  }
 }
