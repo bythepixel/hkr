@@ -6,7 +6,7 @@
           <p v-if="errorMessage">{{ errorMessage }}</p>
           <form @submit.prevent="onSubmit">
             <label>{{ user.name }}</label>
-            <textarea
+            <input
                 type="text"
                 name="comment"
                 required
@@ -14,7 +14,7 @@
                 v-model.trim="messageContent"
                 :class="{'has-value': messageContent}"
                 v-focus
-            />
+            >
           </form>
         </div>
       </div>
