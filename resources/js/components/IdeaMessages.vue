@@ -29,6 +29,7 @@
           <span class="message__time">({{ message.created_at | moment('timezone', 'America/Denver') | moment('from', 'now') }})</span>:
           <span class="message__content">{{ message.content }}</span>
         </li>
+        <li v-if="!idea.messages.length">No messages yet</li>
       </ul>
     </div>
   </div>
