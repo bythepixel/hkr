@@ -24,7 +24,7 @@
             </div>
           </div>
         </div>
-        <IdeaMessages :idea="idea"/>
+        <IdeaMessages :idea="idea" @ideaRetrieved="handleIdeaChangeEvent"/>
       </div>
     </div>
   </div>

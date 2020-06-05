@@ -76,10 +76,13 @@
               name: store.user.name
             }
           })
-
           this.messageContent = null
+          this.emitIdea(store.idea)
         })
       }
-    }
+    },
+    emitIdea(idea) {
+      this.$emit('ideaRetrieved', idea)
+    },
   }
 </script>
