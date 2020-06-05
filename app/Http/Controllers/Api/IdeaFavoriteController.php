@@ -1,13 +1,11 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Events\IdeaFavoriteAdded;
-use App\Events\IdeaVoteAdded;
-use App\Events\IdeaVoteDeleted;
+use App\Events\IdeaFavoriteDeleted;
 use App\Http\Controllers\Controller;
 use App\Models\Hackathon;
 use App\Models\Idea;
 use App\Models\IdeaFavorite;
-use App\Models\IdeaVote;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,15 +37,15 @@ class IdeaFavoriteController extends Controller
     }
 
     /**
-     * @param $ideaVoteId
+     * @param $ideaFavoriteId
      */
-    public function delete($ideaVoteId)
+    public function delete($ideaFavoriteId)
     {
-        $ideaVote = IdeaVote::findOrFail($ideaVoteId);
+        $ideaFavorite = IdeaFavorite::findOrFail($ideaFavoriteId);
 
-        $ideaVote->delete();
+        $ideaFavorite->delete();
 
-        broadcast(new IdeaFavoriteDeleted($ideaVote));
+        broadcast(new IdeaFavoriteDeleted($ideaFavorite));
     }
 
     /**
@@ -58,12 +56,12 @@ class IdeaFavoriteController extends Controller
         $idea = Idea::findOrFail($ideaId);
         $user = Auth::user();
 
-        $ideaVote = $idea->votes->first(function($vote) use ($user) {
-            if($vote->user_id === $user->id) {
+        $ideaFavorite = $idea->favorites->first(function($favorite) use ($user) {
+            if($favorite->user_id === $user->id) {
                 return true;
             }
         });
 
-        $this->delete($ideaVote->id);
+        $this->delete($ideaFavorite->id);
     }
 }

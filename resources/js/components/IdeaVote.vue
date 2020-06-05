@@ -39,11 +39,12 @@
   import store from '../data/store.js'
   import HttpService from 'axios'
   import { addIdeaVoteEndpoint, deleteIdeaVoteEndpoint, addIdeaFavoriteEndpoint, deleteIdeaFavoriteEndpoint } from '../config/endpoints.js'
-  import { digestNewVotes } from '../data/digest.js'
+  import { digestNewVotes, digestNewFavorites } from '../data/digest.js'
   import SocketService from '../services/SocketService.js'
 
   import {
     getIdeaVotesEndpoint,
+    getIdeaFavoritesEndpoint
   } from '../config/endpoints.js'
 
   export default {
@@ -66,10 +67,10 @@
           HttpService.get(getIdeaVotesEndpoint(data.idea_id)).then(response => digestNewVotes(store.hackathon.ideas, data.idea_id, response.data))
         })
         this.channel.bind('App\\Events\\IdeaFavoriteAdded', (data) => {
-          HttpService.get(addIdeaFavoriteEndpoint(data.idea_id)).then(response => digestNewVotes(store.hackathon.ideas, data.idea_id, response.data))
+          HttpService.get(getIdeaFavoritesEndpoint(data.idea_id)).then(response => digestNewFavorites(store.hackathon.ideas, data.idea_id, response.data))
         })
         this.channel.bind('App\\Events\\IdeaFavoriteDeleted', (data) => {
-          HttpService.get(deleteIdeaFavoriteEndpoint(data.idea_id)).then(response => digestNewVotes(store.hackathon.ideas, data.idea_id, response.data))
+          HttpService.get(getIdeaFavoritesEndpoint(data.idea_id)).then(response => digestNewFavorites(store.hackathon.ideas, data.idea_id, response.data))
         })
       },
       handleVote (idea) {
@@ -94,6 +95,16 @@
         return !!votes.find(vote => { return vote.user_id === store.user.id })
       },
       handleFavorite (idea) {
+        let storeIdea = store.hackathon.ideas.find((innerIdea) => { return innerIdea.id === idea.id })
+        this.hasUserFavorited(storeIdea.favorites) ? this.deleteFavorite(storeIdea) : this.addFavorite(storeIdea)
+      },
+      deleteFavorite (idea) {
+        idea.favorites = idea.favorites.filter((favorite) => {
+          return favorite.user_id !== store.user.id
+        })
+        HttpService.delete(deleteIdeaFavoriteEndpoint(idea.id))
+      },
+      addFavorite (idea) {
         let unFavedIdea = null
         store.hackathon.ideas.forEach(function (idea, ideaIndex) {
           idea.favorites.forEach(function (favorite, favoriteIndex) {

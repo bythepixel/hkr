@@ -35,6 +35,8 @@ Route::delete('ideaVote/{id}', 'Api\IdeaVoteController@delete')->middleware('aut
 Route::delete('ideaVote/deleteByUserAndIdea/{ideaId}', 'Api\IdeaVoteController@deleteByUserAndIdea')->middleware('auth:api');
 
 Route::post('ideaFavorite', 'Api\IdeaFavoriteController@create')->middleware('auth:api');
+Route::post('ideaFavorite', 'Api\IdeaFavoriteController@create')->middleware('auth:api');
+Route::delete('ideaFavorite/deleteByUserAndIdea/{ideaId}', 'Api\IdeaFavoriteController@deleteByUserAndIdea')->middleware('auth:api');
 
 Route::post('ideaMessage', 'Api\IdeaMessageController@create')->middleware('auth:api');
 
