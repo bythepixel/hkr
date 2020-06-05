@@ -5,7 +5,7 @@
       <div v-else>
         <div class="idea">
           <div class="idea__inner">
-            <IdeaVote :idea="idea" :hackathon="hackathon"/>
+            <IdeaVote v-if="hackathon && idea" :idea="idea" :hackathon="hackathon"/>
             <div class="idea__content">
               <h2 class="idea__title">
                 {{ idea.title }}

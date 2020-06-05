@@ -10,8 +10,8 @@
             <span v-else>{{ breadcrumbs.text }}</span>
           </li>
           <li v-if="hackathon && $route.name !== userRouteName" class="breadcrumbs__item">
-            <span v-if="!title">{{ hackathon.title }}</span>
-            <router-link v-else :to="{ name: hackathonRouteName }" class="link link--underline">{{ hackathon.title }}
+            <span v-if="!title && hackathon.title">{{ hackathon.title }}</span>
+            <router-link v-else-if="title && hackathon.title" :to="{ name: hackathonRouteName }" class="link link--underline">{{ hackathon.title }}
             </router-link>
           </li>
           <li v-if="title" class="breadcrumbs__item">
@@ -65,7 +65,10 @@
     },
     watch: {
       idea() {
-        this.getPageTitle()
+        if (this.$route.name === this.ideaRouteName) {
+          this.clearPageTitle()
+          this.title = this.idea.title
+        }
       },
       $route (to, from) {
         this.getPageTitle()
@@ -78,9 +81,7 @@
       getPageTitle () {
         this.clearPageTitle()
 
-        if (this.$route.name === this.ideaRouteName) {
-          this.title = this.idea.title
-        } else if (this.$route.name === this.newIdeaRouteName) {
+        if (this.$route.name === this.newIdeaRouteName) {
           this.title = 'New Idea'
         } else if (this.$route.name === this.newHackathonRouteName) {
           this.title = 'New Hackathon'
