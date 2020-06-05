@@ -13,6 +13,7 @@
                 maxlength="255"
                 v-model.trim="messageContent"
                 :class="{'has-value': messageContent}"
+                v-focus
             />
           </form>
         </div>
@@ -82,7 +83,7 @@
           this.messageContent = null
           this.emitIdea(store.idea)
         })
-      }
+      },
     },
     emitIdea(idea) {
       this.$emit('ideaRetrieved', idea)

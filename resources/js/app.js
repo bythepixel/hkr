@@ -33,6 +33,14 @@ Vue.use(VueShowdown, {
     }
 });
 
+Vue.directive('focus', {
+    // When the bound element is inserted into the DOM...
+    inserted: function (el) {
+        // Focus the element
+        el.focus()
+    }
+})
+
 const router = new VueRouter({
     mode: 'history',
     routes,

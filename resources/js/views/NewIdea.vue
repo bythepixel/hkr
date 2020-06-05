@@ -5,7 +5,7 @@
             <form id="new-idea" @submit.prevent="onSubmit()">
                 <div class="field-wrapper">
                     <label for="title">Title</label>
-                    <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}">
+                    <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}" v-focus>
                 </div>
                 <div class="field-wrapper">
                     <label for="description">Short Description</label>

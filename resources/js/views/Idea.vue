@@ -25,12 +25,20 @@
           </div>
         </div>
         <IdeaMessages :idea="idea" @ideaRetrieved="handleIdeaChangeEvent"/>
+        <Footer>
+          <div class="footer__buttons">
+            <a role="button" @click="archiveIdea(idea.id)" v-if="idea.archived === 0" class="button">Archive</a>
+            <a role="button" @click="restoreIdea(idea.id)" v-if="idea.archived === 1" class="button">Restore</a>
+            <a role="button" @click="destroyIdea(idea.id)" class="button">Delete</a>
+          </div>
+        </Footer>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import Footer from '../components/Footer'
   import IdeaMessages from '../components/IdeaMessages'
   import IdeaVote from '../components/IdeaVote'
 
@@ -39,6 +47,9 @@
   import {
     getIdeaEndpoint,
     getHackathonEndpoint,
+    archiveIdeaEndpoint,
+    restoreIdeaEndpoint,
+    deleteIdeaEndpoint,
   } from '../config/endpoints.js'
 
   import store from '../data/store.js'
@@ -48,7 +59,8 @@
     props: ['ideaTitle'],
     components: {
       IdeaMessages,
-      IdeaVote
+      IdeaVote,
+      Footer
     },
     data () {
       return {
@@ -96,6 +108,27 @@
         HttpService.get(getHackathonEndpoint(this.$route.params.hackathonId, 'most_recent', 'unarchived')).then(response => {
           store.hackathon = this.hackathon = response.data
         })
+      },
+      destroyIdea (id) {
+        if (confirm('Are you sure you want to delete this idea, its votes and its comments?')) {
+          store.hackathon.ideas = store.hackathon.ideas.filter((idea) => {
+            return idea.id !== id
+          })
+          HttpService.get(deleteIdeaEndpoint(id)).then(response => {
+            this.loadHackathon()
+          })
+        }
+      },
+      archiveIdea (id) {
+        this.setIdeaState()
+        HttpService.get(archiveIdeaEndpoint(id))
+      },
+      restoreIdea (id) {
+        this.setIdeaState()
+        HttpService.get(restoreIdeaEndpoint(id))
+      },
+      setIdeaState() {
+        this.idea.archived = this.idea.archived === 0 ? this.idea.archived = 1 : this.idea.archived = 0
       }
     }
   }

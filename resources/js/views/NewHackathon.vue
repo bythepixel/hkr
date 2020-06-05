@@ -5,7 +5,7 @@
             <form id="new-hackathon" @submit.prevent="onSubmit()">
                 <div class="field-wrapper">
                     <label for="title">Name of Hackathon</label>
-                    <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}">
+                    <input type="text" v-model.trim="title" id="title" required="" :class="{'has-value': title}" v-focus>
                 </div>
             </form>
         </div>

@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="canonical" href="{{ url('/') }}" />
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="icon" href="{{ url('/favicon.png') }}" />
 
 </head>
 <body>

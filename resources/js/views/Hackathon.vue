@@ -78,8 +78,6 @@
           <a role="button" @click="handleVoteVisibility()" class="link link--underline"><span
               v-if="!votesVisible">Reveal</span><span v-else>Hide</span></a>
           <a role="button" @click="resetHackathon()" class="link link--underline">Reset</a>
-          <router-link :to="{ name: newHackathonRouteName, params: { hackathonId: hackathon.id } }"
-              class="link link--underline">Edit</router-link>
           <a role="button" @click="deleteHackathon()" class="link link--underline">Delete</a>
         </div>
       </Footer>

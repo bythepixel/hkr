@@ -1,4 +1,4 @@
-# Hackathonizer App
+# Hkr App
 
 ## Tech Stack
 - PHP 7.4
