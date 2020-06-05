@@ -87,6 +87,7 @@
         let vote = {
           idea_id: idea.id,
           user_id: store.user.id,
+          user_name: store.user.name,
         }
         idea.votes.push(vote)
         HttpService.post(addIdeaVoteEndpoint(), { idea_id: idea.id })
@@ -117,7 +118,8 @@
           let storeIdea = store.hackathon.ideas.find((innerIdea) => { return innerIdea.id === idea.id })
           let favorite = {
             idea_id: storeIdea.id,
-            user_id: store.user.id
+            user_id: store.user.id,
+            user_name: store.user.name,
           }
           storeIdea.favorites.push(favorite)
           HttpService.post(addIdeaFavoriteEndpoint(), { idea_id: storeIdea.id, hackathon_id: store.hackathon.id })
