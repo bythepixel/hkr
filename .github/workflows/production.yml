@@ -100,7 +100,6 @@ jobs:
         run: |
           mv .env.production .env
           sudo sed -i -r "s/\[PUSHER_APP_SECRET\]/${{ env.PUSHER_APP_SECRET }}/" .env > /dev/null
-          php artisan key:generate
 
       - name: Copy release to production servers using scp
         uses: appleboy/scp-action@master
