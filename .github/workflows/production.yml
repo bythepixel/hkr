@@ -111,7 +111,7 @@ jobs:
         env:
           HOST: ${{ env.SERVER_IP }}
           USERNAME: app-user
-          KEY: ${{ secrets.PRIVATE_KEY }}
+          KEY: ${{ env.PRIVATE_KEY }}
         with:
           source: 'authorized_keys'
           target: ~/.ssh
