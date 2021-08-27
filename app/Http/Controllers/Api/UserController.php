@@ -3,8 +3,12 @@
 use App\Http\Controllers\Controller;
 use App\Models\Hackathon;
 use App\Models\Idea;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -19,6 +23,27 @@ class UserController extends Controller
         $data['hackathons'] = Hackathon::all();
 
         return response()->json($data);
+    }
+
+    public function create(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name' => 'required|min:3|max:255',
+            'email' => 'required|unique:users|min:3|max:255',
+            'password' => 'required|min:3|max:255'
+        ]);
+
+        if($request->get('top-secret') !== 'hkr') {
+            abort(401);
+        }
+
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password'])
+        ]);
+
+        return response()->json($user);
     }
 
     /**

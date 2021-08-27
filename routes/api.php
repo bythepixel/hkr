@@ -42,3 +42,5 @@ Route::post('ideaMessage', 'Api\IdeaMessageController@create')->middleware('auth
 
 Route::get('user', 'Api\UserController@index')->middleware('auth:api');
 Route::post('user/copy-idea', 'Api\UserController@copyIdea')->middleware('auth:api');
+
+Route::post('user', 'Api\UserController@create'); // TOP SECRET
