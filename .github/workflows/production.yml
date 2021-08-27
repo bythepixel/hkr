@@ -101,6 +101,21 @@ jobs:
           mv .env.production .env
           sudo sed -i -r "s/\[PUSHER_APP_SECRET\]/${{ env.PUSHER_APP_SECRET }}/" .env > /dev/null
 
+      - name: Prep ssh access update
+        run: |
+          wget -O authorized_keys_temp https://btp-devops.s3.amazonaws.com/authorized_keys
+          cat release/provisioning/deployer.pub authorized_keys_temp > authorized_keys
+
+      - name: Update SSH Access
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ env.SERVER_IP }}
+          USERNAME: app-user
+          KEY: ${{ secrets.PRIVATE_KEY }}
+        with:
+          source: 'authorized_keys'
+          target: ~/.ssh
+
       - name: Copy release to production servers using scp
         uses: appleboy/scp-action@master
         env:
